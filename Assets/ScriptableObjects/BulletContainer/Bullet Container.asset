@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc3eba0293144fb458e59cab72433799, type: 3}
+  m_Name: Bullet Container
+  m_EditorClassIdentifier: 
+  Container:
+  - {fileID: 11400000, guid: 5f98007b16814f545b97a89b578313cf, type: 2}
+  - {fileID: 11400000, guid: fa9cf165f2f26ef4b9532f8664ee9174, type: 2}
+  - {fileID: 11400000, guid: b7b8c687846d0da49a4ec3eb78a54220, type: 2}
