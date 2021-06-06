@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class ObjectivesManager : MonoBehaviour
 {
@@ -18,21 +19,26 @@ public class ObjectivesManager : MonoBehaviour
         }
     }
 
-    public ObjectiveTypes[] objectiveTypes;
-    public ObjectiveTypes[] cuurrentObjectives;
+    private int totalCompletedObjecives;
+
+    public Objective[] objectives;
+
+    [NonSerialized] 
+    public Objective[] currentObjectives;
 
     private void SelectRandomObjectives()
     {
-        int objectives = 0;
+        int o = 0;
 
-        if (objectiveTypes.Length < maxObjectives)
-            objectives = Random.Range(0, objectiveTypes.Length);
+        if (objectives.Length < maxObjectives)
+            o = UnityEngine.Random.Range(0, objectives.Length);
         else
-            objectives = Random.Range(0, maxObjectives);
+            o = UnityEngine.Random.Range(0, maxObjectives);
 
-        for (int i = 0; i < objectives; i++)
+        for (int i = 0; i < o; i++)
         {
-            cuurrentObjectives[i] = objectiveTypes[i];
+            objectives[i].objectiveAmount = UnityEngine.Random.Range(5, 20);
+            currentObjectives[i] = objectives[i];
         }
     }
     
@@ -40,7 +46,7 @@ public class ObjectivesManager : MonoBehaviour
     {
         totalObjectiveAmount = 0;
 
-        foreach (ObjectiveTypes objective in cuurrentObjectives)
+        foreach (Objective objective in currentObjectives)
         {
             totalObjectiveAmount += objective.objectiveAmount;
         }
@@ -48,7 +54,23 @@ public class ObjectivesManager : MonoBehaviour
 
     private void CalculateTotalObjectivesCompleted()
     {
+        totalCompletedObjecives = 0;
 
+        foreach(Objective objective in currentObjectives)
+        {
+            if(objective.ObjectiveComplete)
+            {
+                totalCompletedObjecives++;
+            }
+        }
+    }
+
+    private void CheckObjectiveProgress()
+    {
+        foreach(Objective objetive in objectives)
+        {
+            
+        }
     }
 
 }

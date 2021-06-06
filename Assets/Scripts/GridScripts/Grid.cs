@@ -26,7 +26,7 @@ public class Grid : MonoBehaviour
         get { return instance.rows * instance.columns; }
     }
 
-    public GameObject block;
+    public Block block;
     private List<GameObject> blocks = new List<GameObject>();
 
     private bool blocksAreSpawned = false;
@@ -35,8 +35,8 @@ public class Grid : MonoBehaviour
     private float yOffset;
 
     public float xSpawnPosition;
+    private Bounds blockBounds;
 
-    private MeshRenderer blockRenderer;
     private void Awake()
     {
         if (instance != null && instance != this)
@@ -47,9 +47,9 @@ public class Grid : MonoBehaviour
         {
             instance = this;
         }
-        blockRenderer = block.GetComponent<MeshRenderer>();
 
-        zOffset = -(columns + blockRenderer.bounds.size.z);
+        Bounds blockBounds = block.blockPrefab.GetComponent<Collider>().bounds;
+        zOffset = -(columns + blockBounds.size.z);
         yOffset = (rows / 2);
     }
 
@@ -65,7 +65,7 @@ public class Grid : MonoBehaviour
 
     private IEnumerator CreateGridOfBlocksStep()
     {
-        blockRenderer = block.GetComponent<MeshRenderer>();
+        blockBounds = block.blockPrefab.GetComponent<Collider>().bounds;
 
         for (int y = 0; y < rows; y++)
         {
@@ -73,10 +73,10 @@ public class Grid : MonoBehaviour
             {
                 Vector3 spawnPosition = new Vector3(
                 xSpawnPosition,
-                y * blockRenderer.bounds.size.y + yOffset,
-                x * blockRenderer.bounds.size.z * 1.035f + transform.position.z + zOffset);
+                y * blockBounds.size.y + yOffset,
+                x * blockBounds.size.z * 1.035f + transform.position.z + zOffset);
 
-                GameObject currentBlock = Instantiate(block,
+                GameObject currentBlock = Instantiate(block.blockPrefab,
                 spawnPosition, Quaternion.identity, transform);
 
                 BlockBehavior blockBehavior = currentBlock.GetComponent<BlockBehavior>();
@@ -86,5 +86,11 @@ public class Grid : MonoBehaviour
                 yield return new WaitForSeconds(0.05f);
             }
         }
+    }
+
+    private IEnumerator SpawnNewBlocks()
+    {
+
+        yield return new WaitForSeconds(0.05f);
     }
 }

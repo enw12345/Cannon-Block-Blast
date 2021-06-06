@@ -8,9 +8,8 @@ public class ObjectiveTypes : ScriptableObject
     {
         DestroyColorBlocks,
         BringDownObject,
-        MakeCertainAmountOfMatches,
+        MakeCertainAmountOfMatchesNextInAnArea,
     }
 
-    public int objectiveAmount;
-    public objectiveType type;
+    public string objectiveName;
 }

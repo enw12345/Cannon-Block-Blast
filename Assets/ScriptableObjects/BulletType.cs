@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-[CreateAssetMenu(fileName = "Cannon Block Blast", menuName = "Bullet Type")]
+[CreateAssetMenu(fileName = "Bullet Object", menuName = "Bullet Type")]
 public class BulletType : ScriptableObject
 {
     [Header("Bullet Prefab")]
