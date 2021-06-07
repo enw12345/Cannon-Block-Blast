@@ -48,7 +48,7 @@ public class Grid : MonoBehaviour
             instance = this;
         }
 
-        Bounds blockBounds = block.blockPrefab.GetComponent<Collider>().bounds;
+        blockBounds = block.blockPrefab.GetComponent<MeshRenderer>().bounds;
         zOffset = -(columns + blockBounds.size.z);
         yOffset = (rows / 2);
     }
@@ -65,7 +65,7 @@ public class Grid : MonoBehaviour
 
     private IEnumerator CreateGridOfBlocksStep()
     {
-        blockBounds = block.blockPrefab.GetComponent<Collider>().bounds;
+        blockBounds = block.blockPrefab.GetComponent<MeshRenderer>().bounds;
 
         for (int y = 0; y < rows; y++)
         {

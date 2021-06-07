@@ -9,8 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e5784b67fd88dab4288f75c208d5c28d, type: 3}
-  m_Name: MakeCertainAmountOfMatches
+  m_Script: {fileID: 11500000, guid: 99553c4f956c571488923945e06b4f83, type: 3}
+  m_Name: ColorBlock
   m_EditorClassIdentifier: 
-  objectiveAmount: 0
-  objectiveType: {fileID: 0}

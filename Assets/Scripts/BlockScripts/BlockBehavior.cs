@@ -4,9 +4,6 @@ using UnityEngine;
 
 public abstract class BlockBehavior : MonoBehaviour
 {
-    private MaterialPropertyBlock propertyBlock;
-    private int colorIndex;
-
     [SerializeField] private LayerMask layerMask;
     private bool isSetToBeDestroyed = false;
 
@@ -16,11 +13,6 @@ public abstract class BlockBehavior : MonoBehaviour
         set { isSetToBeDestroyed = value; }
     }
 
-    public int ColorIndex
-    {
-        get { return colorIndex; }
-    }
-
     private static int SpaceBetweenEachBlock
     {
         set { SpaceBetweenEachBlock = value; }
@@ -28,85 +20,15 @@ public abstract class BlockBehavior : MonoBehaviour
 
     public void InitializeBlock()
     {
-        Material mat = GetComponent<MeshRenderer>().material;
-        colorIndex = Random.Range(0,
-        BlockManager.Instance.ColorDictionary.Count);
-
-        mat.color = BlockManager.Instance.ColorDictionary[(BlockManager.BlockColors)colorIndex];
-
+        Initialize();
         BlockManager.Blocks.Add(this);
     }
 
-    public virtual void DestroySelfAndNeighborBlocks()
-    {
-        BlockBehavior[] leftBlocks = FindBlocksThroughRay(-transform.forward);
-        BlockBehavior[] rightBlocks = FindBlocksThroughRay(transform.forward);
-        BlockBehavior[] downBlocks = FindBlocksThroughRay(-transform.up);
-        BlockBehavior[] upBlocks = FindBlocksThroughRay(transform.up);
+    public abstract void Initialize();
 
-        foreach (BlockBehavior block in leftBlocks)
-        {
-            if (block.ColorIndex == ColorIndex)
-                BlockManager.BlocksToDestroy.Add(block.gameObject.GetComponent<MeshDestroy>());
-            else
-                break;
-        }
-        foreach (BlockBehavior block in rightBlocks)
-        {
-            if (block.ColorIndex == ColorIndex)
-                BlockManager.BlocksToDestroy.Add(block.gameObject.GetComponent<MeshDestroy>());
-            else
-                break;
-        }
-        foreach (BlockBehavior block in downBlocks)
-        {
-            if (block.ColorIndex == ColorIndex)
-                BlockManager.BlocksToDestroy.Add(block.gameObject.GetComponent<MeshDestroy>());
-            else
-                break;
-        }
-        foreach (BlockBehavior block in upBlocks)
-        {
-            if (block.ColorIndex == ColorIndex)
-                BlockManager.BlocksToDestroy.Add(block.gameObject.GetComponent<MeshDestroy>());
-            else
-                break;
-        }
+    public abstract void DestroySelfAndNeighborBlocks();
 
-        BlockManager.BlocksToDestroy.Add(this.GetComponent<MeshDestroy>());
-    }
-
-    public virtual void FindNeighborBlocksToDestroy()
-    {
-        IsSetToBeDestroyed = true;
-
-        BlockBehavior leftBlock = FindBlockThroughRay(-transform.forward);
-        BlockBehavior rightBlock = FindBlockThroughRay(transform.forward);
-        BlockBehavior upBlock = FindBlockThroughRay(transform.up);
-        BlockBehavior downBlock = FindBlockThroughRay(-transform.up);
-
-        if (leftBlock != null && leftBlock.ColorIndex == ColorIndex && !leftBlock.IsSetToBeDestroyed)
-        {
-            leftBlock.FindNeighborBlocksToDestroy();
-        }
-
-        if (rightBlock != null && rightBlock.ColorIndex == ColorIndex && !rightBlock.IsSetToBeDestroyed)
-        {
-            rightBlock.FindNeighborBlocksToDestroy();
-        }
-
-        if (upBlock != null && upBlock.ColorIndex == ColorIndex && !upBlock.IsSetToBeDestroyed)
-        {
-            upBlock.FindNeighborBlocksToDestroy();
-        }
-
-        if (downBlock != null && downBlock.ColorIndex == ColorIndex && !downBlock.IsSetToBeDestroyed)
-        {
-            downBlock.FindNeighborBlocksToDestroy();
-        }
-
-        BlockManager.BlocksToDestroy.Add(GetComponent<MeshDestroy>());
-    }
+    public abstract void FindNeighborBlocksToDestroy();
 
     public virtual void FindNeighborBlocksToDestroyRowsAndColumns()
     {
