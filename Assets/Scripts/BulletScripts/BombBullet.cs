@@ -1,4 +1,3 @@
-using UnityEditor;
 using UnityEngine;
 
 public class BombBullet : Bullet
@@ -11,7 +10,7 @@ public class BombBullet : Bullet
 
         foreach (Collider collider in colliders)
         {
-            BlockManager.BlocksToDestroy.Add(collider.GetComponent<MeshDestroy>());
+            Grid.BlocksToDestroy.Add(collider.GetComponent<MeshDestroy>());
         }
     }
 

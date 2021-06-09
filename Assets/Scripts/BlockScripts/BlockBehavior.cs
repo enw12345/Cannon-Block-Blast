@@ -18,10 +18,16 @@ public abstract class BlockBehavior : MonoBehaviour
         set { SpaceBetweenEachBlock = value; }
     }
 
-    public void InitializeBlock()
+    private BlockType blockType;
+
+    public BlockType BlockType{
+        get { return blockType; }
+    }
+
+    public void InitializeBlock(BlockType thisBlockType)
     {
+        blockType = thisBlockType;
         Initialize();
-        BlockManager.Blocks.Add(this);
     }
 
     public abstract void Initialize();
@@ -39,22 +45,22 @@ public abstract class BlockBehavior : MonoBehaviour
 
         foreach (BlockBehavior block in leftBlocks)
         {
-            BlockManager.BlocksToDestroy.Add(block.gameObject.GetComponent<MeshDestroy>());
+            Grid.BlocksToDestroy.Add(block.gameObject.GetComponent<MeshDestroy>());
         }
         foreach (BlockBehavior block in rightBlocks)
         {
-            BlockManager.BlocksToDestroy.Add(block.gameObject.GetComponent<MeshDestroy>());
+            Grid.BlocksToDestroy.Add(block.gameObject.GetComponent<MeshDestroy>());
         }
         foreach (BlockBehavior block in downBlocks)
         {
-            BlockManager.BlocksToDestroy.Add(block.gameObject.GetComponent<MeshDestroy>());
+            Grid.BlocksToDestroy.Add(block.gameObject.GetComponent<MeshDestroy>());
         }
         foreach (BlockBehavior block in upBlocks)
         {
-            BlockManager.BlocksToDestroy.Add(block.gameObject.GetComponent<MeshDestroy>());
+            Grid.BlocksToDestroy.Add(block.gameObject.GetComponent<MeshDestroy>());
         }
 
-        BlockManager.BlocksToDestroy.Add(this.GetComponent<MeshDestroy>());
+        Grid.BlocksToDestroy.Add(this.GetComponent<MeshDestroy>());
     }
 
     protected BlockBehavior FindBlockThroughRay(Vector3 castDirection)

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Block Object", menuName = "Block Object")]
@@ -10,4 +11,9 @@ public class Block : ScriptableObject
     [Header("Block UI Data")]
     public Sprite BlockUI;
     public int BlockSelectionNumber;
+
+    public void InitBlock(BlockBehavior block)
+    {
+        block.InitializeBlock(blockType);
+    }
 }

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class Grid : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class Grid : MonoBehaviour
         get { return instance; }
     }
 
+    [Header("Block Spawn Properties")]
     [SerializeField]
     private int rows = 4, columns = 4;
 
@@ -27,7 +29,7 @@ public class Grid : MonoBehaviour
     }
 
     public Block block;
-    private List<GameObject> blocks = new List<GameObject>();
+    public static List<MeshDestroy> BlocksToDestroy = new List<MeshDestroy>();
 
     private bool blocksAreSpawned = false;
 
@@ -36,6 +38,13 @@ public class Grid : MonoBehaviour
 
     public float xSpawnPosition;
     private Bounds blockBounds;
+
+    public static event EventHandler<OnBlockDestroyedEventArgs> OnBlockDestroyed;
+    public class OnBlockDestroyedEventArgs : EventArgs
+    {
+        public BlockType blockType;
+        public BlockBehavior blockBehavior1;
+    }
 
     private void Awake()
     {
@@ -63,9 +72,31 @@ public class Grid : MonoBehaviour
         }
     }
 
+    private void FixedUpdate()
+    {
+        if (BlocksToDestroy.Count != 0)
+        {
+            BlockBehavior blockBehavior;
+            foreach (MeshDestroy blockToDestroy in BlocksToDestroy)
+            {
+                if (block != null && blockToDestroy != null)
+                {
+                    blockBehavior = blockToDestroy.GetComponent<BlockBehavior>();
+
+                    OnBlockDestroyed?.Invoke(this, new OnBlockDestroyedEventArgs { blockType = blockBehavior.BlockType, blockBehavior1 = blockBehavior });
+
+                    blockToDestroy.DestroyMesh(2);
+                }
+            }
+
+            BlocksToDestroy.Clear();
+        }
+    }
+
     private IEnumerator CreateGridOfBlocksStep()
     {
         blockBounds = block.blockPrefab.GetComponent<MeshRenderer>().bounds;
+
 
         for (int y = 0; y < rows; y++)
         {
@@ -80,9 +111,8 @@ public class Grid : MonoBehaviour
                 spawnPosition, Quaternion.identity, transform);
 
                 BlockBehavior blockBehavior = currentBlock.GetComponent<BlockBehavior>();
-                blockBehavior.InitializeBlock();
+                block.InitBlock(blockBehavior);
 
-                blocks.Add(currentBlock);
                 yield return new WaitForSeconds(0.05f);
             }
         }
