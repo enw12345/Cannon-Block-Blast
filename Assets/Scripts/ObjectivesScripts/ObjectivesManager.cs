@@ -27,37 +27,45 @@ public class ObjectivesManager : MonoBehaviour
     [NonSerialized]
     public List<Objective> currentObjectives = new List<Objective>();
 
-    private void OnEnable()
-    {
-        InitializeObjectives();
-    }
+    // public event EventHandler<OnInitEventArgs> OnInit;
+    public event EventHandler OnInit;
 
     public void InitializeObjectives()
     {
-        foreach (Objective objective in objectives)
+        SelectRandomObjectives();
+        foreach (Objective objective in currentObjectives)
         {
             objective.Init();
         }
-        SelectRandomObjectives();
+
         CalculateTotalObjectiveAmount();
+
+        OnInit?.Invoke(this, EventArgs.Empty);
+
+        Debug.Log(currentObjectives.Count);
     }
+
+    // private void SelectRandomObjectives()
+    // {
+    //     int o = 0;
+
+    //     if (objectives.Length < maxObjectives)
+    //         o = UnityEngine.Random.Range(1, objectives.Length);
+    //     else
+    //         o = UnityEngine.Random.Range(1, maxObjectives);
+
+    //     currentObjectives.Capacity = o;
+
+    //     for (int i = 0; i < o - 1; i++)
+    //     {
+    //         objectives[i].objectiveAmount = UnityEngine.Random.Range(5, 20);
+    //         currentObjectives[i] = objectives[i];
+    //     }
+    // }
 
     private void SelectRandomObjectives()
     {
-        int o = 0;
-
-        if (objectives.Length < maxObjectives)
-            o = UnityEngine.Random.Range(1, objectives.Length);
-        else
-            o = UnityEngine.Random.Range(1, maxObjectives);
-
-        currentObjectives.Capacity = o;
-
-        for (int i = 0; i < o - 1; i++)
-        {
-            objectives[i].objectiveAmount = UnityEngine.Random.Range(5, 20);
-            currentObjectives[i] = objectives[i];
-        }
+        currentObjectives.Add(objectives[0]);
     }
 
     private void CalculateTotalObjectiveAmount()

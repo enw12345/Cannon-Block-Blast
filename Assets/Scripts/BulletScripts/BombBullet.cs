@@ -10,7 +10,7 @@ public class BombBullet : Bullet
 
         foreach (Collider collider in colliders)
         {
-            Grid.BlocksToDestroy.Add(collider.GetComponent<MeshDestroy>());
+            BlockBehavior.BlocksToDestroy.Add(collider.GetComponent<MeshDestroy>());
         }
     }
 

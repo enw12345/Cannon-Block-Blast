@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: MakeCertainAmountOfMatches
   m_EditorClassIdentifier: 
   objectiveAmount: 0
-  objectiveType: {fileID: 0}
+  objectiveAmountCompleted: 0
+  objectiveType: {fileID: 11400000, guid: 6dfc22886c96e734c9cc4f467c785ada, type: 2}

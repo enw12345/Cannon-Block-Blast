@@ -1,6 +1,6 @@
 public class TestBlock : BlockBehavior
 {
-    public override void Initialize()
+    protected override void Initialize()
     {
         throw new System.NotImplementedException();
     }

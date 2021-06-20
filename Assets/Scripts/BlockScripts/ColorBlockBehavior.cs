@@ -37,7 +37,7 @@ public class ColorBlockBehavior : BlockBehavior
         get { return colorIndex; }
     }
 
-    public override void Initialize()
+    protected override void Initialize()
     {
         Material mat = GetComponent<MeshRenderer>().material;
         colorIndex = Random.Range(0, ColorDictionary.Count);
@@ -55,33 +55,33 @@ public class ColorBlockBehavior : BlockBehavior
         foreach (ColorBlockBehavior block in leftBlocks)
         {
             if (block.ColorIndex == ColorIndex)
-                Grid.BlocksToDestroy.Add(block.gameObject.GetComponent<MeshDestroy>());
+                BlocksToDestroy.Add(block.gameObject.GetComponent<MeshDestroy>());
             else
                 break;
         }
         foreach (ColorBlockBehavior block in rightBlocks)
         {
             if (block.ColorIndex == ColorIndex)
-                Grid.BlocksToDestroy.Add(block.gameObject.GetComponent<MeshDestroy>());
+                BlocksToDestroy.Add(block.gameObject.GetComponent<MeshDestroy>());
             else
                 break;
         }
         foreach (ColorBlockBehavior block in downBlocks)
         {
             if (block.ColorIndex == ColorIndex)
-                Grid.BlocksToDestroy.Add(block.gameObject.GetComponent<MeshDestroy>());
+                BlocksToDestroy.Add(block.gameObject.GetComponent<MeshDestroy>());
             else
                 break;
         }
         foreach (ColorBlockBehavior block in upBlocks)
         {
             if (block.ColorIndex == ColorIndex)
-                Grid.BlocksToDestroy.Add(block.gameObject.GetComponent<MeshDestroy>());
+                BlocksToDestroy.Add(block.gameObject.GetComponent<MeshDestroy>());
             else
                 break;
         }
 
-        Grid.BlocksToDestroy.Add(this.GetComponent<MeshDestroy>());
+        BlocksToDestroy.Add(this.GetComponent<MeshDestroy>());
     }
 
     public override void FindNeighborBlocksToDestroy()
@@ -113,6 +113,6 @@ public class ColorBlockBehavior : BlockBehavior
             downBlock.FindNeighborBlocksToDestroy();
         }
 
-        Grid.BlocksToDestroy.Add(GetComponent<MeshDestroy>());
+        BlocksToDestroy.Add(GetComponent<MeshDestroy>());
     }
 }

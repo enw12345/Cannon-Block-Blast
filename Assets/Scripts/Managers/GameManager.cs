@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
-using TMPro;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
@@ -13,7 +9,8 @@ public class GameManager : MonoBehaviour
     public bool isStarted;
 
     public static GameManager instance;
-    [SerializeField] private BulletTypeContainer PlayersBullets;
+
+    public ObjectivesManager objectivesManager;
 
     private void Awake()
     {
@@ -28,13 +25,13 @@ public class GameManager : MonoBehaviour
 
         isStarted = false;
         restartCanvas.gameObject.SetActive(false);
-        ResetPlayerBullets();
+        //   ResetPlayerBullets();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) || Input.touchCount > 0)
+        if (!isStarted && Input.GetKeyDown(KeyCode.Space) || Input.touchCount > 0)
         {
             StartTheApp();
         }
@@ -45,6 +42,13 @@ public class GameManager : MonoBehaviour
         isStarted = true;
 
         spaceStartCanvas.gameObject.SetActive(false);
+
+        objectivesManager.InitializeObjectives();
+
+        StartCoroutine(Grid.Instance.CreateGridOfBlocksStep());
+
+        Grid.Instance.BlocksAreSpawned = true;
+
     }
 
     public void ShowRestartButton()
@@ -56,15 +60,5 @@ public class GameManager : MonoBehaviour
     {
         Scene scene = SceneManager.GetActiveScene();
         SceneManager.LoadScene(scene.name);
-        ResetPlayerBullets();
     }
-
-    private void ResetPlayerBullets()
-    {
-        foreach (BulletType playerBulletType in PlayersBullets.Container)
-        {
-            playerBulletType.AmmoCount = playerBulletType.DefaultAmmoCount;
-        }
-    }
-
 }

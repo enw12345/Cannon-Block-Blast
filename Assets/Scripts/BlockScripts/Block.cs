@@ -9,11 +9,5 @@ public class Block : ScriptableObject
     public GameObject blockPrefab;
 
     [Header("Block UI Data")]
-    public Sprite BlockUI;
     public int BlockSelectionNumber;
-
-    public void InitBlock(BlockBehavior block)
-    {
-        block.InitializeBlock(blockType);
-    }
 }

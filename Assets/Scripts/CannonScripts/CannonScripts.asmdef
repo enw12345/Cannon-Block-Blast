@@ -1,0 +1,16 @@
+{
+    "name": "CannonScripts",
+    "references": [
+        "GUID:8e7ed5ee3cb13fb4aaef70efc34c4d2d",
+        "GUID:7dc9fc04aaaa43742950009a4c110c20"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
