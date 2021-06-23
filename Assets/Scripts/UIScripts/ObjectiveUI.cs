@@ -19,8 +19,8 @@ public class ObjectiveUI : MonoBehaviour
 
     private void UpdateUI(object sender, Objective.OnObjectiveUpdatedEventArgs e)
     {
-        objectiveCount = objectiveCount - e.objectiveAmountCompleted;
+        int tempObjectiveCount = objectiveCount - e.objectiveAmountCompleted;
 
-        objectiveDisplayText.text = objectiveCount.ToString();
+        objectiveDisplayText.text = tempObjectiveCount.ToString();
     }
 }

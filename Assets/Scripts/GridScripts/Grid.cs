@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.SocialPlatforms.GameCenter;
 
 public class Grid : MonoBehaviour
 {
@@ -68,20 +69,7 @@ public class Grid : MonoBehaviour
     {
         if (BlockBehavior.BlocksToDestroy.Count != 0)
         {
-            BlockBehavior blockBehavior;
-            foreach (MeshDestroy blockToDestroy in BlockBehavior.BlocksToDestroy)
-            {
-                if (block != null && blockToDestroy != null)
-                {
-                    blockBehavior = blockToDestroy.GetComponent<BlockBehavior>();
-
-                    OnBlockDestroyed?.Invoke(this, new OnBlockDestroyedEventArgs { blockBehavior1 = blockBehavior });
-
-                    blockToDestroy.DestroyMesh(2);
-                }
-            }
-
-            BlockBehavior.BlocksToDestroy.Clear();
+            StartCoroutine(DestroyBlocksStep());
         }
     }
 
@@ -108,9 +96,42 @@ public class Grid : MonoBehaviour
         }
     }
 
-    private IEnumerator SpawnNewBlocks()
+    private IEnumerator DestroyBlocksStep()
     {
+        BlockBehavior blockBehavior;
+        foreach (MeshDestroy blockToDestroy in BlockBehavior.BlocksToDestroy)
+        {
+            if (block != null && blockToDestroy != null)
+            {
+                Vector3 blockPos = blockToDestroy.transform.position;
+                blockBehavior = blockToDestroy.GetComponent<BlockBehavior>();
 
-        yield return new WaitForSeconds(0.05f);
+                OnBlockDestroyed?.Invoke(this, new OnBlockDestroyedEventArgs { blockBehavior1 = blockBehavior });
+
+                blockToDestroy.DestroyMesh(2);
+
+                SpawnNewBlocks(blockPos);
+            }
+            yield return new WaitForSeconds(0.05f);
+        }
+
+        BlockBehavior.BlocksToDestroy.Clear();
+    }
+
+    private void SpawnNewBlocks(Vector3 blockPosition)
+    {
+        Vector3 spawnPos = new Vector3(
+            xSpawnPosition,
+            rows * blockBounds.size.y + yOffset,
+            blockPosition.z// * blockBounds.size.z * 1.035f + transform.position.z + zOffset
+        );
+
+        GameObject currentBlock = Instantiate(block.blockPrefab,
+        spawnPos, Quaternion.identity, transform);
+
+        BlockBehavior blockBehavior = currentBlock.GetComponent<BlockBehavior>();
+        blockBehavior.InitializeBlock(block.blockType);
+
+        // yield return new WaitForSeconds(0.05f);
     }
 }

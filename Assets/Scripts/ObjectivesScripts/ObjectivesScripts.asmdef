@@ -1,7 +1,8 @@
 {
     "name": "ObjectiveSCripts",
     "references": [
-        "GUID:a65a4bcafcb3ada41bb403435d004b59"
+        "GUID:a65a4bcafcb3ada41bb403435d004b59",
+        "GUID:873458e61c441474d8f561095fd4a42e"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

@@ -10,7 +10,7 @@ public class Objective : ScriptableObject
 
     public ObjectiveType objectiveType;
 
-    protected static int maxObjectiveAmount = 100;
+    protected static int maxObjectiveAmount = 15;
     protected static int minObjectiveAmount = 10;
 
     private bool objectiveComplete = false;
@@ -38,12 +38,14 @@ public class Objective : ScriptableObject
         objectiveType.Initialize();
 
         objectiveAmount = UnityEngine.Random.Range(minObjectiveAmount, maxObjectiveAmount);
+
+        Grid.OnBlockDestroyed += CheckObjectiveAmountCompleted;
     }
 
-    protected virtual void IncreaseObjectiveAmountCompleted(BlockBehavior blockBehavior)
+    protected virtual void CheckObjectiveAmountCompleted(object sender, Grid.OnBlockDestroyedEventArgs e)
     {
         Debug.Log("Checking Objective");
-        if (objectiveType.HandleObjective(blockBehavior))
+        if (objectiveType.HandleObjective(e.blockBehavior1))
         {
             Debug.Log(objectiveAmountCompleted);
             objectiveAmountCompleted++;
