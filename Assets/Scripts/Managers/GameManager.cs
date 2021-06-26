@@ -25,7 +25,6 @@ public class GameManager : MonoBehaviour
 
         isStarted = false;
         restartCanvas.gameObject.SetActive(false);
-        //   ResetPlayerBullets();
     }
 
     // Update is called once per frame
@@ -48,7 +47,6 @@ public class GameManager : MonoBehaviour
         StartCoroutine(Grid.Instance.CreateGridOfBlocksStep());
 
         Grid.Instance.BlocksAreSpawned = true;
-
     }
 
     public void ShowRestartButton()

@@ -13,8 +13,6 @@ public class Objective : ScriptableObject
     protected static int maxObjectiveAmount = 15;
     protected static int minObjectiveAmount = 10;
 
-    private bool objectiveComplete = false;
-
     public bool ObjectiveComplete
     {
         get { return objectiveAmount == objectiveAmountCompleted; }
@@ -44,10 +42,8 @@ public class Objective : ScriptableObject
 
     protected virtual void CheckObjectiveAmountCompleted(object sender, Grid.OnBlockDestroyedEventArgs e)
     {
-        Debug.Log("Checking Objective");
         if (objectiveType.HandleObjective(e.blockBehavior1))
         {
-            Debug.Log(objectiveAmountCompleted);
             objectiveAmountCompleted++;
 
             OnObjectiveUpdated?.Invoke(this, new OnObjectiveUpdatedEventArgs { objectiveAmountCompleted = objectiveAmountCompleted });

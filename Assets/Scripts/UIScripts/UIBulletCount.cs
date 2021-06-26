@@ -7,8 +7,8 @@ using UnityEngine.UI;
 
 public class UIBulletCount : MonoBehaviour
 {
-    [SerializeField] private TMP_Text currentBulletCountText;
-    [SerializeField] private Image currentBulletImage;
+    [SerializeField] private TMP_Text currentBulletCountText = null;
+    [SerializeField] private Image currentBulletImage = null;
 
     private void Awake()
     {

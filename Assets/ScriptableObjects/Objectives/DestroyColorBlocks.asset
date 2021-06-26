@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5784b67fd88dab4288f75c208d5c28d, type: 3}
   m_Name: DestroyColorBlocks
   m_EditorClassIdentifier: 
-  ObjectiveImage: {fileID: 21300000, guid: 3c7539fba191c2e46ad9b8e1ccad8455, type: 3}
-  objectiveAmount: 0
+  ObjectiveImage: {fileID: 21300000, guid: 6e10419d17d0c71468b95c7c1bcde378, type: 3}
+  objectiveAmount: 11
   objectiveAmountCompleted: 0
   objectiveType: {fileID: 11400000, guid: 6dfc22886c96e734c9cc4f467c785ada, type: 2}

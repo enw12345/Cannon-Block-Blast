@@ -590,7 +590,7 @@ MonoBehaviour:
   minXRot: -20
   maxYRot: 105
   minYRot: 70
-  rotationSpeed: 0.5
+  rotationSpeed: 0.8
 --- !u!114 &126306667
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2368,7 +2368,7 @@ RectTransform:
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0.000030517578, y: 0}
-  m_SizeDelta: {x: 300, y: 300}
+  m_SizeDelta: {x: 300, y: 325}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &1651203149
 MonoBehaviour:

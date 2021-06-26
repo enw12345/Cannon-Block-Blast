@@ -7,8 +7,8 @@ public class BulletSelectUI : MonoBehaviour
 {
     public BulletType bulletType;
     private Button button;
-    [SerializeField] private Image buttonImage;
-    [SerializeField] private TMP_Text bulletCountText;
+    [SerializeField] private Image buttonImage = null;
+    [SerializeField] private TMP_Text bulletCountText = null;
     private BulletSpawner bulletSpawner;
 
     public static event EventHandler<OnBulletSelectedEventArgs> OnBulletSelected;

@@ -2,22 +2,15 @@
 
 public class CannonController : MonoBehaviour
 {
-    private BulletSpawner bulletSpawner;
-
     [SerializeField] private float maxXRot = 20, minXRot = -20;
     [SerializeField] private float maxYRot = 105, minYRot = 70;
 
-    float horizontalSpeed = 2.0f;
-    float verticalSpeed = 2.0f;
+    private float horizontalSpeed = 2.0f;
+    private float verticalSpeed = 2.0f;
 
-    public float rotationSpeed = 0.5f;
+    public float rotationSpeed = 0.8f;
     private Vector3 firstpoint;
     private float t = 0.0f;
-
-    private void Awake()
-    {
-        bulletSpawner = GetComponentInChildren<BulletSpawner>();
-    }
 
     //  Update is called once per frame
     void Update()
@@ -33,11 +26,6 @@ public class CannonController : MonoBehaviour
             {
                 RotateCannon();
             }
-
-#if UNITY_EDITOR
-            if (Input.GetMouseButtonDown(0))
-                Fire();
-#endif
         }
     }
 
@@ -74,7 +62,6 @@ public class CannonController : MonoBehaviour
 
     public void RotateCannonMobile()
     {
-
         if (Input.touchCount > 0)
         {
             Touch touch = Input.GetTouch(0);
@@ -113,11 +100,6 @@ public class CannonController : MonoBehaviour
                     break;
             }
         }
-    }
-
-    public void Fire()
-    {
-        bulletSpawner.ShootBullet();
     }
 
     private float ClampAngle(float angle, float from, float to)

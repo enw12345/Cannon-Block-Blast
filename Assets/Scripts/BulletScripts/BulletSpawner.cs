@@ -12,12 +12,12 @@ public class BulletSpawner : MonoBehaviour
     public static event EventHandler<OnBulletFiredEventArgs> OnBulletFired;
     private TrajectoryRenderer trajectoryRenderer;
 
-    [SerializeField] private BulletTypeContainer bulletContainer;
+    [SerializeField] private BulletTypeContainer bulletContainer = null;
     private BulletType currentBulletType;
     private int bulletCount;
     private int totalBulletCount;
 
-    [SerializeField] private BulletTypeContainer PlayersBullets;
+    [SerializeField] private BulletTypeContainer PlayersBullets = null;
 
     public int TotalBulletCount
     {
@@ -59,7 +59,6 @@ public class BulletSpawner : MonoBehaviour
 
     private void Update()
     {
-
 #if UNITY_EDITOR
         if (Input.GetKeyDown(KeyCode.Space) && GameManager.instance.isStarted)
             ShootBullet();
@@ -89,7 +88,7 @@ public class BulletSpawner : MonoBehaviour
             new OnBulletFiredEventArgs { bulletCountArg = bulletCount, bulletNameArg = currentBulletType.bulletName });
         }
 
-        if (bulletCount < 0)
+        if (TotalBulletCount <= 0)
             GameManager.instance.ShowRestartButton();
     }
 

@@ -3,12 +3,13 @@ using UnityEngine;
 public class ColorObjectiveType : ObjectiveType
 {
     public int colorIndex;
+    public Color colorTarget;
 
     public override void Initialize()
     {
         colorIndex = Random.Range(0, ColorBlockBehavior.ColorDictionary.Count);
         Debug.Log(string.Format("The color to destroy is: {0}",
-        ColorBlockBehavior.ColorDictionary[(ColorBlockBehavior.BlockColors)colorIndex]));
+       colorTarget = ColorBlockBehavior.ColorDictionary[(ColorBlockBehavior.BlockColors)colorIndex]));
     }
 
 
