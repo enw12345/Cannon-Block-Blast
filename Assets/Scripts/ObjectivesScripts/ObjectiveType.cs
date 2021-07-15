@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 
-[CreateAssetMenu(menuName = "Objective Type")]
 public abstract class ObjectiveType : ScriptableObject
 {
     public BlockType blockType;

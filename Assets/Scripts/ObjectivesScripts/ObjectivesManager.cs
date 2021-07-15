@@ -6,19 +6,7 @@ public class ObjectivesManager : MonoBehaviour
 {
     public int maxObjectives = 4;
 
-    private int totalObjectiveAmount = 0;
-    public int TotalObjectiveAmount
-    {
-        get
-        {
-            if (totalObjectiveAmount == 0)
-            {
-                CalculateTotalObjectiveAmount();
-                return totalObjectiveAmount;
-            }
-            else { return totalObjectiveAmount; }
-        }
-    }
+    private int totalObjectives = 0;
 
     private int totalCompletedObjecives;
 
@@ -27,7 +15,13 @@ public class ObjectivesManager : MonoBehaviour
     [NonSerialized]
     public List<Objective> currentObjectives = new List<Objective>();
 
-    // public event EventHandler<OnInitEventArgs> OnInit;
+    private bool objectivesComplete = false;
+    public bool ObjectivesComplete
+    {
+        get { return objectivesComplete; }
+    }
+
+    //public event EventHandler<OnInitEventArgs> OnInit;
     public event EventHandler OnInit;
 
     public void InitializeObjectives()
@@ -36,13 +30,32 @@ public class ObjectivesManager : MonoBehaviour
         foreach (Objective objective in currentObjectives)
         {
             objective.Init();
+            objective.OnObjectiveUpdated += CalculateTotalObjectivesCompleted;
+            totalObjectives++;
         }
-
-        CalculateTotalObjectiveAmount();
 
         OnInit?.Invoke(this, EventArgs.Empty);
 
         Debug.Log(currentObjectives.Count);
+
+        objectivesComplete = false;
+    }
+
+    public void InitializeObjectives(Objective[] objectives)
+    {
+        foreach (Objective objective in objectives)
+        {
+            currentObjectives.Add(objective);
+            objective.Init();
+            objective.OnObjectiveUpdated += CalculateTotalObjectivesCompleted;
+            totalObjectives++;
+        }
+
+        OnInit?.Invoke(this, EventArgs.Empty);
+
+        //        Debug.Log(currentObjectives.Count);
+
+        objectivesComplete = false;
     }
 
     // private void SelectRandomObjectives()
@@ -68,17 +81,7 @@ public class ObjectivesManager : MonoBehaviour
         currentObjectives.Add(objectives[0]);
     }
 
-    private void CalculateTotalObjectiveAmount()
-    {
-        totalObjectiveAmount = 0;
-
-        foreach (Objective objective in currentObjectives)
-        {
-            totalObjectiveAmount += objective.objectiveAmount;
-        }
-    }
-
-    private void CalculateTotalObjectivesCompleted()
+    private void CalculateTotalObjectivesCompleted(object sender, Objective.OnObjectiveUpdatedEventArgs e)
     {
         totalCompletedObjecives = 0;
 
@@ -88,6 +91,12 @@ public class ObjectivesManager : MonoBehaviour
             {
                 totalCompletedObjecives++;
             }
+        }
+
+        //        Debug.Log($"Total Objectives Completed: {totalCompletedObjecives}, Total Objectives: {totalObjectives}");
+        if (totalCompletedObjecives == totalObjectives)
+        {
+            objectivesComplete = true;
         }
     }
 }

@@ -2,8 +2,8 @@
 
 public class CannonController : MonoBehaviour
 {
-    [SerializeField] private float maxXRot = 20, minXRot = -20;
-    [SerializeField] private float maxYRot = 105, minYRot = 70;
+    [SerializeField] private float maxXRot = 20f, minXRot = -3f;
+    [SerializeField] private float maxYRot = 105f, minYRot = 70f;
 
     private float horizontalSpeed = 2.0f;
     private float verticalSpeed = 2.0f;
@@ -40,7 +40,6 @@ public class CannonController : MonoBehaviour
 
         Vector3 rotation = transform.eulerAngles;
 
-        // t = rotationSpeed * Time.deltaTime;
         t = rotationSpeed + Time.deltaTime;
 
         if (t > 1.0f)

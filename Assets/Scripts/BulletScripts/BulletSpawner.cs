@@ -57,17 +57,18 @@ public class BulletSpawner : MonoBehaviour
         }
     }
 
+#if UNITY_EDITOR
     private void Update()
     {
-#if UNITY_EDITOR
+
         if (Input.GetKeyDown(KeyCode.Space) && GameManager.instance.isStarted)
             ShootBullet();
-#endif
     }
+#endif
 
     public void ShootBullet()
     {
-        if (bulletCount > 0)
+        if (bulletCount > 0 && GameManager.instance.canShoot)
         {
             Vector3 forwardVector = transform.parent.rotation * -Vector3.forward;
 
@@ -86,6 +87,9 @@ public class BulletSpawner : MonoBehaviour
 
             OnBulletFired?.Invoke(this,
             new OnBulletFiredEventArgs { bulletCountArg = bulletCount, bulletNameArg = currentBulletType.bulletName });
+
+            if (TotalBulletCount <= 0)
+                GameManager.instance.ShowRestartButton();
         }
 
         if (TotalBulletCount <= 0)
@@ -97,7 +101,7 @@ public class BulletSpawner : MonoBehaviour
         currentBulletType = bulletContainer.Container[bulletType.BulletSelectionNumber];
         bulletCount = currentBulletType.AmmoCount;
 
-        OnBulletFired?.Invoke(this, new OnBulletFiredEventArgs { bulletCountArg = bulletCount, bulletNameArg = currentBulletType.bulletName });
+        //OnBulletFired?.Invoke(this, new OnBulletFiredEventArgs { bulletCountArg = bulletCount, bulletNameArg = currentBulletType.bulletName });
     }
 
 

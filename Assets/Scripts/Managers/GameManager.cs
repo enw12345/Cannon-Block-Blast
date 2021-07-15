@@ -3,14 +3,19 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    public Canvas spaceStartCanvas;
+    public Canvas menuCanvas;
     public Canvas restartCanvas;
 
     public bool isStarted;
+    public bool canShoot;
 
     public static GameManager instance;
 
     public ObjectivesManager objectivesManager;
+
+    //LevelManagement  Variables
+    public LevelManager levelManager;
+    public Level currentLevel = null;
 
     private void Awake()
     {
@@ -24,27 +29,29 @@ public class GameManager : MonoBehaviour
         }
 
         isStarted = false;
+        canShoot = false;
         restartCanvas.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (!isStarted && Input.GetKeyDown(KeyCode.Space) || Input.touchCount > 0)
+        if (objectivesManager.ObjectivesComplete)
         {
-            StartTheApp();
+            ShowRestartButton();
         }
     }
 
     public void StartTheApp()
     {
         isStarted = true;
+        canShoot = true;
 
-        spaceStartCanvas.gameObject.SetActive(false);
+        menuCanvas.gameObject.SetActive(false);
 
-        objectivesManager.InitializeObjectives();
+        if (currentLevel == null) currentLevel = levelManager.Levels[0];
 
-        StartCoroutine(Grid.Instance.CreateGridOfBlocksStep());
+        levelManager.StartLevel(currentLevel);
 
         Grid.Instance.BlocksAreSpawned = true;
     }
@@ -58,5 +65,6 @@ public class GameManager : MonoBehaviour
     {
         Scene scene = SceneManager.GetActiveScene();
         SceneManager.LoadScene(scene.name);
+        canShoot = false;
     }
 }

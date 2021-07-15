@@ -21,7 +21,7 @@ public class BulletSelectUI : MonoBehaviour
         public Sprite bulletImage;
     }
 
-    public void OnEnable()
+    private void OnEnable()
     {
         button = GetComponent<Button>();
         bulletSpawner = FindObjectOfType<BulletSpawner>();
@@ -29,6 +29,11 @@ public class BulletSelectUI : MonoBehaviour
         BulletSpawner.OnBulletFired += UpdateBulletCount;
         buttonImage.sprite = bulletType.BulletUI;
         button.onClick.AddListener(() => SelectBullet());
+    }
+
+    private void OnDisable()
+    {
+        button.onClick.RemoveAllListeners();
     }
 
     private void SelectBullet()

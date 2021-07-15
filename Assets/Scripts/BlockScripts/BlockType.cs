@@ -1,6 +1,5 @@
 using UnityEngine;
-
-[CreateAssetMenu(fileName = "BlockType", menuName = "Block Type")]
+[CreateAssetMenu(menuName = "Block Type/Generic Block Type")]
 public class BlockType : ScriptableObject
 {
 

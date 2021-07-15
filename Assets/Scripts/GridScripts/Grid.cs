@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using UnityEngine.SocialPlatforms.GameCenter;
 using System.Linq;
 
 public class Grid : MonoBehaviour
@@ -11,23 +10,6 @@ public class Grid : MonoBehaviour
     public static Grid Instance
     {
         get { return instance; }
-    }
-
-    [Header("Block Spawn Properties")]
-    [SerializeField]
-    private int rows = 4, columns = 4;
-
-    public static int xSizeIndex
-    {
-        get { return instance.rows - 1; }
-    }
-    public static int ySizeIndex
-    {
-        get { return instance.columns - 1; }
-    }
-    public static int GridSize
-    {
-        get { return instance.rows * instance.columns; }
     }
 
     public Block block;
@@ -40,6 +22,7 @@ public class Grid : MonoBehaviour
     }
     private float zOffset;
     private float yOffset;
+    private static float spawnHeight;
 
     public float xSpawnPosition;
     private Bounds blockBounds;
@@ -62,8 +45,6 @@ public class Grid : MonoBehaviour
         }
 
         blockBounds = block.blockPrefab.GetComponent<MeshRenderer>().bounds;
-        zOffset = -(columns + blockBounds.size.z);
-        yOffset = (rows / 2);
     }
 
     private void FixedUpdate()
@@ -74,9 +55,13 @@ public class Grid : MonoBehaviour
         }
     }
 
-    public IEnumerator CreateGridOfBlocksStep()
+    public IEnumerator CreateGridOfBlocksStep(int rows, int columns, BlockType[] blocks)
     {
         blockBounds = block.blockPrefab.GetComponent<MeshRenderer>().bounds;
+        zOffset = -(columns + blockBounds.size.z);
+        yOffset = (rows / 2);
+        spawnHeight = rows;
+        //if(blocks.Contains(blockty ))
 
         for (int y = 0; y < rows; y++)
         {
@@ -90,7 +75,7 @@ public class Grid : MonoBehaviour
                 GameObject currentBlock = Instantiate(block.blockPrefab,
                 spawnPosition, Quaternion.identity, transform);
 
-                BlockBehavior blockBehavior = currentBlock.GetComponent<BlockBehavior>(); ;
+                BlockBehavior blockBehavior = currentBlock.GetComponent<BlockBehavior>();
                 blockBehavior.InitializeBlock(block.blockType);
                 yield return new WaitForSeconds(0.05f);
             }
@@ -129,7 +114,7 @@ public class Grid : MonoBehaviour
         {
             Vector3 spawnPos = new Vector3(
                 xSpawnPosition,
-                rows * blockBounds.size.y + yOffset + blockPosition.y,
+                spawnHeight * blockBounds.size.y + yOffset + blockPosition.y,
                 blockPosition.z
             );
 

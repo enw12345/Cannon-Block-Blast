@@ -68,16 +68,12 @@ public abstract class BlockBehavior : MonoBehaviour
 
     protected BlockBehavior FindBlockThroughRay(Vector3 castDirection)
     {
+        // Debug.DrawRay(transform.position, castDirection, Color.red, 100f);
+
         RaycastHit hit;
-        Physics.Raycast(transform.position, castDirection, out hit);
-        BlockBehavior potentialBlock = null;
-
-        if (hit.collider != null && hit.distance < 2)
-            potentialBlock = hit.collider.gameObject.GetComponent<BlockBehavior>();
-
-        if (potentialBlock != null)
+        if (Physics.Raycast(transform.position, castDirection, out hit))
         {
-            return potentialBlock;
+            return hit.collider.gameObject.GetComponent<BlockBehavior>();
         }
 
         return null;
@@ -91,19 +87,16 @@ public abstract class BlockBehavior : MonoBehaviour
 
         List<BlockBehavior> blocks = new List<BlockBehavior>(hits.Length);
 
-        int index = 0;
-        foreach (RaycastHit hit in hits)
+        for (int i = 0; i < hits.Length; i++)
         {
-            //Check if there is a space between the blocks
-            if (index == 0 && hit.distance >= 2)
+            if (i == 0 && hits[i].distance > 2.5f)
+            {
                 break;
+            }
             else
             {
-                BlockBehavior block = hit.collider.gameObject.GetComponent<BlockBehavior>();
-                blocks.Add(block);
+                blocks.Add(hits[i].collider.gameObject.GetComponent<BlockBehavior>());
             }
-
-            index++;
         }
 
         return blocks.ToArray();
