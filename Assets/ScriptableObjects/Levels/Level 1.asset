@@ -12,9 +12,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b92aa50ea563afe41968cb183976cf72, type: 3}
   m_Name: Level 1
   m_EditorClassIdentifier: 
-  columns: 5
-  rows: 5
+  columns: 4
+  rows: 4
   objectives:
   - {fileID: 11400000, guid: f6d901d8fea8f444e87b12fe0d513d8c, type: 2}
-  blocks:
-  - {fileID: 11400000, guid: 3431d6464b300984aaccbdb621fcb811, type: 2}
+  Blocks:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}

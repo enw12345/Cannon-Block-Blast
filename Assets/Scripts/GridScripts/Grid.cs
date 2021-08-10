@@ -61,8 +61,25 @@ public class Grid : MonoBehaviour
         zOffset = -(columns + blockBounds.size.z);
         yOffset = (rows / 2);
         spawnHeight = rows;
-        //if(blocks.Contains(blockty ))
 
+        // for (int y = 0; y < rows; y++)
+        // {
+        //     for (int x = 0; x < columns; x++)
+        //     {
+        //         Vector3 spawnPosition = new Vector3(
+        //         xSpawnPosition,
+        //         y * blockBounds.size.y + yOffset,
+        //         x * blockBounds.size.z * 1.035f + transform.position.z + zOffset);
+
+        //         GameObject currentBlock = Instantiate(block.blockPrefab,
+        //         spawnPosition, Quaternion.identity, transform);
+
+        //         BlockBehavior blockBehavior = currentBlock.GetComponent<BlockBehavior>();
+        //         blockBehavior.InitializeBlock(block.blockType);
+        //         yield return new WaitForSeconds(0.05f);
+        //     }
+        // }
+        
         for (int y = 0; y < rows; y++)
         {
             for (int x = 0; x < columns; x++)
