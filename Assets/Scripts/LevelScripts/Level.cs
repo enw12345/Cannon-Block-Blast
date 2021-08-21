@@ -9,6 +9,7 @@ public class Level : ScriptableObject
     public int rows;
 
     [SerializeField] public Objective[] objectives;
-    [NonSerialized] public BlockType[] blockTypes;
     [SerializeField] public Block[] Blocks;
+    [SerializeField] public bool spawnNewColorBlocks;
+    [SerializeField] public Block[] newBlocksToSpawn;
 }

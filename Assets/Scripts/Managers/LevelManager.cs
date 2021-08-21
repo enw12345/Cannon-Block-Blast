@@ -9,6 +9,6 @@ public class LevelManager : MonoBehaviour
     public void StartLevel(Level level)
     {
         objectivesManager.InitializeObjectives(level.objectives);
-        StartCoroutine(Grid.Instance.CreateGridOfBlocksStep(level.rows, level.columns, level.blockTypes));
+        StartCoroutine(Grid.Instance.CreateGridOfBlocksStep(level.rows, level.columns, level.Blocks));
     }
 }

@@ -12,7 +12,7 @@ public class Grid : MonoBehaviour
         get { return instance; }
     }
 
-    public Block block;
+    private Block block = null;
 
     private bool blocksAreSpawned = false;
     public bool BlocksAreSpawned
@@ -33,6 +33,10 @@ public class Grid : MonoBehaviour
         public BlockBehavior blockBehavior1;
     }
 
+    public Block newBlockToSpawn;
+    public bool spawnColorBlocks = true;
+
+    private float SecondsToWait = 0.1f;
     private void Awake()
     {
         if (instance != null && instance != this)
@@ -43,47 +47,33 @@ public class Grid : MonoBehaviour
         {
             instance = this;
         }
-
-        blockBounds = block.blockPrefab.GetComponent<MeshRenderer>().bounds;
     }
 
     private void FixedUpdate()
     {
         if (BlockBehavior.BlocksToDestroy.Count != 0)
         {
-            DestroyBlocks();
+            StartCoroutine(DestroyBlocks());
         }
     }
 
-    public IEnumerator CreateGridOfBlocksStep(int rows, int columns, BlockType[] blocks)
+    public IEnumerator CreateGridOfBlocksStep(int rows, int columns, Block[] blocks)
     {
-        blockBounds = block.blockPrefab.GetComponent<MeshRenderer>().bounds;
-        zOffset = -(columns + blockBounds.size.z);
-        yOffset = (rows / 2);
         spawnHeight = rows;
+        int index = 0;
 
-        // for (int y = 0; y < rows; y++)
-        // {
-        //     for (int x = 0; x < columns; x++)
-        //     {
-        //         Vector3 spawnPosition = new Vector3(
-        //         xSpawnPosition,
-        //         y * blockBounds.size.y + yOffset,
-        //         x * blockBounds.size.z * 1.035f + transform.position.z + zOffset);
-
-        //         GameObject currentBlock = Instantiate(block.blockPrefab,
-        //         spawnPosition, Quaternion.identity, transform);
-
-        //         BlockBehavior blockBehavior = currentBlock.GetComponent<BlockBehavior>();
-        //         blockBehavior.InitializeBlock(block.blockType);
-        //         yield return new WaitForSeconds(0.05f);
-        //     }
-        // }
-        
         for (int y = 0; y < rows; y++)
         {
             for (int x = 0; x < columns; x++)
             {
+                index = y * rows + columns;
+
+                block = blocks[index];
+                blockBounds = block.blockPrefab.GetComponent<MeshRenderer>().bounds;
+
+                zOffset = -(columns + blockBounds.size.z);
+                yOffset = (rows / 2);
+
                 Vector3 spawnPosition = new Vector3(
                 xSpawnPosition,
                 y * blockBounds.size.y + yOffset,
@@ -94,12 +84,12 @@ public class Grid : MonoBehaviour
 
                 BlockBehavior blockBehavior = currentBlock.GetComponent<BlockBehavior>();
                 blockBehavior.InitializeBlock(block.blockType);
-                yield return new WaitForSeconds(0.05f);
+                yield return new WaitForSeconds(SecondsToWait);
             }
         }
     }
 
-    private void DestroyBlocks()
+    private IEnumerator DestroyBlocks()
     {
         IEnumerable<MeshDestroy> BlocksToDestroy = BlockBehavior.BlocksToDestroy.Distinct();
         List<Vector3> blockPositions = new List<Vector3>();
@@ -122,26 +112,26 @@ public class Grid : MonoBehaviour
         }
 
         BlockBehavior.BlocksToDestroy.Clear();
-        StartCoroutine(SpawnNewBlocksStep(blockPositions));
+
+        for (int i = 0; i < blockPositions.Count(); i++)
+        {
+            SpawnNewBlocks(blockPositions[i], newBlockToSpawn);
+            yield return new WaitForSeconds(SecondsToWait);
+        }
     }
 
-    private IEnumerator SpawnNewBlocksStep(List<Vector3> blockPositions)
+    private void SpawnNewBlocks(Vector3 blockPosition, Block blockToSpawn)
     {
-        foreach (Vector3 blockPosition in blockPositions)
-        {
-            Vector3 spawnPos = new Vector3(
-                xSpawnPosition,
-                spawnHeight * blockBounds.size.y + yOffset + blockPosition.y,
-                blockPosition.z
-            );
+        Vector3 spawnPos = new Vector3(
+            xSpawnPosition,
+            spawnHeight * blockBounds.size.y + yOffset,
+            blockPosition.z
+        );
 
-            GameObject currentBlock = Instantiate(block.blockPrefab,
-            spawnPos, Quaternion.identity, transform);
+        GameObject currentBlock = Instantiate(block.blockPrefab,
+        spawnPos, Quaternion.identity, transform);
 
-            BlockBehavior blockBehavior = currentBlock.GetComponent<BlockBehavior>();
-            blockBehavior.InitializeBlock(block.blockType);
-
-            yield return new WaitForSeconds(0.05f);
-        }
+        BlockBehavior blockBehavior = currentBlock.GetComponent<BlockBehavior>();
+        blockBehavior.InitializeBlock(block.blockType);
     }
 }

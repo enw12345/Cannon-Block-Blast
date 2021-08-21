@@ -1025,8 +1025,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b55931be253dd75459419abefe52bef5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  block: {fileID: 11400000, guid: 3431d6464b300984aaccbdb621fcb811, type: 2}
   xSpawnPosition: -45
+  newBlockToSpawn: {fileID: 0}
+  spawnColorBlocks: 1
 --- !u!4 &424967425
 Transform:
   m_ObjectHideFlags: 0
@@ -2609,7 +2610,7 @@ PrefabInstance:
     - target: {fileID: 5517372241156291719, guid: 55efaa87467ca5d4396897cd7eb76a10,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 5.5000076
+      value: 5.4999924
       objectReference: {fileID: 0}
     - target: {fileID: 5517372241156291719, guid: 55efaa87467ca5d4396897cd7eb76a10,
         type: 3}
@@ -2742,7 +2743,7 @@ GameObject:
   - component: {fileID: 1297588598}
   m_Layer: 0
   m_Name: Plane
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3549,7 +3550,7 @@ PrefabInstance:
     - target: {fileID: 5517372241156291719, guid: 55efaa87467ca5d4396897cd7eb76a10,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 5.5000076
+      value: 5.4999924
       objectReference: {fileID: 0}
     - target: {fileID: 5517372241156291719, guid: 55efaa87467ca5d4396897cd7eb76a10,
         type: 3}
@@ -3727,7 +3728,7 @@ MonoBehaviour:
   canShoot: 0
   objectivesManager: {fileID: 297910981}
   levelManager: {fileID: 881489605}
-  currentLevel: {fileID: 0}
+  currentLevel: {fileID: 11400000, guid: e03851a4047a733439b9bdf84695d462, type: 2}
 --- !u!1001 &2019103110
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3744,7 +3745,7 @@ PrefabInstance:
     - target: {fileID: 5517372241156291719, guid: 55efaa87467ca5d4396897cd7eb76a10,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 5.5000076
+      value: 5.4999924
       objectReference: {fileID: 0}
     - target: {fileID: 5517372241156291719, guid: 55efaa87467ca5d4396897cd7eb76a10,
         type: 3}

@@ -66,14 +66,13 @@ public abstract class BlockBehavior : MonoBehaviour
         BlocksToDestroy.Add(this.GetComponent<MeshDestroy>());
     }
 
-    protected BlockBehavior FindBlockThroughRay(Vector3 castDirection)
+    protected BlockBehavior FindBlockThroughRay(Vector3 castDirection, Object blockObject)
     {
-        // Debug.DrawRay(transform.position, castDirection, Color.red, 100f);
-
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, castDirection, out hit))
+        if (Physics.Raycast(transform.position, castDirection, out hit, Mathf.Infinity, layerMask))
         {
-            return hit.collider.gameObject.GetComponent<BlockBehavior>();
+            if (hit.collider.gameObject.GetComponent<BlockBehavior>() && VerifyBlockType(hit.collider.gameObject.GetComponent<BlockBehavior>().BlockType))
+                return hit.collider.gameObject.GetComponent<BlockBehavior>();
         }
 
         return null;
@@ -86,10 +85,13 @@ public abstract class BlockBehavior : MonoBehaviour
         hits = Physics.RaycastAll(transform.position, castDirection, Mathf.Infinity, layerMask).OrderBy(h => h.distance).ToArray();
 
         List<BlockBehavior> blocks = new List<BlockBehavior>(hits.Length);
+        BlockBehavior potentialBlock;
 
         for (int i = 0; i < hits.Length; i++)
         {
-            if (i == 0 && hits[i].distance > 2.5f)
+            potentialBlock = hits[i].collider.gameObject.GetComponent<BlockBehavior>();
+
+            if (i == 0 && hits[i].distance > 2.5f || !VerifyBlockType(potentialBlock.BlockType))
             {
                 break;
             }
@@ -100,5 +102,13 @@ public abstract class BlockBehavior : MonoBehaviour
         }
 
         return blocks.ToArray();
+    }
+
+    private bool VerifyBlockType(BlockType blockTypeToCheck)
+    {
+        if (blockType == blockTypeToCheck)
+            return true;
+
+        return false;
     }
 }

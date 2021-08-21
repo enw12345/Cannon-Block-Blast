@@ -10,9 +10,12 @@ public class BringDownObjectiveType : ObjectiveType
 
     public override bool HandleObjective(BlockBehavior blockBehavior)
     {
-        FallDownBlockBehavior fallDownBlock = (FallDownBlockBehavior)blockBehavior;
+        if (blockBehavior is FallDownBlockBehavior)
+        {
+            FallDownBlockBehavior fallDownBlock = (FallDownBlockBehavior)blockBehavior;
 
-        if (fallDownBlock.IsTouchingGround) return true;
+            if (fallDownBlock.IsTouchingGround) return true;
+        }
 
         return false;
     }

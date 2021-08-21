@@ -20,18 +20,20 @@ public class ObjectiveUI : MonoBehaviour
         objectiveDisplayText.text = objectiveCount.ToString();
         thisImage.sprite = objectiveImage;
 
-         ColorObjectiveType colorObjective = (ColorObjectiveType)objective.objectiveType;
-        int colorIndex = colorObjective.colorIndex;
-         thisImage.color = colorObjective.colorTarget;
-        // Debug.Log(colorObjective.colorIndex);
+        if (objective.objectiveType is ColorObjectiveType)
+        {
+            ColorObjectiveType colorObjective = (ColorObjectiveType)objective.objectiveType;
+            int colorIndex = colorObjective.colorIndex;
+            thisImage.color = colorObjective.colorTarget;
+        }
     }
 
     private void UpdateUI(object sender, Objective.OnObjectiveUpdatedEventArgs e)
     {
         int tempObjectiveCount = objectiveCount - e.objectiveAmountCompleted;
-        if(tempObjectiveCount < 0)
+        if (tempObjectiveCount < 0)
             tempObjectiveCount = 0;
-                
+
         objectiveDisplayText.text = tempObjectiveCount.ToString();
     }
 }

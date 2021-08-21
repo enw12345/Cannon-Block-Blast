@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class FallDownBlockBehavior : BlockBehavior
 {
@@ -24,11 +22,12 @@ public class FallDownBlockBehavior : BlockBehavior
         return;
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision other)
     {
-        if (other.CompareTag("Ground"))
+        if (other.gameObject.CompareTag("Ground"))
         {
             isTouchingGround = true;
+            BlocksToDestroy.Add(this.GetComponent<MeshDestroy>());
         }
     }
 }

@@ -8,7 +8,6 @@ public class LevelEditor : Editor
     SerializedProperty columnProperty;
     SerializedProperty objectivesProperty;
     SerializedProperty blocksProperty;
-    SerializedProperty blockProperty;
 
     GUILayoutOption[] blocksDisplayOptions;
 
@@ -29,13 +28,37 @@ public class LevelEditor : Editor
         EditorGUILayout.PropertyField(rowProperty);
         EditorGUILayout.PropertyField(columnProperty);
         EditorGUILayout.EndHorizontal();
+
+        EditorGUILayout.Space(spacing);
         EditorGUILayout.PropertyField(objectivesProperty);
+
+        #region Objective Amount Editor
+        EditorGUILayout.LabelField("Objective Editor");
+        EditorGUILayout.Space(10f);
+        EditorGUIUtility.labelWidth = 150f;
+
+        for (int i = 0; i < objectivesProperty.arraySize; i++)
+        {
+            objectivesProperty.InsertArrayElementAtIndex(i);
+
+            if (objectivesProperty.GetArrayElementAtIndex(i) != null)
+            {
+                SerializedProperty objectiveProperty = objectivesProperty.GetArrayElementAtIndex(i);
+
+                Objective objectiveObject = objectiveProperty.objectReferenceValue as Objective;
+
+                EditorGUILayout.BeginVertical();
+                objectiveObject.objectiveAmount = EditorGUILayout.IntField("Objective Amount: ", objectiveObject.objectiveAmount);
+                EditorGUILayout.EndVertical();
+            }
+        }
+        #endregion
 
         EditorGUILayout.Space(spacing);
 
+        #region Level Grid
         EditorGUILayout.LabelField("Level Grid:");
         EditorGUILayout.Space(10f);
-
         int index = 0;
         for (int i = 0; i < rowProperty.intValue; i++)
         {
@@ -45,16 +68,16 @@ public class LevelEditor : Editor
             {
                 index = i * rowProperty.intValue + j;
 
-                blockProperty = blocksProperty.GetArrayElementAtIndex(index);
+                if (blocksProperty.GetArrayElementAtIndex(index) == null)
+                    blocksProperty.InsertArrayElementAtIndex(index);
 
-                EditorGUILayout.PropertyField(blockProperty, GUIContent.none);
+                EditorGUILayout.PropertyField(blocksProperty.GetArrayElementAtIndex(index), GUIContent.none);
             }
 
             EditorGUILayout.EndHorizontal();
         }
+        #endregion
 
         serializedObject.ApplyModifiedProperties();
     }
-
-
 }

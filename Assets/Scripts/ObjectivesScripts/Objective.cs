@@ -2,6 +2,7 @@ using UnityEngine;
 using System;
 
 [CreateAssetMenu(menuName = "Objective")]
+[Serializable]
 public class Objective : ScriptableObject
 {
     public Sprite ObjectiveImage;
@@ -34,8 +35,6 @@ public class Objective : ScriptableObject
         objectiveAmountCompleted = 0;
 
         objectiveType.Initialize();
-
-        objectiveAmount = UnityEngine.Random.Range(minObjectiveAmount, maxObjectiveAmount);
 
         Grid.OnBlockDestroyed += CheckObjectiveAmountCompleted;
     }

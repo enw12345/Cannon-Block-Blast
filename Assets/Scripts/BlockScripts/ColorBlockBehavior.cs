@@ -88,10 +88,10 @@ public class ColorBlockBehavior : BlockBehavior
     {
         IsSetToBeDestroyed = true;
 
-        ColorBlockBehavior leftBlock = (ColorBlockBehavior)FindBlockThroughRay(-transform.forward);
-        ColorBlockBehavior rightBlock = (ColorBlockBehavior)FindBlockThroughRay(transform.forward);
-        ColorBlockBehavior upBlock = (ColorBlockBehavior)FindBlockThroughRay(transform.up);
-        ColorBlockBehavior downBlock = (ColorBlockBehavior)FindBlockThroughRay(-transform.up);
+        ColorBlockBehavior leftBlock = (ColorBlockBehavior)FindBlockThroughRay(-transform.forward, this);
+        ColorBlockBehavior rightBlock = (ColorBlockBehavior)FindBlockThroughRay(transform.forward, this);
+        ColorBlockBehavior upBlock = (ColorBlockBehavior)FindBlockThroughRay(transform.up, this);
+        ColorBlockBehavior downBlock = (ColorBlockBehavior)FindBlockThroughRay(-transform.up, this);
 
         if (leftBlock != null && leftBlock.ColorIndex == ColorIndex && !leftBlock.IsSetToBeDestroyed)
         {

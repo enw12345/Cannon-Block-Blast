@@ -15,5 +15,4 @@ MonoBehaviour:
   blockType: {fileID: 11400000, guid: 8300a271b4699164c98615e1ac4f2b06, type: 2}
   blockPrefab: {fileID: 2130698183962488873, guid: b06a8fa11a43b984ea2de39aabc5c402,
     type: 3}
-  BlockUI: {fileID: 0}
   BlockSelectionNumber: 0
