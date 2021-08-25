@@ -5,6 +5,7 @@ public class GameManager : MonoBehaviour
 {
     public Canvas menuCanvas;
     public Canvas restartCanvas;
+    public Canvas nextLevelCanvas;
 
     public bool isStarted;
     public bool canShoot;
@@ -15,7 +16,7 @@ public class GameManager : MonoBehaviour
 
     //LevelManagement  Variables
     public LevelManager levelManager;
-    public Level currentLevel = null;
+    public int currentLevel = 0;
 
     private void Awake()
     {
@@ -31,6 +32,7 @@ public class GameManager : MonoBehaviour
         isStarted = false;
         canShoot = false;
         restartCanvas.gameObject.SetActive(false);
+        nextLevelCanvas.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
@@ -38,7 +40,8 @@ public class GameManager : MonoBehaviour
     {
         if (objectivesManager.ObjectivesComplete)
         {
-            ShowRestartButton();
+            // ShowRestartButton();
+            ShowNextLevelButton();
         }
     }
 
@@ -49,8 +52,6 @@ public class GameManager : MonoBehaviour
 
         menuCanvas.gameObject.SetActive(false);
 
-        if (currentLevel == null) currentLevel = levelManager.Levels[0];
-
         levelManager.StartLevel(currentLevel);
 
         Grid.Instance.BlocksAreSpawned = true;
@@ -59,6 +60,16 @@ public class GameManager : MonoBehaviour
     public void ShowRestartButton()
     {
         restartCanvas.gameObject.SetActive(true);
+    }
+
+    public void ShowNextLevelButton()
+    {
+        nextLevelCanvas.gameObject.SetActive(true);
+    }
+
+    public void HideNextLevelButton()
+    {
+        nextLevelCanvas.gameObject.SetActive(false);
     }
 
     public void Restart()

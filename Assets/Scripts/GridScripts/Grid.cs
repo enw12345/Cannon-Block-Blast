@@ -20,6 +20,7 @@ public class Grid : MonoBehaviour
         get { return blocksAreSpawned; }
         set { blocksAreSpawned = value; }
     }
+
     private float zOffset;
     private float yOffset;
     private static float spawnHeight;
@@ -57,8 +58,15 @@ public class Grid : MonoBehaviour
         }
     }
 
-    public IEnumerator CreateGridOfBlocksStep(int rows, int columns, Block[] blocks)
+    public void CreateGrid(int rows, int columns, Block[] blocks)
     {
+        ClearGrid();
+        StartCoroutine(CreateGridOfBlocksStep(rows, columns, blocks));
+    }
+
+    private IEnumerator CreateGridOfBlocksStep(int rows, int columns, Block[] blocks)
+    {
+        ClearGrid();
         spawnHeight = rows;
         int index = 0;
 
@@ -133,5 +141,20 @@ public class Grid : MonoBehaviour
 
         BlockBehavior blockBehavior = currentBlock.GetComponent<BlockBehavior>();
         blockBehavior.InitializeBlock(block.blockType);
+    }
+
+    private void ClearGrid()
+    {
+        // UnityEngine.Object[] blocks = GameObject.FindObjectsOfType(typeof(BlockBehavior));
+        GameObject[] blocks = GameObject.FindGameObjectsWithTag("Block");
+        Debug.Log(blocks.Length);
+
+        if (blocks.Length > 0)
+        {
+            for (int i = 0; i < blocks.Length; i++)
+            {
+                GameObject.DestroyImmediate(blocks[i]);
+            }
+        }
     }
 }

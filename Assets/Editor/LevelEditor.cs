@@ -7,6 +7,7 @@ public class LevelEditor : Editor
     SerializedProperty rowProperty;
     SerializedProperty columnProperty;
     SerializedProperty objectivesProperty;
+    SerializedProperty objectivesAmount;
     SerializedProperty blocksProperty;
 
     GUILayoutOption[] blocksDisplayOptions;
@@ -17,6 +18,7 @@ public class LevelEditor : Editor
         rowProperty = serializedObject.FindProperty("rows");
         columnProperty = serializedObject.FindProperty("columns");
         objectivesProperty = serializedObject.FindProperty("objectives");
+        objectivesAmount = serializedObject.FindProperty("objectiveAmounts");
         blocksProperty = serializedObject.FindProperty("Blocks");
     }
 
@@ -30,27 +32,22 @@ public class LevelEditor : Editor
         EditorGUILayout.EndHorizontal();
 
         EditorGUILayout.Space(spacing);
+        EditorGUIUtility.labelWidth = 170f;
         EditorGUILayout.PropertyField(objectivesProperty);
 
         #region Objective Amount Editor
         EditorGUILayout.LabelField("Objective Editor");
         EditorGUILayout.Space(10f);
-        EditorGUIUtility.labelWidth = 150f;
 
         for (int i = 0; i < objectivesProperty.arraySize; i++)
         {
-            objectivesProperty.InsertArrayElementAtIndex(i);
+            objectivesAmount.InsertArrayElementAtIndex(i);
+            SerializedProperty objectiveAmount = objectivesAmount.GetArrayElementAtIndex(i);
 
-            if (objectivesProperty.GetArrayElementAtIndex(i) != null)
-            {
-                SerializedProperty objectiveProperty = objectivesProperty.GetArrayElementAtIndex(i);
+            EditorGUILayout.BeginVertical();
+            EditorGUILayout.PropertyField(objectiveAmount);
+            EditorGUILayout.EndVertical();
 
-                Objective objectiveObject = objectiveProperty.objectReferenceValue as Objective;
-
-                EditorGUILayout.BeginVertical();
-                objectiveObject.objectiveAmount = EditorGUILayout.IntField("Objective Amount: ", objectiveObject.objectiveAmount);
-                EditorGUILayout.EndVertical();
-            }
         }
         #endregion
 

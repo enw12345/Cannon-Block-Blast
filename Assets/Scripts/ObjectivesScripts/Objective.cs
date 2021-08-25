@@ -11,9 +11,6 @@ public class Objective : ScriptableObject
 
     public ObjectiveType objectiveType;
 
-    protected static int maxObjectiveAmount = 15;
-    protected static int minObjectiveAmount = 10;
-
     public bool ObjectiveComplete
     {
         get { return objectiveAmount == objectiveAmountCompleted; }
@@ -30,9 +27,10 @@ public class Objective : ScriptableObject
         objectiveAmountCompleted = 0;
     }
 
-    public void Init()
+    public void Init(int objectiveAmountForThisLevel)
     {
         objectiveAmountCompleted = 0;
+        objectiveAmount = objectiveAmountForThisLevel;
 
         objectiveType.Initialize();
 

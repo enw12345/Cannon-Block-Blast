@@ -23,58 +23,26 @@ public class ObjectivesManager : MonoBehaviour
 
     //public event EventHandler<OnInitEventArgs> OnInit;
     public event EventHandler OnInit;
-
-    public void InitializeObjectives()
+    
+    /// <summary>
+    /// Initalize objectives from an array of objectives
+    /// </summary>
+    /// <param name="objectives">The array of objectives to initalize</param>
+    public void InitializeObjectives(Objective[] objectives, int[] objectiveAmounts)
     {
-        SelectRandomObjectives();
-        foreach (Objective objective in currentObjectives)
+        for (int i = 0; i < objectives.Length; i++)
         {
-            objective.Init();
-            objective.OnObjectiveUpdated += CalculateTotalObjectivesCompleted;
+            currentObjectives.Add(objectives[i]);
+            objectives[i].Init(objectiveAmounts[i]);
+            objectives[i].OnObjectiveUpdated += CalculateTotalObjectivesCompleted;
             totalObjectives++;
         }
 
         OnInit?.Invoke(this, EventArgs.Empty);
 
-        Debug.Log(currentObjectives.Count);
-
         objectivesComplete = false;
     }
 
-    public void InitializeObjectives(Objective[] objectives)
-    {
-        foreach (Objective objective in objectives)
-        {
-            currentObjectives.Add(objective);
-            objective.Init();
-            objective.OnObjectiveUpdated += CalculateTotalObjectivesCompleted;
-            totalObjectives++;
-        }
-
-        OnInit?.Invoke(this, EventArgs.Empty);
-
-        //        Debug.Log(currentObjectives.Count);
-
-        objectivesComplete = false;
-    }
-
-    // private void SelectRandomObjectives()
-    // {
-    //     int o = 0;
-
-    //     if (objectives.Length < maxObjectives)
-    //         o = UnityEngine.Random.Range(1, objectives.Length);
-    //     else
-    //         o = UnityEngine.Random.Range(1, maxObjectives);
-
-    //     currentObjectives.Capacity = o;
-
-    //     for (int i = 0; i < o - 1; i++)
-    //     {
-    //         objectives[i].objectiveAmount = UnityEngine.Random.Range(5, 20);
-    //         currentObjectives[i] = objectives[i];
-    //     }
-    // }
 
     private void SelectRandomObjectives()
     {

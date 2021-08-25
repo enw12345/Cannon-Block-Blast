@@ -1,14 +1,40 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System;
 
 public class LevelManager : MonoBehaviour
 {
-    public List<Level> Levels;
-    public ObjectivesManager objectivesManager;
+    [SerializeField] private List<Level> Levels = new List<Level>();
+    [SerializeField] private ObjectivesManager objectivesManager = null;
+    private Level currentLevel = null;
+    private int currentLevelNum = 0;
 
-    public void StartLevel(Level level)
+    public void StartLevel(int levelNum)
     {
-        objectivesManager.InitializeObjectives(level.objectives);
-        StartCoroutine(Grid.Instance.CreateGridOfBlocksStep(level.rows, level.columns, level.Blocks));
+        currentLevelNum = levelNum;
+        currentLevel = Levels[currentLevelNum];
+        InitalizeLevel();
+    }
+
+    public void NextLevel()
+    {
+        if (currentLevelNum + 1 < Levels.Count)
+        {
+            currentLevelNum++;
+            currentLevel = Levels[currentLevelNum];
+            InitalizeLevel();
+        }
+        else
+        {
+            currentLevelNum = 0;
+            currentLevel = Levels[currentLevelNum];
+            InitalizeLevel();
+        }
+    }
+
+    private void InitalizeLevel()
+    {
+        objectivesManager.InitializeObjectives(currentLevel.objectives, currentLevel.objectiveAmounts);
+        Grid.Instance.CreateGrid(currentLevel.rows, currentLevel.columns, currentLevel.Blocks);
     }
 }
