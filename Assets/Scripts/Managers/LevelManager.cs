@@ -34,6 +34,7 @@ public class LevelManager : MonoBehaviour
 
     private void InitalizeLevel()
     {
+        objectivesManager.ResetObjectives();
         objectivesManager.InitializeObjectives(currentLevel.objectives, currentLevel.objectiveAmounts);
         Grid.Instance.CreateGrid(currentLevel.rows, currentLevel.columns, currentLevel.Blocks);
     }

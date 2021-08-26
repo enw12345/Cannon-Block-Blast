@@ -13,6 +13,7 @@ public class ObjectivesUIManager : MonoBehaviour
     private void Awake()
     {
         objectivesManager.OnInit += InitalizeObjectiveUIManager;
+        objectivesManager.OnReset += ClearObjectiveUI;
     }
 
     public void InitalizeObjectiveUIManager(object sender, EventArgs e)
@@ -33,5 +34,14 @@ public class ObjectivesUIManager : MonoBehaviour
 
             ObjectiveUIPrefabs.Add(objectiveUI);
         }
+    }
+
+    public void ClearObjectiveUI(object sender, EventArgs e)
+    {
+        for (int i = 0; i < ObjectiveUIPrefabs.Count; i++)
+        {
+            GameObject.Destroy(ObjectiveUIPrefabs[i]);
+        }
+        ObjectiveUIPrefabs.Clear();
     }
 }

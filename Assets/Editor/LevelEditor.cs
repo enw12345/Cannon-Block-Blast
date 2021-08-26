@@ -41,13 +41,9 @@ public class LevelEditor : Editor
 
         for (int i = 0; i < objectivesProperty.arraySize; i++)
         {
-            objectivesAmount.InsertArrayElementAtIndex(i);
-            SerializedProperty objectiveAmount = objectivesAmount.GetArrayElementAtIndex(i);
-
             EditorGUILayout.BeginVertical();
-            EditorGUILayout.PropertyField(objectiveAmount);
+            EditorGUILayout.PropertyField(objectivesAmount.GetArrayElementAtIndex(i));
             EditorGUILayout.EndVertical();
-
         }
         #endregion
 

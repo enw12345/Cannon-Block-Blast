@@ -4,8 +4,6 @@ using System.Collections.Generic;
 
 public class ObjectivesManager : MonoBehaviour
 {
-    public int maxObjectives = 4;
-
     private int totalObjectives = 0;
 
     private int totalCompletedObjecives;
@@ -23,7 +21,8 @@ public class ObjectivesManager : MonoBehaviour
 
     //public event EventHandler<OnInitEventArgs> OnInit;
     public event EventHandler OnInit;
-    
+    public event EventHandler OnReset;
+
     /// <summary>
     /// Initalize objectives from an array of objectives
     /// </summary>
@@ -43,6 +42,18 @@ public class ObjectivesManager : MonoBehaviour
         objectivesComplete = false;
     }
 
+    public void ResetObjectives()
+    {
+        totalObjectives = 0;
+
+        for (int i = 0; i < currentObjectives.Count; i++)
+        {
+            currentObjectives[i].OnObjectiveUpdated -= CalculateTotalObjectivesCompleted;
+            GameObject.Destroy(currentObjectives[i]);
+        }
+        currentObjectives.Clear();
+        OnReset?.Invoke(this, EventArgs.Empty);
+    }
 
     private void SelectRandomObjectives()
     {
@@ -61,7 +72,6 @@ public class ObjectivesManager : MonoBehaviour
             }
         }
 
-        //        Debug.Log($"Total Objectives Completed: {totalCompletedObjecives}, Total Objectives: {totalObjectives}");
         if (totalCompletedObjecives == totalObjectives)
         {
             objectivesComplete = true;

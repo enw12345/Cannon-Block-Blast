@@ -9,19 +9,17 @@ public class ColorObjectiveType : ObjectiveType
     {
         colorIndex = Random.Range(0, ColorBlockBehavior.ColorDictionary.Count);
         colorTarget = ColorBlockBehavior.ColorDictionary[(ColorBlockBehavior.BlockColors)colorIndex];
-
-        // Debug.Log(string.Format("The color to destroy is: {0}", colorTarget));
     }
-
 
     public override bool HandleObjective(BlockBehavior blockBehavior)
     {
-        ColorBlockBehavior colorBlockBehavior = (ColorBlockBehavior)blockBehavior;
-
-        if (colorBlockBehavior.ColorIndex == colorIndex)
+        if (blockBehavior is ColorBlockBehavior)
         {
-            return true;
+            ColorBlockBehavior colorBlockBehavior = (ColorBlockBehavior)blockBehavior;
+
+            return (colorBlockBehavior.ColorIndex == colorIndex);
         }
+
         return false;
     }
 }

@@ -72,6 +72,11 @@ public class GameManager : MonoBehaviour
         nextLevelCanvas.gameObject.SetActive(false);
     }
 
+    public void NextLevel()
+    {
+        levelManager.NextLevel();
+    }
+
     public void Restart()
     {
         Scene scene = SceneManager.GetActiveScene();

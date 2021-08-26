@@ -843,7 +843,7 @@ GameObject:
   - component: {fileID: 199517713}
   - component: {fileID: 199517712}
   m_Layer: 5
-  m_Name: NextLevelCanvas
+  m_Name: NextLevelButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -912,7 +912,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 881489605}
+      - m_Target: {fileID: 1907259355}
         m_MethodName: NextLevel
         m_Mode: 1
         m_Arguments:
@@ -1219,7 +1219,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf8635709bb4dec42a083702cf920d31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxObjectives: 4
   objectives:
   - {fileID: 11400000, guid: f6d901d8fea8f444e87b12fe0d513d8c, type: 2}
 --- !u!4 &297910982
@@ -1916,6 +1915,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e03851a4047a733439b9bdf84695d462, type: 2}
   - {fileID: 11400000, guid: e5339554056b3f64e8258ce528f1967a, type: 2}
   - {fileID: 11400000, guid: 74f34e4c9852a64478b74d5d977b8924, type: 2}
+  - {fileID: 11400000, guid: 7e26ecaa2f37c3e489a913a150f8c8cd, type: 2}
   objectivesManager: {fileID: 297910981}
 --- !u!4 &881489606
 Transform:
