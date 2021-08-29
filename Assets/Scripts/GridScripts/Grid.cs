@@ -12,8 +12,6 @@ public class Grid : MonoBehaviour
         get { return instance; }
     }
 
-    private Block block = null;
-
     private bool blocksAreSpawned = false;
     public bool BlocksAreSpawned
     {
@@ -34,8 +32,7 @@ public class Grid : MonoBehaviour
         public BlockBehavior blockBehavior1;
     }
 
-    public Block newBlockToSpawn;
-    public bool spawnColorBlocks = true;
+    private Block newBlockToSpawn;
 
     private float SecondsToWait = 0.1f;
     private void Awake()
@@ -58,17 +55,19 @@ public class Grid : MonoBehaviour
         }
     }
 
-    public void CreateGrid(int rows, int columns, Block[] blocks)
+    public void CreateGrid(int rows, int columns, Block[] blocks, Block _newBlockToSpawn)
     {
         ClearGrid();
-        StartCoroutine(CreateGridOfBlocksStep(rows, columns, blocks));
+        StartCoroutine(CreateGridOfBlocksStep(rows, columns, blocks, _newBlockToSpawn));
     }
 
-    private IEnumerator CreateGridOfBlocksStep(int rows, int columns, Block[] blocks)
+    private IEnumerator CreateGridOfBlocksStep(int rows, int columns, Block[] blocks, Block _newBlockToSpawn)
     {
         ClearGrid();
-        spawnHeight = rows;
+        blockBounds = blocks[0].blockPrefab.GetComponent<MeshRenderer>().bounds;
+        spawnHeight = rows * blockBounds.size.y;
         int index = 0;
+        newBlockToSpawn = _newBlockToSpawn;
 
         for (int y = 0; y < rows; y++)
         {
@@ -76,7 +75,7 @@ public class Grid : MonoBehaviour
             {
                 index = y * rows + columns;
 
-                block = blocks[index];
+                Block block = blocks[index];
                 blockBounds = block.blockPrefab.GetComponent<MeshRenderer>().bounds;
 
                 zOffset = -(columns + blockBounds.size.z);
@@ -132,20 +131,19 @@ public class Grid : MonoBehaviour
     {
         Vector3 spawnPos = new Vector3(
             xSpawnPosition,
-            spawnHeight * blockBounds.size.y + yOffset,
+            spawnHeight + blockBounds.size.y,
             blockPosition.z
         );
 
-        GameObject currentBlock = Instantiate(block.blockPrefab,
+        GameObject currentBlock = Instantiate(blockToSpawn.blockPrefab,
         spawnPos, Quaternion.identity, transform);
 
         BlockBehavior blockBehavior = currentBlock.GetComponent<BlockBehavior>();
-        blockBehavior.InitializeBlock(block.blockType);
+        blockBehavior.InitializeBlock(blockToSpawn.blockType);
     }
 
     private void ClearGrid()
     {
-        // UnityEngine.Object[] blocks = GameObject.FindObjectsOfType(typeof(BlockBehavior));
         GameObject[] blocks = GameObject.FindGameObjectsWithTag("Block");
         Debug.Log(blocks.Length);
 
@@ -153,7 +151,7 @@ public class Grid : MonoBehaviour
         {
             for (int i = 0; i < blocks.Length; i++)
             {
-                GameObject.DestroyImmediate(blocks[i]);
+                GameObject.Destroy(blocks[i]);
             }
         }
     }

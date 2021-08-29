@@ -1265,8 +1265,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xSpawnPosition: -45
-  newBlockToSpawn: {fileID: 0}
-  spawnColorBlocks: 1
 --- !u!4 &424967425
 Transform:
   m_ObjectHideFlags: 0
@@ -4105,7 +4103,7 @@ MonoBehaviour:
   canShoot: 0
   objectivesManager: {fileID: 297910981}
   levelManager: {fileID: 881489605}
-  currentLevel: 0
+  currentLevel: 1
 --- !u!1001 &2019103110
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -1,6 +1,5 @@
 using UnityEngine;
 using System.Collections.Generic;
-using System;
 
 public class LevelManager : MonoBehaviour
 {
@@ -36,6 +35,6 @@ public class LevelManager : MonoBehaviour
     {
         objectivesManager.ResetObjectives();
         objectivesManager.InitializeObjectives(currentLevel.objectives, currentLevel.objectiveAmounts);
-        Grid.Instance.CreateGrid(currentLevel.rows, currentLevel.columns, currentLevel.Blocks);
+        Grid.Instance.CreateGrid(currentLevel.rows, currentLevel.columns, currentLevel.Blocks, currentLevel.newBlockToSpawn);
     }
 }

@@ -9,6 +9,7 @@ public class LevelEditor : Editor
     SerializedProperty objectivesProperty;
     SerializedProperty objectivesAmount;
     SerializedProperty blocksProperty;
+    SerializedProperty nextBlockProperty;
 
     GUILayoutOption[] blocksDisplayOptions;
 
@@ -20,12 +21,13 @@ public class LevelEditor : Editor
         objectivesProperty = serializedObject.FindProperty("objectives");
         objectivesAmount = serializedObject.FindProperty("objectiveAmounts");
         blocksProperty = serializedObject.FindProperty("Blocks");
+        nextBlockProperty = serializedObject.FindProperty("newBlockToSpawn");
     }
 
     public override void OnInspectorGUI()
     {
-        EditorGUIUtility.labelWidth = 50f;
         // DrawDefaultInspector();
+        EditorGUIUtility.labelWidth = 50f;
         EditorGUILayout.BeginHorizontal();
         EditorGUILayout.PropertyField(rowProperty);
         EditorGUILayout.PropertyField(columnProperty);
@@ -34,6 +36,8 @@ public class LevelEditor : Editor
         EditorGUILayout.Space(spacing);
         EditorGUIUtility.labelWidth = 170f;
         EditorGUILayout.PropertyField(objectivesProperty);
+
+        EditorGUILayout.PropertyField(nextBlockProperty);
 
         #region Objective Amount Editor
         EditorGUILayout.LabelField("Objective Editor");

@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: EggBlock
   m_EditorClassIdentifier: 
   blockType: {fileID: 11400000, guid: a2fa7944173b7334aabfa1f68fcd8ce4, type: 2}
-  blockPrefab: {fileID: 1717983844713326061, guid: 68568848674363349b276aa586257d99,
+  blockPrefab: {fileID: 1029888193858519971, guid: 0cd1337539df65d4ca0490d47e93d8b3,
     type: 3}
   BlockSelectionNumber: 1

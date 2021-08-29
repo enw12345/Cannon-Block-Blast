@@ -1,6 +1,5 @@
 using UnityEngine;
 using System;
-using System.Linq;
 
 [CreateAssetMenu(fileName = "Level")]
 [Serializable]
@@ -13,5 +12,6 @@ public class Level : ScriptableObject
     [SerializeField] public int[] objectiveAmounts;
     [SerializeField] public Block[] Blocks;
     [SerializeField] public bool spawnNewColorBlocks;
-    [SerializeField] public Block[] newBlocksToSpawn;
+    // [SerializeField] public Block[] newBlocksToSpawn;
+    [SerializeField] public Block newBlockToSpawn;
 }

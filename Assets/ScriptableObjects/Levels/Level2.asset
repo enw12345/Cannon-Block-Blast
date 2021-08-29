@@ -20420,4 +20420,4 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   spawnNewColorBlocks: 0
-  newBlocksToSpawn: []
+  newBlockToSpawn: {fileID: 11400000, guid: 3431d6464b300984aaccbdb621fcb811, type: 2}
