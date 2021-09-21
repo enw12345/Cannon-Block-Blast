@@ -1,11 +1,12 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
     public Canvas menuCanvas;
-    public Canvas restartCanvas;
-    public Canvas nextLevelCanvas;
+    public Button restartButton;
+    public Button nextLevelButton;
 
     public bool isStarted;
     public bool canShoot;
@@ -31,8 +32,8 @@ public class GameManager : MonoBehaviour
 
         isStarted = false;
         canShoot = false;
-        restartCanvas.gameObject.SetActive(false);
-        nextLevelCanvas.gameObject.SetActive(false);
+        restartButton.gameObject.SetActive(false);
+        nextLevelButton.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
@@ -59,17 +60,17 @@ public class GameManager : MonoBehaviour
 
     public void ShowRestartButton()
     {
-        restartCanvas.gameObject.SetActive(true);
+        restartButton.gameObject.SetActive(true);
     }
 
     public void ShowNextLevelButton()
     {
-        nextLevelCanvas.gameObject.SetActive(true);
+        nextLevelButton.gameObject.SetActive(true);
     }
 
     public void HideNextLevelButton()
     {
-        nextLevelCanvas.gameObject.SetActive(false);
+        nextLevelButton.gameObject.SetActive(false);
     }
 
     public void NextLevel()

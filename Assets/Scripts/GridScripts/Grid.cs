@@ -131,7 +131,7 @@ public class Grid : MonoBehaviour
     {
         Vector3 spawnPos = new Vector3(
             xSpawnPosition,
-            spawnHeight + blockBounds.size.y,
+            spawnHeight + blockPosition.y + blockBounds.size.y + yOffset,
             blockPosition.z
         );
 

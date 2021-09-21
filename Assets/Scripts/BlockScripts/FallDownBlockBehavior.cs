@@ -26,7 +26,6 @@ public class FallDownBlockBehavior : BlockBehavior
     {
         if (other.gameObject.CompareTag("Ground"))
         {
-            Debug.Log("Collider Touched Ground");
             isTouchingGround = true;
             BlocksToDestroy.Add(this.GetComponent<MeshDestroy>());
         }
