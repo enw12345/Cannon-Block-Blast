@@ -4223,6 +4223,7 @@ MonoBehaviour:
   canShoot: 0
   objectivesManager: {fileID: 297910981}
   levelManager: {fileID: 881489605}
+<<<<<<< HEAD
   currentLevel: 0
 --- !u!114 &2001196461 stripped
 MonoBehaviour:
@@ -4236,6 +4237,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+=======
+  currentLevel: 1
+>>>>>>> 89593f6951b30bdf7b8d5ed081d228061804f270
 --- !u!1001 &2019103110
 PrefabInstance:
   m_ObjectHideFlags: 0

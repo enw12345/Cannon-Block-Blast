@@ -1,4 +1,3 @@
-using System.Linq;
 using UnityEngine;
 
 public class BombBullet : Bullet
@@ -11,7 +10,10 @@ public class BombBullet : Bullet
 
         foreach (Collider collider in colliders)
         {
-            BlockBehavior.BlocksToDestroy.Add(collider.GetComponent<MeshDestroy>());
+            if (collider.GetComponent<BlockBehavior>() is FallDownBlockBehavior)
+                continue;
+            else
+                BlockBehavior.BlocksToDestroy.Add(collider.GetComponent<MeshDestroy>());
         }
     }
 }
