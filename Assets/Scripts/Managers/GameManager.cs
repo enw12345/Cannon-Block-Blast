@@ -1,12 +1,10 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
+
 
 public class GameManager : MonoBehaviour
 {
     public Canvas menuCanvas;
-    public Button restartButton;
-    public Button nextLevelButton;
 
     public bool isStarted;
     public bool canShoot;
@@ -41,8 +39,7 @@ public class GameManager : MonoBehaviour
     {
         if (objectivesManager.ObjectivesComplete)
         {
-            // ShowRestartButton();
-            ShowNextLevelButton();
+            UIManager.instance.ShowNextLevelButton();
         }
     }
 
@@ -51,26 +48,9 @@ public class GameManager : MonoBehaviour
         isStarted = true;
         canShoot = true;
 
-        menuCanvas.gameObject.SetActive(false);
-
         levelManager.StartLevel(currentLevel);
 
         Grid.Instance.BlocksAreSpawned = true;
-    }
-
-    public void ShowRestartButton()
-    {
-        restartButton.gameObject.SetActive(true);
-    }
-
-    public void ShowNextLevelButton()
-    {
-        nextLevelButton.gameObject.SetActive(true);
-    }
-
-    public void HideNextLevelButton()
-    {
-        nextLevelButton.gameObject.SetActive(false);
     }
 
     public void NextLevel()
