@@ -22,12 +22,20 @@ public class FallDownBlockBehavior : BlockBehavior
         return;
     }
 
+    public override void FindNeighborBlocksToDestroyRowsAndColumns()
+    {
+        return;
+    }
+
     private void OnCollisionEnter(Collision other)
     {
         if (other.gameObject.CompareTag("Ground"))
         {
-            isTouchingGround = true;
-            BlocksToDestroy.Add(this.GetComponent<MeshDestroy>());
+            if (!isTouchingGround)
+            {
+                isTouchingGround = true;
+                BlocksToDestroy.Add(this.GetComponent<MeshDestroy>());
+            }
         }
     }
 }

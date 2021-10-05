@@ -92,13 +92,10 @@ public abstract class BlockBehavior : MonoBehaviour
             potentialBlock = hits[i].collider.gameObject.GetComponent<BlockBehavior>();
 
             if (i == 0 && hits[i].distance > 2.5f || !VerifyBlockType(potentialBlock.BlockType))
-            {
                 break;
-            }
             else
-            {
                 blocks.Add(hits[i].collider.gameObject.GetComponent<BlockBehavior>());
-            }
+            
         }
 
         return blocks.ToArray();

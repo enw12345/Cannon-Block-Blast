@@ -3907,7 +3907,7 @@ MonoBehaviour:
   canShoot: 0
   objectivesManager: {fileID: 297910981}
   levelManager: {fileID: 881489605}
-  currentLevel: 0
+  currentLevel: 1
 --- !u!1001 &2019103110
 PrefabInstance:
   m_ObjectHideFlags: 0

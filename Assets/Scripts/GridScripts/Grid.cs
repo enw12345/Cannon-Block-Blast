@@ -145,7 +145,6 @@ public class Grid : MonoBehaviour
     private void ClearGrid()
     {
         GameObject[] blocks = GameObject.FindGameObjectsWithTag("Block");
-        Debug.Log(blocks.Length);
 
         if (blocks.Length > 0)
         {
