@@ -1,19 +1,21 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
-using TMPro;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
+
 
 public class GameManager : MonoBehaviour
 {
-    public Canvas spaceStartCanvas;
-    public Canvas restartCanvas;
+    public Canvas menuCanvas;
 
     public bool isStarted;
+    public bool canShoot;
 
     public static GameManager instance;
-    [SerializeField] private BulletTypeContainer PlayersBullets;
+
+    public ObjectivesManager objectivesManager;
+
+    //LevelManagement  Variables
+    public LevelManager levelManager;
+    public int currentLevel = 0;
 
     private void Awake()
     {
@@ -27,44 +29,37 @@ public class GameManager : MonoBehaviour
         }
 
         isStarted = false;
-        restartCanvas.gameObject.SetActive(false);
-        ResetPlayerBullets();
+        canShoot = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) || Input.touchCount > 0)
+        if (objectivesManager.ObjectivesComplete)
         {
-            StartTheApp();
+            UIManager.instance.ShowNextLevelButton();
         }
     }
 
     public void StartTheApp()
     {
         isStarted = true;
+        canShoot = true;
 
-        spaceStartCanvas.gameObject.SetActive(false);
+        levelManager.StartLevel(currentLevel);
+
+        Grid.Instance.BlocksAreSpawned = true;
     }
 
-    public void ShowRestartButton()
+    public void NextLevel()
     {
-        restartCanvas.gameObject.SetActive(true);
+        levelManager.NextLevel();
     }
 
     public void Restart()
     {
         Scene scene = SceneManager.GetActiveScene();
         SceneManager.LoadScene(scene.name);
-        ResetPlayerBullets();
+        canShoot = false;
     }
-
-    private void ResetPlayerBullets()
-    {
-        foreach (BulletType playerBulletType in PlayersBullets.Container)
-        {
-            playerBulletType.AmmoCount = playerBulletType.DefaultAmmoCount;
-        }
-    }
-
 }

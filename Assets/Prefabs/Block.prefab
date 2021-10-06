@@ -14,11 +14,11 @@ GameObject:
   - component: {fileID: 2668581139568552609}
   - component: {fileID: 6664758792791754749}
   - component: {fileID: 7370361385808214443}
-  - component: {fileID: -7767481591529013980}
   - component: {fileID: 6395847652996859143}
+  - component: {fileID: 5139617512379148636}
   m_Layer: 8
   m_Name: Block
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -125,21 +125,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d173189bddcd3c842b27f573e9b72417, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &-7767481591529013980
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2130698183962488873}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6a8feaed9016de34e9276546a8334aec, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  layerMask:
-    serializedVersion: 2
-    m_Bits: 256
 --- !u!114 &6395847652996859143
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -154,3 +139,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ExplodeForce: 5000
   createNewMeshDestroy: 1
+--- !u!114 &5139617512379148636
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2130698183962488873}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04dd58b053e76b442af3744711a5ebb6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 256

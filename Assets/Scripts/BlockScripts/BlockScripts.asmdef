@@ -1,0 +1,15 @@
+{
+    "name": "BlockScripts",
+    "references": [
+        "GUID:588dcfbf3aeac144fb8e2f3eed307068"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

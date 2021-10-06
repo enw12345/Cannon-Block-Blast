@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using Cinemachine;
 using System;
-using UnityEngine.PlayerLoop;
 
 [RequireComponent(typeof(TrajectoryRenderer))]
 public class BulletSpawner : MonoBehaviour
@@ -13,10 +12,17 @@ public class BulletSpawner : MonoBehaviour
     public static event EventHandler<OnBulletFiredEventArgs> OnBulletFired;
     private TrajectoryRenderer trajectoryRenderer;
 
-    [SerializeField] private BulletTypeContainer bulletContainer;
+    [SerializeField] private BulletTypeContainer bulletContainer = null;
     private BulletType currentBulletType;
     private int bulletCount;
-    private int TotalBulletCount;
+    private int totalBulletCount;
+
+    [SerializeField] private BulletTypeContainer PlayersBullets = null;
+
+    public int TotalBulletCount
+    {
+        get { return totalBulletCount; }
+    }
 
     public class OnBulletFiredEventArgs : EventArgs
     {
@@ -28,7 +34,7 @@ public class BulletSpawner : MonoBehaviour
     {
         source = GetComponentInParent<CinemachineImpulseSource>();
         trajectoryRenderer = GetComponent<TrajectoryRenderer>();
-        BulletSelectUI.OnBulletSelected += ChangeBullet;
+        ResetPlayerBullets();
     }
 
     private void Start()
@@ -47,13 +53,14 @@ public class BulletSpawner : MonoBehaviour
         //Reset Total Bullet count
         foreach (BulletType bullet in bulletContainer.Container)
         {
-            TotalBulletCount += bullet.AmmoCount;
+            totalBulletCount += bullet.AmmoCount;
         }
     }
 
 #if UNITY_EDITOR
     private void Update()
     {
+
         if (Input.GetKeyDown(KeyCode.Space) && GameManager.instance.isStarted)
             ShootBullet();
     }
@@ -61,7 +68,7 @@ public class BulletSpawner : MonoBehaviour
 
     public void ShootBullet()
     {
-        if (bulletCount > 0)
+        if (bulletCount > 0 && GameManager.instance.canShoot)
         {
             Vector3 forwardVector = transform.parent.rotation * -Vector3.forward;
 
@@ -76,23 +83,33 @@ public class BulletSpawner : MonoBehaviour
 
             bulletCount--;
             currentBulletType.AmmoCount--;
-            TotalBulletCount--;
+            totalBulletCount--;
 
             OnBulletFired?.Invoke(this,
             new OnBulletFiredEventArgs { bulletCountArg = bulletCount, bulletNameArg = currentBulletType.bulletName });
+
+            if (TotalBulletCount <= 0)
+                UIManager.instance.ShowRestartButton();
         }
 
         if (TotalBulletCount <= 0)
-        {
-            GameManager.instance.ShowRestartButton();
-        }
+            UIManager.instance.ShowRestartButton();
     }
 
-    private void ChangeBullet(object sender, BulletSelectUI.OnBulletSelectedEventArgs e)
+    public void ChangeBullet(BulletType bulletType)
     {
-        currentBulletType = bulletContainer.Container[e.bulletSelectionNumber];
+        currentBulletType = bulletContainer.Container[bulletType.BulletSelectionNumber];
         bulletCount = currentBulletType.AmmoCount;
 
-        OnBulletFired?.Invoke(this, new OnBulletFiredEventArgs { bulletCountArg = bulletCount, bulletNameArg = currentBulletType.bulletName });
+        //OnBulletFired?.Invoke(this, new OnBulletFiredEventArgs { bulletCountArg = bulletCount, bulletNameArg = currentBulletType.bulletName });
+    }
+
+
+    private void ResetPlayerBullets()
+    {
+        foreach (BulletType playerBulletType in PlayersBullets.Container)
+        {
+            playerBulletType.AmmoCount = playerBulletType.DefaultAmmoCount;
+        }
     }
 }

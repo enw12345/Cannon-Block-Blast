@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
+using System.Linq;
 
 public class Grid : MonoBehaviour
 {
@@ -10,33 +12,29 @@ public class Grid : MonoBehaviour
         get { return instance; }
     }
 
-    [SerializeField]
-    private int rows = 4, columns = 4;
-
-    public static int xSizeIndex
-    {
-        get { return instance.rows - 1; }
-    }
-    public static int ySizeIndex
-    {
-        get { return instance.columns - 1; }
-    }
-    public static int GridSize
-    {
-        get { return instance.rows * instance.columns; }
-    }
-
-    public Block block;
-    private List<GameObject> blocks = new List<GameObject>();
-
     private bool blocksAreSpawned = false;
+    public bool BlocksAreSpawned
+    {
+        get { return blocksAreSpawned; }
+        set { blocksAreSpawned = value; }
+    }
 
     private float zOffset;
     private float yOffset;
+    private static float spawnHeight;
 
     public float xSpawnPosition;
     private Bounds blockBounds;
 
+    public static event EventHandler<OnBlockDestroyedEventArgs> OnBlockDestroyed;
+    public class OnBlockDestroyedEventArgs : EventArgs
+    {
+        public BlockBehavior blockBehavior1;
+    }
+
+    private Block newBlockToSpawn;
+
+    private float SecondsToWait = 0.1f;
     private void Awake()
     {
         if (instance != null && instance != this)
@@ -47,30 +45,42 @@ public class Grid : MonoBehaviour
         {
             instance = this;
         }
-
-        Bounds blockBounds = block.blockPrefab.GetComponent<Collider>().bounds;
-        zOffset = -(columns + blockBounds.size.z);
-        yOffset = (rows / 2);
     }
 
-    // Update is called once per frame
-    void Update()
+    private void FixedUpdate()
     {
-        if (GameManager.instance.isStarted && !blocksAreSpawned)
+        if (BlockBehavior.BlocksToDestroy.Count != 0)
         {
-            StartCoroutine(CreateGridOfBlocksStep());
-            blocksAreSpawned = true;
+            StartCoroutine(DestroyBlocks());
         }
     }
 
-    private IEnumerator CreateGridOfBlocksStep()
+    public void CreateGrid(int rows, int columns, Block[] blocks, Block _newBlockToSpawn)
     {
-        blockBounds = block.blockPrefab.GetComponent<Collider>().bounds;
+        ClearGrid();
+        StartCoroutine(CreateGridOfBlocksStep(rows, columns, blocks, _newBlockToSpawn));
+    }
+
+    private IEnumerator CreateGridOfBlocksStep(int rows, int columns, Block[] blocks, Block _newBlockToSpawn)
+    {
+        ClearGrid();
+        blockBounds = blocks[0].blockPrefab.GetComponent<MeshRenderer>().bounds;
+        spawnHeight = rows * blockBounds.size.y;
+        int index = 0;
+        newBlockToSpawn = _newBlockToSpawn;
 
         for (int y = 0; y < rows; y++)
         {
             for (int x = 0; x < columns; x++)
             {
+                index = y * rows + columns;
+
+                Block block = blocks[index];
+                blockBounds = block.blockPrefab.GetComponent<MeshRenderer>().bounds;
+
+                zOffset = -(columns + blockBounds.size.z);
+                yOffset = (rows / 2);
+
                 Vector3 spawnPosition = new Vector3(
                 xSpawnPosition,
                 y * blockBounds.size.y + yOffset,
@@ -80,17 +90,68 @@ public class Grid : MonoBehaviour
                 spawnPosition, Quaternion.identity, transform);
 
                 BlockBehavior blockBehavior = currentBlock.GetComponent<BlockBehavior>();
-                blockBehavior.InitializeBlock();
-
-                blocks.Add(currentBlock);
-                yield return new WaitForSeconds(0.05f);
+                blockBehavior.InitializeBlock(block.blockType);
+                yield return new WaitForSeconds(SecondsToWait);
             }
         }
     }
 
-    private IEnumerator SpawnNewBlocks()
+    private IEnumerator DestroyBlocks()
     {
+        IEnumerable<MeshDestroy> BlocksToDestroy = BlockBehavior.BlocksToDestroy.Distinct();
+        List<Vector3> blockPositions = new List<Vector3>();
 
-        yield return new WaitForSeconds(0.05f);
+        BlockBehavior blockBehavior;
+
+        foreach (MeshDestroy blockToDestroy in BlocksToDestroy)
+        {
+            if (blockToDestroy != null)
+            {
+                Vector3 blockPos = blockToDestroy.transform.position;
+                blockBehavior = blockToDestroy.GetComponent<BlockBehavior>();
+
+                OnBlockDestroyed?.Invoke(this, new OnBlockDestroyedEventArgs { blockBehavior1 = blockBehavior });
+
+                blockToDestroy.DestroyMesh(2);
+
+                blockPositions.Add(blockBehavior.transform.position);
+            }
+        }
+
+        BlockBehavior.BlocksToDestroy.Clear();
+
+        for (int i = 0; i < blockPositions.Count(); i++)
+        {
+            SpawnNewBlocks(blockPositions[i], newBlockToSpawn);
+            yield return new WaitForSeconds(SecondsToWait);
+        }
+    }
+
+    private void SpawnNewBlocks(Vector3 blockPosition, Block blockToSpawn)
+    {
+        Vector3 spawnPos = new Vector3(
+            xSpawnPosition,
+            spawnHeight + blockPosition.y + blockBounds.size.y + yOffset,
+            blockPosition.z
+        );
+
+        GameObject currentBlock = Instantiate(blockToSpawn.blockPrefab,
+        spawnPos, Quaternion.identity, transform);
+
+        BlockBehavior blockBehavior = currentBlock.GetComponent<BlockBehavior>();
+        blockBehavior.InitializeBlock(blockToSpawn.blockType);
+    }
+
+    private void ClearGrid()
+    {
+        GameObject[] blocks = GameObject.FindGameObjectsWithTag("Block");
+
+        if (blocks.Length > 0)
+        {
+            for (int i = 0; i < blocks.Length; i++)
+            {
+                GameObject.Destroy(blocks[i]);
+            }
+        }
     }
 }

@@ -2,24 +2,17 @@
 
 public class CannonController : MonoBehaviour
 {
-    private BulletSpawner bulletSpawner;
+    [SerializeField] private float maxXRot = 20f, minXRot = -3f;
+    [SerializeField] private float maxYRot = 105f, minYRot = 70f;
 
-    [SerializeField] private float maxXRot = 20, minXRot = -20;
-    [SerializeField] private float maxYRot = 20, minYRot = -20;
+    private float horizontalSpeed = 2.0f;
+    private float verticalSpeed = 2.0f;
 
-    float horizontalSpeed = 2.0f;
-    float verticalSpeed = 2.0f;
-
-    public float rotationSpeed = 0.5f;
+    public float rotationSpeed = 0.8f;
     private Vector3 firstpoint;
     private float t = 0.0f;
 
-    private void Awake()
-    {
-        bulletSpawner = GetComponentInChildren<BulletSpawner>();
-    }
-
-    // Update is called once per frame
+    //  Update is called once per frame
     void Update()
     {
         if (GameManager.instance.isStarted)
@@ -36,7 +29,7 @@ public class CannonController : MonoBehaviour
         }
     }
 
-    private void RotateCannon()
+    public void RotateCannon()
     {
         Vector3 mousePos = Input.mousePosition;
 
@@ -47,7 +40,6 @@ public class CannonController : MonoBehaviour
 
         Vector3 rotation = transform.eulerAngles;
 
-        // t = rotationSpeed * Time.deltaTime;
         t = rotationSpeed + Time.deltaTime;
 
         if (t > 1.0f)
@@ -67,9 +59,8 @@ public class CannonController : MonoBehaviour
         Mathf.Clamp(yRot, minYRot, maxYRot), 0);
     }
 
-    private void RotateCannonMobile()
+    public void RotateCannonMobile()
     {
-
         if (Input.touchCount > 0)
         {
             Touch touch = Input.GetTouch(0);
@@ -108,12 +99,6 @@ public class CannonController : MonoBehaviour
                     break;
             }
         }
-    }
-
-    public void Fire()
-    {
-        if (GameManager.instance.isStarted)
-            bulletSpawner.ShootBullet();
     }
 
     private float ClampAngle(float angle, float from, float to)

@@ -7,8 +7,8 @@ using UnityEngine.UI;
 
 public class UIBulletCount : MonoBehaviour
 {
-    [SerializeField] private TMP_Text currentBulletCountText;
-    [SerializeField] private Image currentBulletImage;
+    [SerializeField] private TMP_Text currentBulletCountText = null;
+    [SerializeField] private Image currentBulletImage = null;
 
     private void Awake()
     {
@@ -25,6 +25,8 @@ public class UIBulletCount : MonoBehaviour
     private void UpdateBulletCount(object sender, BulletSelectUI.OnBulletSelectedEventArgs e)
     {
         currentBulletCountText.text = e.bulletCountArg.ToString();
+        
+        if(e.bulletImage != currentBulletImage.sprite)
         currentBulletImage.sprite = e.bulletImage;
     }
 }

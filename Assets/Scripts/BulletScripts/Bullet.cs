@@ -15,7 +15,7 @@ public abstract class Bullet : MonoBehaviour
         rigidBody = GetComponent<Rigidbody>();
     }
 
-    private void OnCollisionEnter(Collision other)
+    private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.TryGetComponent(out BlockBehavior blockToDestroy))
         {
