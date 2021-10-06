@@ -14,6 +14,8 @@ public class UIManager : MonoBehaviour
     private void Awake()
     {
         instance = this;
+        restartButton.gameObject.SetActive(false);
+        nextLevelButton.gameObject.SetActive(false);
     }
 
     public void ShowRestartButton()

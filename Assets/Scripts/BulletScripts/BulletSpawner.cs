@@ -89,11 +89,11 @@ public class BulletSpawner : MonoBehaviour
             new OnBulletFiredEventArgs { bulletCountArg = bulletCount, bulletNameArg = currentBulletType.bulletName });
 
             if (TotalBulletCount <= 0)
-                GameManager.instance.ShowRestartButton();
+                UIManager.instance.ShowRestartButton();
         }
 
         if (TotalBulletCount <= 0)
-            GameManager.instance.ShowRestartButton();
+            UIManager.instance.ShowRestartButton();
     }
 
     public void ChangeBullet(BulletType bulletType)

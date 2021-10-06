@@ -30,8 +30,6 @@ public class GameManager : MonoBehaviour
 
         isStarted = false;
         canShoot = false;
-        restartButton.gameObject.SetActive(false);
-        nextLevelButton.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
