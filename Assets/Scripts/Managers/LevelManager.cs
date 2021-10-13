@@ -31,10 +31,22 @@ public class LevelManager : MonoBehaviour
         }
     }
 
-    private void InitalizeLevel()
+    public void ResetLevel()
     {
+        UIManager.instance.HideButtons();
+
         objectivesManager.ResetObjectives();
         objectivesManager.InitializeObjectives(currentLevel.objectives, currentLevel.objectiveAmounts);
         Grid.Instance.CreateGrid(currentLevel.rows, currentLevel.columns, currentLevel.Blocks, currentLevel.newBlockToSpawn);
     }
+
+    private void InitalizeLevel()
+    {
+        UIManager.instance.HideButtons();
+
+        objectivesManager.ResetObjectives();
+        objectivesManager.InitializeObjectives(currentLevel.objectives, currentLevel.objectiveAmounts);
+        Grid.Instance.CreateGrid(currentLevel.rows, currentLevel.columns, currentLevel.Blocks, currentLevel.newBlockToSpawn);
+    }
+
 }

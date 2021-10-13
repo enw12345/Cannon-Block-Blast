@@ -55,6 +55,8 @@ public class BulletSpawner : MonoBehaviour
         {
             totalBulletCount += bullet.AmmoCount;
         }
+
+        GameManager.instance.resetEvent += ResetPlayerBullets;
     }
 
 #if UNITY_EDITOR
@@ -101,9 +103,8 @@ public class BulletSpawner : MonoBehaviour
         currentBulletType = bulletContainer.Container[bulletType.BulletSelectionNumber];
         bulletCount = currentBulletType.AmmoCount;
 
-        //OnBulletFired?.Invoke(this, new OnBulletFiredEventArgs { bulletCountArg = bulletCount, bulletNameArg = currentBulletType.bulletName });
+        OnBulletFired?.Invoke(this, new OnBulletFiredEventArgs { bulletCountArg = bulletCount, bulletNameArg = currentBulletType.bulletName });
     }
-
 
     private void ResetPlayerBullets()
     {
@@ -111,5 +112,17 @@ public class BulletSpawner : MonoBehaviour
         {
             playerBulletType.AmmoCount = playerBulletType.DefaultAmmoCount;
         }
+    }
+
+    private void ResetPlayerBullets(object sender, EventArgs e)
+    {
+        foreach (BulletType playerBulletType in PlayersBullets.Container)
+        {
+            playerBulletType.AmmoCount = playerBulletType.DefaultAmmoCount;
+            totalBulletCount += playerBulletType.AmmoCount;
+        }
+
+        OnBulletFired?.Invoke(this,
+        new OnBulletFiredEventArgs { bulletCountArg = bulletCount });
     }
 }

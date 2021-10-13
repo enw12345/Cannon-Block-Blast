@@ -27,6 +27,11 @@ public class Objective : ScriptableObject
         objectiveAmountCompleted = 0;
     }
 
+    private void OnDestroy()
+    {
+        Grid.OnBlockDestroyed -= CheckObjectiveAmountCompleted;
+    }
+
     public void Init(int objectiveAmountForThisLevel)
     {
         objectiveAmountCompleted = 0;
@@ -35,6 +40,11 @@ public class Objective : ScriptableObject
         objectiveType.Initialize();
 
         Grid.OnBlockDestroyed += CheckObjectiveAmountCompleted;
+    }
+
+    public void DeInitialize()
+    {
+        Grid.OnBlockDestroyed -= CheckObjectiveAmountCompleted;
     }
 
     protected virtual void CheckObjectiveAmountCompleted(object sender, Grid.OnBlockDestroyedEventArgs e)

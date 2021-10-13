@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
-using UnityEngine.SceneManagement;
-
+using System;
 
 public class GameManager : MonoBehaviour
 {
@@ -13,9 +12,11 @@ public class GameManager : MonoBehaviour
 
     public ObjectivesManager objectivesManager;
 
-    //LevelManagement  Variables
+    [Header("Level Manager Variables")]
     public LevelManager levelManager;
-    public int currentLevel = 0;
+    public int startLevel = 0;
+
+    public EventHandler resetEvent;
 
     private void Awake()
     {
@@ -37,7 +38,7 @@ public class GameManager : MonoBehaviour
     {
         if (objectivesManager.ObjectivesComplete)
         {
-            UIManager.instance.ShowNextLevelButton();
+            UIManager.instance.ShowContinueButton();
         }
     }
 
@@ -46,7 +47,9 @@ public class GameManager : MonoBehaviour
         isStarted = true;
         canShoot = true;
 
-        levelManager.StartLevel(currentLevel);
+        UIManager.instance.SwitchCanvas(CanvasType.GameplayCanvas);
+
+        levelManager.StartLevel(startLevel);
 
         Grid.Instance.BlocksAreSpawned = true;
     }
@@ -56,10 +59,16 @@ public class GameManager : MonoBehaviour
         levelManager.NextLevel();
     }
 
+    // public void Restart()
+    // {
+    //     Scene scene = SceneManager.GetActiveScene();
+    //     SceneManager.LoadScene(scene.name);
+    //     canShoot = false;
+    // }
+
     public void Restart()
     {
-        Scene scene = SceneManager.GetActiveScene();
-        SceneManager.LoadScene(scene.name);
-        canShoot = false;
+        levelManager.ResetLevel();
+        resetEvent?.Invoke(this, EventArgs.Empty);
     }
 }

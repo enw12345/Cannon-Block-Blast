@@ -49,15 +49,11 @@ public class ObjectivesManager : MonoBehaviour
         for (int i = 0; i < currentObjectives.Count; i++)
         {
             currentObjectives[i].OnObjectiveUpdated -= CalculateTotalObjectivesCompleted;
-            GameObject.Destroy(currentObjectives[i]);
+            currentObjectives[i].DeInitialize();
         }
+
         currentObjectives.Clear();
         OnReset?.Invoke(this, EventArgs.Empty);
-    }
-
-    private void SelectRandomObjectives()
-    {
-        currentObjectives.Add(objectives[0]);
     }
 
     private void CalculateTotalObjectivesCompleted(object sender, Objective.OnObjectiveUpdatedEventArgs e)
@@ -76,5 +72,10 @@ public class ObjectivesManager : MonoBehaviour
         {
             objectivesComplete = true;
         }
+    }
+
+    private void OnDestroy()
+    {
+        ResetObjectives();
     }
 }

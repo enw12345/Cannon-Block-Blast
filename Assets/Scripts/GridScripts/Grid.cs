@@ -144,13 +144,13 @@ public class Grid : MonoBehaviour
 
     private void ClearGrid()
     {
-        GameObject[] blocks = GameObject.FindGameObjectsWithTag("Block");
+        BlockBehavior[] blocks = FindObjectsOfType<BlockBehavior>();
 
         if (blocks.Length > 0)
         {
             for (int i = 0; i < blocks.Length; i++)
             {
-                GameObject.Destroy(blocks[i]);
+                GameObject.Destroy(blocks[i].gameObject);
             }
         }
     }
