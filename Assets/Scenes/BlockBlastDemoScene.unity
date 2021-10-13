@@ -2872,11 +2872,11 @@ RectTransform:
   m_Father: {fileID: 1550426392}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 780, y: -1283.3333}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 204, y: -549}
   m_SizeDelta: {x: 90, y: 40}
-  m_Pivot: {x: 1, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1243582267
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3311,6 +3311,7 @@ MonoBehaviour:
   restartButton: {fileID: 1000607510}
   startButton: {fileID: 667186621}
   bouncePercent: 0.75
+  startButtonPosition: {x: -582, y: -536, z: 0}
 --- !u!4 &1392001255
 Transform:
   m_ObjectHideFlags: 0
@@ -5257,12 +5258,12 @@ PrefabInstance:
     - target: {fileID: 5798720777440841916, guid: 436195f75dd08f34b96228b9765c8d8d,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -180
+      value: -196
       objectReference: {fileID: 0}
     - target: {fileID: 5798720777440841916, guid: 436195f75dd08f34b96228b9765c8d8d,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -536
+      value: -554
       objectReference: {fileID: 0}
     - target: {fileID: 5798720777440841916, guid: 436195f75dd08f34b96228b9765c8d8d,
         type: 3}
@@ -5308,6 +5309,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: StartButtonImage
+      objectReference: {fileID: 0}
+    - target: {fileID: 5798720777440841919, guid: 436195f75dd08f34b96228b9765c8d8d,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 436195f75dd08f34b96228b9765c8d8d, type: 3}

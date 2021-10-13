@@ -25,6 +25,7 @@ public class UIManager : MonoBehaviour
     public RectTransform startButton;
 
     public float bouncePercent;
+    public Vector3 startButtonPosition;
 
     private void Awake()
     {
@@ -37,7 +38,8 @@ public class UIManager : MonoBehaviour
 
     private void OnEnable()
     {
-        LeanTweenManager.BounceRect(startButton, bouncePercent, .5f);
+        LeanTweenManager.MoveFromLeft(startButton, .5f);
+        // LeanTweenManager.BounceRect(startButton, bouncePercent, .5f);
     }
 
     public void ShowContinueButton()
