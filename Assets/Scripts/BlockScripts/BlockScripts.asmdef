@@ -1,7 +1,9 @@
 {
     "name": "BlockScripts",
     "references": [
-        "GUID:588dcfbf3aeac144fb8e2f3eed307068"
+        "GUID:588dcfbf3aeac144fb8e2f3eed307068",
+        "GUID:419522ae091f783438d0375fbbf8d467",
+        "GUID:dcbad8ef288042647ad7feeb31f2e0b2"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

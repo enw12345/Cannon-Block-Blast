@@ -13,7 +13,7 @@ public class BombBullet : Bullet
             if (collider.GetComponent<BlockBehavior>() is FallDownBlockBehavior)
                 continue;
             else
-                BlockBehavior.BlocksToDestroy.Add(collider.GetComponent<MeshDestroy>());
+                BlockBehavior.BlocksToDestroy.Add(collider.GetComponent<BlockBehavior>());
         }
     }
 }

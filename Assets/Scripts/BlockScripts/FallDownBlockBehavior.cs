@@ -3,13 +3,12 @@
 public class FallDownBlockBehavior : BlockBehavior
 {
     private bool isTouchingGround;
-    public bool IsTouchingGround
-    {
-        get { return isTouchingGround; }
-    }
+
     protected override void Initialize()
     {
         isTouchingGround = false;
+        FallDownBlockType fallDownBlockType = (FallDownBlockType)blockType;
+        fallDownBlockType.IsTouchingGround = isTouchingGround;
     }
 
     public override void FindNeighborBlocksToDestroy()
@@ -34,7 +33,9 @@ public class FallDownBlockBehavior : BlockBehavior
             if (!isTouchingGround)
             {
                 isTouchingGround = true;
-                BlocksToDestroy.Add(this.GetComponent<MeshDestroy>());
+                FallDownBlockType fallDownBlockType = (FallDownBlockType)blockType;
+                fallDownBlockType.IsTouchingGround = isTouchingGround;
+                BlocksToDestroy.Add(this);
             }
         }
     }

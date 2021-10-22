@@ -1,14 +1,30 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System;
 
 public class LevelManager : MonoBehaviour
 {
-    [SerializeField] private List<Level> Levels = new List<Level>();
-    [SerializeField] private ObjectivesManager objectivesManager = null;
+    public List<Level> Levels;
+
+    public static EventHandler<StartLevelEventArgs> StartLevel;
+    public class StartLevelEventArgs : EventArgs
+    {
+        public Objective[] objectives;
+        public int[] objectiveAmounts;
+        public Level currentLevel;
+
+        public StartLevelEventArgs(Level level)
+        {
+            objectives = level.objectives;
+            objectiveAmounts = level.objectiveAmounts;
+            currentLevel = level;
+        }
+
+    }
     private Level currentLevel = null;
     private int currentLevelNum = 0;
 
-    public void StartLevel(int levelNum)
+    public void SelectLevel(int levelNum)
     {
         currentLevelNum = levelNum;
         currentLevel = Levels[currentLevelNum];
@@ -31,10 +47,22 @@ public class LevelManager : MonoBehaviour
         }
     }
 
+    public void ResetLevel()
+    {
+        // UIManager.instance.HideButtons();
+
+        // Grid.Instance.CreateGrid(currentLevel.rows, currentLevel.columns, currentLevel.Blocks, currentLevel.newBlockToSpawn);
+
+        StartLevel?.Invoke(this, new StartLevelEventArgs(currentLevel));
+    }
+
     private void InitalizeLevel()
     {
-        objectivesManager.ResetObjectives();
-        objectivesManager.InitializeObjectives(currentLevel.objectives, currentLevel.objectiveAmounts);
-        Grid.Instance.CreateGrid(currentLevel.rows, currentLevel.columns, currentLevel.Blocks, currentLevel.newBlockToSpawn);
+        // UIManager.instance.HideButtons();
+
+        // Grid.Instance.CreateGrid(currentLevel.rows, currentLevel.columns, currentLevel.Blocks, currentLevel.newBlockToSpawn);
+
+        StartLevel?.Invoke(this, new StartLevelEventArgs(currentLevel));
     }
+
 }

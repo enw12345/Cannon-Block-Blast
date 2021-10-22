@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
-using UnityEngine.SceneManagement;
-
+using System;
 
 public class GameManager : MonoBehaviour
 {
@@ -11,11 +10,11 @@ public class GameManager : MonoBehaviour
 
     public static GameManager instance;
 
-    public ObjectivesManager objectivesManager;
-
-    //LevelManagement  Variables
+    [Header("Level Manager Variables")]
     public LevelManager levelManager;
-    public int currentLevel = 0;
+    public int startLevel = 0;
+
+    public EventHandler resetEvent;
 
     private void Awake()
     {
@@ -32,23 +31,14 @@ public class GameManager : MonoBehaviour
         canShoot = false;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (objectivesManager.ObjectivesComplete)
-        {
-            UIManager.instance.ShowNextLevelButton();
-        }
-    }
-
     public void StartTheApp()
     {
         isStarted = true;
         canShoot = true;
 
-        levelManager.StartLevel(currentLevel);
+        UIManager.instance.SwitchCanvas(CanvasType.GameplayCanvas);
 
-        Grid.Instance.BlocksAreSpawned = true;
+        levelManager.SelectLevel(startLevel);
     }
 
     public void NextLevel()
@@ -58,8 +48,7 @@ public class GameManager : MonoBehaviour
 
     public void Restart()
     {
-        Scene scene = SceneManager.GetActiveScene();
-        SceneManager.LoadScene(scene.name);
-        canShoot = false;
+        levelManager.ResetLevel();
+        resetEvent?.Invoke(this, EventArgs.Empty);
     }
 }

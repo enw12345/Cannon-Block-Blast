@@ -23,7 +23,6 @@ public class ObjectiveUI : MonoBehaviour
         if (objective.objectiveType is ColorObjectiveType)
         {
             ColorObjectiveType colorObjective = (ColorObjectiveType)objective.objectiveType;
-            int colorIndex = colorObjective.colorIndex;
             thisImage.color = colorObjective.colorTarget;
         }
     }

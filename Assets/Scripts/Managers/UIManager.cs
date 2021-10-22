@@ -1,40 +1,60 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+
+public enum CanvasType
+{
+    StartMenuCanvas,
+    GameplayCanvas,
+    RestartCanvas,
+    ContinueCanvas
+}
 
 public class UIManager : MonoBehaviour
 {
     public static UIManager instance;
+    private List<CanvasController> CanvasControllers;
+    private CanvasController lastActiveCanvas;
 
-    public Canvas StartMenuCanvas;
+    [Header("Buttons")]
     public Button nextLevelButton;
     public Button restartButton;
 
     private void Awake()
     {
         instance = this;
-        restartButton.gameObject.SetActive(false);
-        nextLevelButton.gameObject.SetActive(false);
+        CanvasControllers = FindObjectsOfType<CanvasController>().ToList();
+        CanvasControllers.ForEach(x => x.gameObject.SetActive(false));
+
+        SwitchCanvas(CanvasType.StartMenuCanvas);
     }
 
-    public void ShowRestartButton()
+    public void SwitchCanvas(CanvasType canvasType)
     {
-        restartButton.gameObject.SetActive(true);
+        if (lastActiveCanvas != null)
+        {
+            lastActiveCanvas.TurnOffCanvas();
+        }
+
+        CanvasController newActiveCanvas = CanvasControllers.Find(x => x.canvasType == canvasType);
+        if (VerifyCanvas(newActiveCanvas))
+        {
+            newActiveCanvas.TurnOnCanvas();
+            lastActiveCanvas = newActiveCanvas;
+        }
     }
 
-    public void ShowNextLevelButton()
+    private bool VerifyCanvas(CanvasController canvasController)
     {
-        nextLevelButton.gameObject.SetActive(true);
-    }
-
-    public void HideNextLevelButton()
-    {
-        nextLevelButton.gameObject.SetActive(false);
-    }
-
-    public void HideStartMenu()
-    {
-        StartMenuCanvas.gameObject.SetActive(false);
+        if (canvasController != null)
+        {
+            return true;
+        }
+        else
+        {
+            Debug.LogWarning("Canvas not found.");
+            return false;
+        }
     }
 }
