@@ -14,18 +14,12 @@ public enum CanvasType
 public class UIManager : MonoBehaviour
 {
     public static UIManager instance;
-    public List<CanvasController> CanvasControllers;
+    private List<CanvasController> CanvasControllers;
     private CanvasController lastActiveCanvas;
 
     [Header("Buttons")]
     public Button nextLevelButton;
     public Button restartButton;
-
-    [Header("Rect Transforms")]
-    public RectTransform startButton;
-
-    public float bouncePercent;
-    public Vector3 startButtonPosition;
 
     private void Awake()
     {
@@ -36,39 +30,17 @@ public class UIManager : MonoBehaviour
         SwitchCanvas(CanvasType.StartMenuCanvas);
     }
 
-    private void OnEnable()
-    {
-        LeanTweenManager.MoveFromLeft(startButton, .5f);
-        // LeanTweenManager.BounceRect(startButton, bouncePercent, .5f);
-    }
-
-    public void ShowContinueButton()
-    {
-        nextLevelButton.gameObject.SetActive(true);
-    }
-
-    public void ShowRestartButton()
-    {
-        restartButton.gameObject.SetActive(true);
-    }
-
-    public void HideButtons()
-    {
-        nextLevelButton.gameObject.SetActive(false);
-        restartButton.gameObject.SetActive(false);
-    }
-
     public void SwitchCanvas(CanvasType canvasType)
     {
         if (lastActiveCanvas != null)
         {
-            lastActiveCanvas.gameObject.SetActive(false);
+            lastActiveCanvas.TurnOffCanvas();
         }
 
         CanvasController newActiveCanvas = CanvasControllers.Find(x => x.canvasType == canvasType);
         if (VerifyCanvas(newActiveCanvas))
         {
-            newActiveCanvas.gameObject.SetActive(true);
+            newActiveCanvas.TurnOnCanvas();
             lastActiveCanvas = newActiveCanvas;
         }
     }

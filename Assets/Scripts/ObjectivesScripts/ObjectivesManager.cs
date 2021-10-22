@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using System.Collections.Generic;
+using System.Linq;
 
 public class ObjectivesManager : MonoBehaviour
 {
@@ -13,21 +14,40 @@ public class ObjectivesManager : MonoBehaviour
     [NonSerialized]
     public List<Objective> currentObjectives = new List<Objective>();
 
-    private bool objectivesComplete = false;
-    public bool ObjectivesComplete
-    {
-        get { return objectivesComplete; }
-    }
-
     //public event EventHandler<OnInitEventArgs> OnInit;
     public event EventHandler OnInit;
     public event EventHandler OnReset;
+    public static event EventHandler OnObjectivesComplete;
+
+    private void Awake()
+    {
+        LevelManager.StartLevel += InitlaizeObjectivesFromLevelManager;
+    }
+
+    private void OnEnable()
+    {
+        BlockBehavior.OnBlockDestroyed += CheckObjectives;
+    }
+
+    public void CheckObjectives(object sender, BlockBehavior.OnBlockDestroyedEventArgs e)
+    {
+        for (int i = 0; i < objectives.Count(); i++)
+        {
+            objectives[i].CheckObjectiveAmountCompleted(e.blockBehavior1.BlockType);
+        }
+    }
+
+    public void InitlaizeObjectivesFromLevelManager(object sneder, LevelManager.StartLevelEventArgs e)
+    {
+        ResetObjectives();
+        InitializeObjectives(e.objectives, e.objectiveAmounts);
+    }
 
     /// <summary>
     /// Initalize objectives from an array of objectives
     /// </summary>
     /// <param name="objectives">The array of objectives to initalize</param>
-    public void InitializeObjectives(Objective[] objectives, int[] objectiveAmounts)
+    private void InitializeObjectives(Objective[] objectives, int[] objectiveAmounts)
     {
         for (int i = 0; i < objectives.Length; i++)
         {
@@ -38,11 +58,9 @@ public class ObjectivesManager : MonoBehaviour
         }
 
         OnInit?.Invoke(this, EventArgs.Empty);
-
-        objectivesComplete = false;
     }
 
-    public void ResetObjectives()
+    private void ResetObjectives()
     {
         totalObjectives = 0;
 
@@ -70,7 +88,7 @@ public class ObjectivesManager : MonoBehaviour
 
         if (totalCompletedObjecives == totalObjectives)
         {
-            objectivesComplete = true;
+            OnObjectivesComplete?.Invoke(this, EventArgs.Empty);
         }
     }
 

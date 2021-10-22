@@ -9,7 +9,6 @@ public class BulletSpawner : MonoBehaviour
     public float CannonForce = 10f;
 
     private CinemachineImpulseSource source;
-    public static event EventHandler<OnBulletFiredEventArgs> OnBulletFired;
     private TrajectoryRenderer trajectoryRenderer;
 
     [SerializeField] private BulletTypeContainer bulletContainer = null;
@@ -24,9 +23,11 @@ public class BulletSpawner : MonoBehaviour
         get { return totalBulletCount; }
     }
 
+    public static event EventHandler<OnBulletFiredEventArgs> OnBulletFired;
     public class OnBulletFiredEventArgs : EventArgs
     {
         public int bulletCountArg;
+        public int totalBulletCount;
         public string bulletNameArg;
     }
 
@@ -62,7 +63,6 @@ public class BulletSpawner : MonoBehaviour
 #if UNITY_EDITOR
     private void Update()
     {
-
         if (Input.GetKeyDown(KeyCode.Space) && GameManager.instance.isStarted)
             ShootBullet();
     }
@@ -88,14 +88,8 @@ public class BulletSpawner : MonoBehaviour
             totalBulletCount--;
 
             OnBulletFired?.Invoke(this,
-            new OnBulletFiredEventArgs { bulletCountArg = bulletCount, bulletNameArg = currentBulletType.bulletName });
-
-            if (TotalBulletCount <= 0)
-                UIManager.instance.ShowRestartButton();
+            new OnBulletFiredEventArgs { bulletCountArg = bulletCount, totalBulletCount = totalBulletCount, bulletNameArg = currentBulletType.bulletName });
         }
-
-        if (TotalBulletCount <= 0)
-            UIManager.instance.ShowRestartButton();
     }
 
     public void ChangeBullet(BulletType bulletType)
@@ -103,7 +97,7 @@ public class BulletSpawner : MonoBehaviour
         currentBulletType = bulletContainer.Container[bulletType.BulletSelectionNumber];
         bulletCount = currentBulletType.AmmoCount;
 
-        OnBulletFired?.Invoke(this, new OnBulletFiredEventArgs { bulletCountArg = bulletCount, bulletNameArg = currentBulletType.bulletName });
+        OnBulletFired?.Invoke(this, new OnBulletFiredEventArgs { bulletCountArg = bulletCount, totalBulletCount = totalBulletCount, bulletNameArg = currentBulletType.bulletName });
     }
 
     private void ResetPlayerBullets()
@@ -123,6 +117,6 @@ public class BulletSpawner : MonoBehaviour
         }
 
         OnBulletFired?.Invoke(this,
-        new OnBulletFiredEventArgs { bulletCountArg = bulletCount });
+        new OnBulletFiredEventArgs { bulletCountArg = bulletCount, totalBulletCount = totalBulletCount });
     }
 }

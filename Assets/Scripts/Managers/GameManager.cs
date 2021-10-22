@@ -10,8 +10,6 @@ public class GameManager : MonoBehaviour
 
     public static GameManager instance;
 
-    public ObjectivesManager objectivesManager;
-
     [Header("Level Manager Variables")]
     public LevelManager levelManager;
     public int startLevel = 0;
@@ -33,15 +31,6 @@ public class GameManager : MonoBehaviour
         canShoot = false;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (objectivesManager.ObjectivesComplete)
-        {
-            UIManager.instance.ShowContinueButton();
-        }
-    }
-
     public void StartTheApp()
     {
         isStarted = true;
@@ -49,22 +38,13 @@ public class GameManager : MonoBehaviour
 
         UIManager.instance.SwitchCanvas(CanvasType.GameplayCanvas);
 
-        levelManager.StartLevel(startLevel);
-
-        Grid.Instance.BlocksAreSpawned = true;
+        levelManager.SelectLevel(startLevel);
     }
 
     public void NextLevel()
     {
         levelManager.NextLevel();
     }
-
-    // public void Restart()
-    // {
-    //     Scene scene = SceneManager.GetActiveScene();
-    //     SceneManager.LoadScene(scene.name);
-    //     canShoot = false;
-    // }
 
     public void Restart()
     {

@@ -22,14 +22,9 @@ public class Objective : ScriptableObject
         public int objectiveAmountCompleted;
     }
 
-    private void OnEnable()
-    {
-        objectiveAmountCompleted = 0;
-    }
-
     private void OnDestroy()
     {
-        Grid.OnBlockDestroyed -= CheckObjectiveAmountCompleted;
+
     }
 
     public void Init(int objectiveAmountForThisLevel)
@@ -38,18 +33,16 @@ public class Objective : ScriptableObject
         objectiveAmount = objectiveAmountForThisLevel;
 
         objectiveType.Initialize();
-
-        Grid.OnBlockDestroyed += CheckObjectiveAmountCompleted;
     }
 
     public void DeInitialize()
     {
-        Grid.OnBlockDestroyed -= CheckObjectiveAmountCompleted;
+        objectiveAmountCompleted = 0;
     }
 
-    protected virtual void CheckObjectiveAmountCompleted(object sender, Grid.OnBlockDestroyedEventArgs e)
+    public virtual void CheckObjectiveAmountCompleted(BlockType blockType)
     {
-        if (objectiveType.HandleObjective(e.blockBehavior1))
+        if (objectiveType.HandleObjective(blockType))
         {
             objectiveAmountCompleted++;
 

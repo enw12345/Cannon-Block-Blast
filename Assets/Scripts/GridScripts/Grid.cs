@@ -1,17 +1,11 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
 using System.Linq;
 
 public class Grid : MonoBehaviour
 {
-    private static Grid instance;
-    public static Grid Instance
-    {
-        get { return instance; }
-    }
-
     private bool blocksAreSpawned = false;
     public bool BlocksAreSpawned
     {
@@ -21,30 +15,18 @@ public class Grid : MonoBehaviour
 
     private float zOffset;
     private float yOffset;
-    private static float spawnHeight;
+    private float spawnHeight;
 
     public float xSpawnPosition;
     private Bounds blockBounds;
 
-    public static event EventHandler<OnBlockDestroyedEventArgs> OnBlockDestroyed;
-    public class OnBlockDestroyedEventArgs : EventArgs
-    {
-        public BlockBehavior blockBehavior1;
-    }
-
     private Block newBlockToSpawn;
 
     private float SecondsToWait = 0.1f;
+
     private void Awake()
     {
-        if (instance != null && instance != this)
-        {
-            Destroy(this.gameObject);
-        }
-        else
-        {
-            instance = this;
-        }
+        LevelManager.StartLevel += CreateGridFromLevelManager;
     }
 
     private void FixedUpdate()
@@ -53,6 +35,12 @@ public class Grid : MonoBehaviour
         {
             StartCoroutine(DestroyBlocks());
         }
+    }
+
+    private void CreateGridFromLevelManager(object sender, LevelManager.StartLevelEventArgs e)
+    {
+        ClearGrid();
+        StartCoroutine(CreateGridOfBlocksStep(e.currentLevel.rows, e.currentLevel.columns, e.currentLevel.Blocks, e.currentLevel.newBlockToSpawn));
     }
 
     public void CreateGrid(int rows, int columns, Block[] blocks, Block _newBlockToSpawn)
@@ -90,7 +78,7 @@ public class Grid : MonoBehaviour
                 spawnPosition, Quaternion.identity, transform);
 
                 BlockBehavior blockBehavior = currentBlock.GetComponent<BlockBehavior>();
-                blockBehavior.InitializeBlock(block.blockType);
+                blockBehavior.InitializeBlock();
                 yield return new WaitForSeconds(SecondsToWait);
             }
         }
@@ -98,29 +86,24 @@ public class Grid : MonoBehaviour
 
     private IEnumerator DestroyBlocks()
     {
-        IEnumerable<MeshDestroy> BlocksToDestroy = BlockBehavior.BlocksToDestroy.Distinct();
+        IEnumerable<BlockBehavior> BlocksToDestroy = BlockBehavior.BlocksToDestroy.Distinct();
         List<Vector3> blockPositions = new List<Vector3>();
 
-        BlockBehavior blockBehavior;
-
-        foreach (MeshDestroy blockToDestroy in BlocksToDestroy)
+        foreach (BlockBehavior blockToDestroy in BlocksToDestroy)
         {
             if (blockToDestroy != null)
             {
                 Vector3 blockPos = blockToDestroy.transform.position;
-                blockBehavior = blockToDestroy.GetComponent<BlockBehavior>();
 
-                OnBlockDestroyed?.Invoke(this, new OnBlockDestroyedEventArgs { blockBehavior1 = blockBehavior });
+                blockToDestroy.DestroyBlock();
 
-                blockToDestroy.DestroyMesh(2);
-
-                blockPositions.Add(blockBehavior.transform.position);
+                blockPositions.Add(blockToDestroy.transform.position);
             }
         }
 
         BlockBehavior.BlocksToDestroy.Clear();
 
-        for (int i = 0; i < blockPositions.Count(); i++)
+        for (int i = blockPositions.Count() - 1; i >= 0; i--)
         {
             SpawnNewBlocks(blockPositions[i], newBlockToSpawn);
             yield return new WaitForSeconds(SecondsToWait);
@@ -131,7 +114,7 @@ public class Grid : MonoBehaviour
     {
         Vector3 spawnPos = new Vector3(
             xSpawnPosition,
-            spawnHeight + blockPosition.y + blockBounds.size.y + yOffset,
+            spawnHeight + blockPosition.y + blockBounds.size.y,// + yOffset,
             blockPosition.z
         );
 
@@ -139,7 +122,7 @@ public class Grid : MonoBehaviour
         spawnPos, Quaternion.identity, transform);
 
         BlockBehavior blockBehavior = currentBlock.GetComponent<BlockBehavior>();
-        blockBehavior.InitializeBlock(blockToSpawn.blockType);
+        blockBehavior.InitializeBlock();
     }
 
     private void ClearGrid()

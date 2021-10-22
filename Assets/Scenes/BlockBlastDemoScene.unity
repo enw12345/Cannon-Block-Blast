@@ -165,6 +165,7 @@ GameObject:
   - component: {fileID: 32006092}
   - component: {fileID: 32006091}
   - component: {fileID: 32006095}
+  - component: {fileID: 32006096}
   m_Layer: 5
   m_Name: StartMenuCanvas
   m_TagString: Untagged
@@ -266,6 +267,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvasType: 0
+--- !u!114 &32006096
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 32006090}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77e22dc4da1aa2b499684745e37d8032, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startButton: {fileID: 667186621}
+  levelsButton: {fileID: 1243582266}
+  titleTransform: {fileID: 649899162}
+  bouncePercent: 0.9
+  time: 1.5
 --- !u!1 &40919614
 GameObject:
   m_ObjectHideFlags: 0
@@ -529,7 +547,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Tap To Shoot
+  m_text: SHOOT
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5474085d6d0b62343b0ba947068dcdc7, type: 2}
   m_sharedMaterial: {fileID: 5778254758703216547, guid: 5474085d6d0b62343b0ba947068dcdc7,
@@ -557,8 +575,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 22
-  m_fontSizeBase: 22
+  m_fontSize: 27
+  m_fontSizeBase: 27
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -936,8 +954,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1907259355}
-        m_MethodName: HideNextLevelButton
+      - m_Target: {fileID: 237506074}
+        m_MethodName: HideButtons
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1052,6 +1070,7 @@ GameObject:
   - component: {fileID: 237506070}
   - component: {fileID: 237506069}
   - component: {fileID: 237506073}
+  - component: {fileID: 237506074}
   m_Layer: 5
   m_Name: GameplayCanvas
   m_TagString: Untagged
@@ -1157,6 +1176,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvasType: 1
+--- !u!114 &237506074
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 237506068}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: caa3ec604738c8340bf5fc399f44f53a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Header: {fileID: 597408324}
+  BulletSelection: {fileID: 617519086}
+  bouncePercent: 0.25
+  time: 1.5
+  nextLevelButton: {fileID: 199517712}
+  restartButton: {fileID: 1000607510}
 --- !u!1 &297910980
 GameObject:
   m_ObjectHideFlags: 0
@@ -1682,10 +1719,10 @@ RectTransform:
   m_Father: {fileID: 237506072}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 180}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 670}
+  m_SizeDelta: {x: 800, y: 180}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &597408326
 CanvasRenderer:
@@ -1804,9 +1841,9 @@ RectTransform:
   m_Father: {fileID: 237506072}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0}
-  m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 93}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: -578}
   m_SizeDelta: {x: 700, y: 230}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!1 &649899161
@@ -1844,11 +1881,11 @@ RectTransform:
   m_Father: {fileID: 32006094}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 1}
-  m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -50}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 478}
   m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0.5, y: 1}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &649899163
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2224,7 +2261,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e5339554056b3f64e8258ce528f1967a, type: 2}
   - {fileID: 11400000, guid: 74f34e4c9852a64478b74d5d977b8924, type: 2}
   - {fileID: 11400000, guid: 7e26ecaa2f37c3e489a913a150f8c8cd, type: 2}
-  objectivesManager: {fileID: 297910981}
 --- !u!4 &881489606
 Transform:
   m_ObjectHideFlags: 0
@@ -2450,8 +2486,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: -0.023934567, y: 0.7067019, z: -0.037756395, w: -0.70609784}
-  m_LocalPosition: {x: 29.52, y: 2, z: 0}
+  m_LocalRotation: {x: -0.07336041, y: 0.703291, z: -0.07336041, w: -0.703291}
+  m_LocalPosition: {x: 28.1, y: 5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -2515,14 +2551,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 980310106}
-  m_LocalRotation: {x: -0.023934567, y: 0.7067019, z: -0.037756395, w: -0.70609784}
-  m_LocalPosition: {x: 29.52, y: 2, z: 0}
+  m_LocalRotation: {x: -0.07336041, y: 0.703291, z: -0.07336041, w: -0.703291}
+  m_LocalPosition: {x: 28.1, y: 5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 223595486}
   m_Father: {fileID: 0}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 10, y: 180, z: 1.121}
+  m_LocalEulerAnglesHint: {x: 11.91, y: 270, z: 0}
 --- !u!114 &980310108
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2672,6 +2708,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 237506074}
+        m_MethodName: HideButtons
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1000607511
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2733,7 +2780,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 8eb8fc6a419ba474e9a18f7b029bd858,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 18
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 8eb8fc6a419ba474e9a18f7b029bd858,
         type: 3}
@@ -2874,7 +2921,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 204, y: -549}
+  m_AnchoredPosition: {x: 204, y: -446}
   m_SizeDelta: {x: 90, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1243582267
@@ -3306,12 +3353,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ab5974fc854b404aa590c2f4f9bf5b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CanvasControllers: []
   nextLevelButton: {fileID: 199517712}
   restartButton: {fileID: 1000607510}
-  startButton: {fileID: 667186621}
-  bouncePercent: 0.75
-  startButtonPosition: {x: -582, y: -536, z: 0}
 --- !u!4 &1392001255
 Transform:
   m_ObjectHideFlags: 0
@@ -4476,7 +4519,6 @@ MonoBehaviour:
   menuCanvas: {fileID: 32006093}
   isStarted: 0
   canShoot: 0
-  objectivesManager: {fileID: 297910981}
   levelManager: {fileID: 881489605}
   startLevel: 0
 --- !u!114 &2001196461 stripped
@@ -5263,7 +5305,7 @@ PrefabInstance:
     - target: {fileID: 5798720777440841916, guid: 436195f75dd08f34b96228b9765c8d8d,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -554
+      value: -450.99997
       objectReference: {fileID: 0}
     - target: {fileID: 5798720777440841916, guid: 436195f75dd08f34b96228b9765c8d8d,
         type: 3}

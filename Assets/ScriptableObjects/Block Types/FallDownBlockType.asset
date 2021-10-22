@@ -9,6 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 99553c4f956c571488923945e06b4f83, type: 3}
-  m_Name: FallDownBlock
+  m_Script: {fileID: 11500000, guid: d2845e7a7854d1c4d84294abd41e2fcf, type: 3}
+  m_Name: FallDownBlockType
   m_EditorClassIdentifier: 
+  IsTouchingGround: 1

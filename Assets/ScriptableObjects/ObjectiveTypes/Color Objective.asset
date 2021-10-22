@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b89c3cbfdbc7d2044ab7f999db648059, type: 3}
   m_Name: Color Objective
   m_EditorClassIdentifier: 
-  blockType: {fileID: 11400000, guid: 8300a271b4699164c98615e1ac4f2b06, type: 2}
-  colorIndex: 0
+  blockType: {fileID: 11400000, guid: fa7fdcff34d83834d9f2743846a2df09, type: 2}
+  colorIndex: 1
+  colorTarget: {r: 0, g: 0, b: 1, a: 1}

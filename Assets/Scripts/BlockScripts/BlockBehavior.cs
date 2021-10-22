@@ -1,10 +1,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using System;
 
 public abstract class BlockBehavior : MonoBehaviour
 {
-    [SerializeField] private LayerMask layerMask;
+    [SerializeField] private LayerMask layerMask = 0;
     private bool isSetToBeDestroyed = false;
 
     public bool IsSetToBeDestroyed
@@ -18,20 +19,31 @@ public abstract class BlockBehavior : MonoBehaviour
         set { SpaceBetweenEachBlock = value; }
     }
 
-    private BlockType blockType;
+    public static List<BlockBehavior> BlocksToDestroy = new List<BlockBehavior>();
+
+    [SerializeField] protected BlockType blockType;
 
     public BlockType BlockType
     {
         get { return blockType; }
     }
 
-    public void InitializeBlock(BlockType thisBlockType)
+    public void InitializeBlock()
     {
-        blockType = thisBlockType;
         Initialize();
     }
 
-    public static List<MeshDestroy> BlocksToDestroy = new List<MeshDestroy>();
+    public static event EventHandler<OnBlockDestroyedEventArgs> OnBlockDestroyed;
+    public class OnBlockDestroyedEventArgs : EventArgs
+    {
+        public BlockBehavior blockBehavior1;
+    }
+
+    public virtual void DestroyBlock()
+    {
+        OnBlockDestroyed?.Invoke(this, new OnBlockDestroyedEventArgs { blockBehavior1 = this });
+        GetComponent<MeshDestroy>().DestroyMesh(2);
+    }
 
     protected abstract void Initialize();
 
@@ -48,25 +60,25 @@ public abstract class BlockBehavior : MonoBehaviour
 
         foreach (BlockBehavior block in leftBlocks)
         {
-            BlocksToDestroy.Add(block.gameObject.GetComponent<MeshDestroy>());
+            BlocksToDestroy.Add(block);
         }
         foreach (BlockBehavior block in rightBlocks)
         {
-            BlocksToDestroy.Add(block.gameObject.GetComponent<MeshDestroy>());
+            BlocksToDestroy.Add(block);
         }
         foreach (BlockBehavior block in downBlocks)
         {
-            BlocksToDestroy.Add(block.gameObject.GetComponent<MeshDestroy>());
+            BlocksToDestroy.Add(block);
         }
         foreach (BlockBehavior block in upBlocks)
         {
-            BlocksToDestroy.Add(block.gameObject.GetComponent<MeshDestroy>());
+            BlocksToDestroy.Add(block);
         }
 
-        BlocksToDestroy.Add(this.GetComponent<MeshDestroy>());
+        BlocksToDestroy.Add(this);
     }
 
-    protected BlockBehavior FindBlockThroughRay(Vector3 castDirection, Object blockObject)
+    protected BlockBehavior FindBlockThroughRay(Vector3 castDirection)
     {
         RaycastHit hit;
         if (Physics.Raycast(transform.position, castDirection, out hit, Mathf.Infinity, layerMask))
@@ -95,7 +107,7 @@ public abstract class BlockBehavior : MonoBehaviour
                 break;
             else
                 blocks.Add(hits[i].collider.gameObject.GetComponent<BlockBehavior>());
-            
+
         }
 
         return blocks.ToArray();
