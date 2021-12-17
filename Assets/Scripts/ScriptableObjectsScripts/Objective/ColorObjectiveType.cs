@@ -1,4 +1,5 @@
 using UnityEngine;
+
 [CreateAssetMenu(fileName = "Color Objective")]
 public class ColorObjectiveType : ObjectiveType
 {
@@ -16,8 +17,6 @@ public class ColorObjectiveType : ObjectiveType
         if (this.blockType == blockType)
         {
             ColorBlockType colorBlockType = (ColorBlockType)blockType;
-            // ColorBlockType objectiveColorBlock = (ColorBlockType)this.blockType;
-            Debug.Log((colorBlockType.colorIndex == colorIndex) + " " + " " + colorBlockType.colorIndex + " " + colorIndex);
 
             return (colorBlockType.colorIndex == colorIndex);
         }

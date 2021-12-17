@@ -22,11 +22,6 @@ public class Objective : ScriptableObject
         public int objectiveAmountCompleted;
     }
 
-    private void OnDestroy()
-    {
-
-    }
-
     public void Init(int objectiveAmountForThisLevel)
     {
         objectiveAmountCompleted = 0;
@@ -40,8 +35,11 @@ public class Objective : ScriptableObject
         objectiveAmountCompleted = 0;
     }
 
-    public virtual void CheckObjectiveAmountCompleted(BlockType blockType)
+    public void CheckObjectiveAmountCompleted(BlockType blockType)
     {
+        objectiveType.HandleObjective(blockType);
+
+
         if (objectiveType.HandleObjective(blockType))
         {
             objectiveAmountCompleted++;

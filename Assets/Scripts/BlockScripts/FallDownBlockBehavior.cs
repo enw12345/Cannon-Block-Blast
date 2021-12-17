@@ -8,7 +8,7 @@ public class FallDownBlockBehavior : BlockBehavior
     {
         isTouchingGround = false;
         FallDownBlockType fallDownBlockType = (FallDownBlockType)blockType;
-        fallDownBlockType.IsTouchingGround = isTouchingGround;
+        fallDownBlockType.IsTouchingGround = false;
     }
 
     public override void FindNeighborBlocksToDestroy()
@@ -36,6 +36,7 @@ public class FallDownBlockBehavior : BlockBehavior
                 FallDownBlockType fallDownBlockType = (FallDownBlockType)blockType;
                 fallDownBlockType.IsTouchingGround = isTouchingGround;
                 BlocksToDestroy.Add(this);
+                // DestroyBlock();
             }
         }
     }

@@ -5,8 +5,8 @@ public class GameManager : MonoBehaviour
 {
     public Canvas menuCanvas;
 
-    public bool isStarted;
-    public bool canShoot;
+    [SerializeField] public bool isStarted;
+    [SerializeField] public bool canShoot;
 
     public static GameManager instance;
 

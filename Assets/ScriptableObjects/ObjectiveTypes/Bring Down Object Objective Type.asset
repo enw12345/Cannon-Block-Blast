@@ -10,6 +10,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8498379663140e746997ac1cb32cab00, type: 3}
-  m_Name: Bring Down Object
-  m_EditorClassIdentifier: ObjectiveSCripts::BrinDownObjectiveType
-  blockType: {fileID: 11400000, guid: a2fa7944173b7334aabfa1f68fcd8ce4, type: 2}
+  m_Name: Bring Down Object Objective Type
+  m_EditorClassIdentifier: 
+  blockType: {fileID: 11400000, guid: 5610e49cd5f6dce4f8db8ed3687cbd52, type: 2}

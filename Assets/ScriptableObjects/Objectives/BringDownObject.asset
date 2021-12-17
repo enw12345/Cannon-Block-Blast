@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: BringDownObject
   m_EditorClassIdentifier: 
   ObjectiveImage: {fileID: 0}
-  objectiveAmount: 11
-  objectiveAmountCompleted: 0
-  objectiveType: {fileID: 11400000, guid: ebf8da1458959624a821e4b281f8bd18, type: 2}
+  objectiveAmount: 5
+  objectiveAmountCompleted: 5
+  objectiveType: {fileID: 11400000, guid: 2172b17ca616596409a2bd7231ea836c, type: 2}

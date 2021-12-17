@@ -1,7 +1,6 @@
 ﻿using System;
 using UnityEngine;
 using System.Collections.Generic;
-using System.Linq;
 
 public class ObjectivesManager : MonoBehaviour
 {
@@ -9,7 +8,7 @@ public class ObjectivesManager : MonoBehaviour
 
     private int totalCompletedObjecives;
 
-    public Objective[] objectives;
+    // public Objective[] objectives;
 
     [NonSerialized]
     public List<Objective> currentObjectives = new List<Objective>();
@@ -31,13 +30,13 @@ public class ObjectivesManager : MonoBehaviour
 
     public void CheckObjectives(object sender, BlockBehavior.OnBlockDestroyedEventArgs e)
     {
-        for (int i = 0; i < objectives.Count(); i++)
+        for (int i = 0; i < currentObjectives.Count; i++)
         {
-            objectives[i].CheckObjectiveAmountCompleted(e.blockBehavior1.BlockType);
+            currentObjectives[i].CheckObjectiveAmountCompleted(e.blockBehavior1.BlockType);
         }
     }
 
-    public void InitlaizeObjectivesFromLevelManager(object sneder, LevelManager.StartLevelEventArgs e)
+    public void InitlaizeObjectivesFromLevelManager(object sender, LevelManager.StartLevelEventArgs e)
     {
         ResetObjectives();
         InitializeObjectives(e.objectives, e.objectiveAmounts);
