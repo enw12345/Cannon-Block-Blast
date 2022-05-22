@@ -15,13 +15,12 @@ namespace GridScripts
         private Block _newBlockToSpawn;
 
         private const float SecondsToWait = 0.1f;
+        // private const float SecondsToSpawnTime = 0.5f;
         private float spawnHeight;
         private float yOffset;
 
         private float zOffset;
-
-        public bool BlocksAreSpawned { get; set; } = false;
-
+        private int currentRows, currentColumns;
         private void Awake()
         {
             LevelManager.StartLevel += CreateGridFromLevelManager;
@@ -32,18 +31,20 @@ namespace GridScripts
             if (BlockBehavior.BlocksToDestroy.Count != 0) StartCoroutine(DestroyBlocks());
         }
 
-        private void CreateGridFromLevelManager(object sender, LevelManager.StartLevelEventArgs e)
+        private void CreateGridFromLevelManager(object sender, LevelManager.StartLevelEventArgs startLevelEventArgs)
         {
             ClearGrid();
-            StartCoroutine(CreateGridOfBlocksStep(e.currentLevel.rows, e.currentLevel.columns, e.currentLevel.Blocks,
-                e.currentLevel.newBlockToSpawn));
+            StartCoroutine(CreateGridOfBlocksStep(startLevelEventArgs.currentLevel.rows, 
+                startLevelEventArgs.currentLevel.columns, startLevelEventArgs.currentLevel.Blocks,
+                startLevelEventArgs.currentLevel.newBlockToSpawn));
         }
 
         private IEnumerator CreateGridOfBlocksStep(int rows, int columns, IReadOnlyList<Block> blocks, Block newBlockToSpawn)
         {
             ClearGrid();
-            blockBounds = blocks[0].blockPrefab.GetComponent<MeshRenderer>().bounds;
-            spawnHeight = rows * blockBounds.size.y;
+            currentRows = rows;
+            currentColumns = columns;
+            
             _newBlockToSpawn = newBlockToSpawn;
 
             for (var y = rows-1; y >= 0; y--)
@@ -78,18 +79,24 @@ namespace GridScripts
             var blockPositions = new List<Vector3>();
 
             foreach (var blockToDestroy in blocksToDestroy)
-                if (blockToDestroy != null)
+                if (blockToDestroy)
                 {
                     var blockPos = blockToDestroy.transform.position;
 
                     blockToDestroy.DestroyBlock();
 
-                    blockPositions.Add(blockToDestroy.transform.position);
+                    blockPositions.Add(blockPos);
                 }
 
             BlockBehavior.BlocksToDestroy.Clear();
 
-            for (var i = blockPositions.Count() - 1; i >= 0; i--)
+            // for (var i = blockPositions.Count - 1; i >= 0; i--)
+            // {
+            //     SpawnNewBlocks(blockPositions[i], _newBlockToSpawn);
+            //     yield return new WaitForSeconds(1.5f);
+            // }
+
+            for (var i = 0; i < blockPositions.Count; i++)
             {
                 SpawnNewBlocks(blockPositions[i], _newBlockToSpawn);
                 yield return new WaitForSeconds(SecondsToWait);
@@ -98,9 +105,11 @@ namespace GridScripts
 
         private void SpawnNewBlocks(Vector3 blockPosition, Block blockToSpawn)
         {
+            spawnHeight = currentRows * blockBounds.size.y;
+            
             var spawnPos = new Vector3(
                 xSpawnPosition,
-                spawnHeight + blockPosition.y + blockBounds.size.y, // + yOffset,
+                spawnHeight + blockPosition.y,
                 blockPosition.z
             );
 

@@ -12,7 +12,6 @@ namespace BlockScripts
         {
             var mat = GetComponent<MeshRenderer>().material;
             ColorIndex = Random.Range(0, ColorDictionary.ColorDictionary.colorDictionary.Count);
-
             mat.color = ColorDictionary.ColorDictionary.colorDictionary[(ColorDictionary.ColorDictionary.BlockColors) ColorIndex];
         }
 

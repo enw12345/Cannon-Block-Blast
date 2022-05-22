@@ -19,7 +19,7 @@ namespace BulletScripts
 
         private CinemachineImpulseSource source;
         private TrajectoryRenderer trajectoryRenderer;
-
+        [SerializeField] private AudioSource cannonSource;
         private int TotalBulletCount { get; set; }
 
         private void Awake()
@@ -77,6 +77,7 @@ namespace BulletScripts
             bulletCount--;
             currentBulletType.AmmoCount--;
             TotalBulletCount--;
+cannonSource.Play();
 
             OnBulletFired?.Invoke(this,
                 new OnBulletFiredEventArgs
