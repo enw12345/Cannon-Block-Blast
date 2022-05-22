@@ -1,8 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+
 [CreateAssetMenu(menuName = "FallDown Block Type")]
 public class FallDownBlockType : BlockType
 {
-    public bool IsTouchingGround = false;
+    public bool IsTouchingGround;
 }

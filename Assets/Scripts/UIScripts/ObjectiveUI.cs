@@ -1,38 +1,41 @@
-﻿using UnityEngine;
+﻿using TMPro;
+using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
-public class ObjectiveUI : MonoBehaviour
+namespace UIScripts
 {
-    public Sprite objectiveImage;
-    public int objectiveCount;
-    public TMP_Text objectiveDisplayText;
-    private Image thisImage;
-
-    public void Init(Objective objective)
+    public class ObjectiveUI : MonoBehaviour
     {
-        thisImage = GetComponent<Image>();
+        public Sprite objectiveImage;
+        public int objectiveCount;
+        public TMP_Text objectiveDisplayText;
+        private Image thisImage;
 
-        objective.OnObjectiveUpdated += UpdateUI;
-        objectiveImage = objective.ObjectiveImage;
-        objectiveCount = objective.objectiveAmount;
-
-        objectiveDisplayText.text = objectiveCount.ToString();
-        thisImage.sprite = objectiveImage;
-
-        if (objective.objectiveType is ColorObjectiveType)
+        public void Init(Objective objective)
         {
-            ColorObjectiveType colorObjective = (ColorObjectiveType)objective.objectiveType;
-            thisImage.color = colorObjective.colorTarget;
+            thisImage = GetComponent<Image>();
+
+            objective.OnObjectiveUpdated += UpdateUI;
+            objectiveImage = objective.ObjectiveImage;
+            objectiveCount = objective.objectiveAmountToComplete;
+
+            objectiveDisplayText.text = objectiveCount.ToString();
+            thisImage.sprite = objectiveImage;
+
+            if (objective.objectiveType is ColorObjectiveType)
+            {
+                var colorObjective = (ColorObjectiveType) objective.objectiveType;
+                thisImage.color = colorObjective.colorTarget;
+            }
         }
-    }
 
-    private void UpdateUI(object sender, Objective.OnObjectiveUpdatedEventArgs e)
-    {
-        int tempObjectiveCount = objectiveCount - e.objectiveAmountCompleted;
-        if (tempObjectiveCount < 0)
-            tempObjectiveCount = 0;
+        private void UpdateUI(object sender, Objective.OnObjectiveUpdatedEventArgs e)
+        {
+            var tempObjectiveCount = objectiveCount - e.objectiveAmountCompleted;
+            if (tempObjectiveCount < 0)
+                tempObjectiveCount = 0;
 
-        objectiveDisplayText.text = tempObjectiveCount.ToString();
+            objectiveDisplayText.text = tempObjectiveCount.ToString();
+        }
     }
 }

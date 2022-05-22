@@ -1,83 +1,74 @@
-﻿using UnityEngine;
+﻿using System;
 using Cinemachine;
-using System;
+using Managers;
+using UnityEngine;
 
-[RequireComponent(typeof(TrajectoryRenderer))]
-public class BulletSpawner : MonoBehaviour
+namespace BulletScripts
 {
-    public float bulletSpeed = 1000;
-    public float CannonForce = 10f;
-
-    private CinemachineImpulseSource source;
-    private TrajectoryRenderer trajectoryRenderer;
-
-    [SerializeField] private BulletTypeContainer bulletContainer = null;
-    private BulletType currentBulletType;
-    private int bulletCount;
-    private int totalBulletCount;
-
-    [SerializeField] private BulletTypeContainer PlayersBullets = null;
-
-    public int TotalBulletCount
+    [RequireComponent(typeof(TrajectoryRenderer))]
+    public class BulletSpawner : MonoBehaviour
     {
-        get { return totalBulletCount; }
-    }
+        public float bulletSpeed = 1000;
+        public float CannonForce = 10f;
 
-    public static event EventHandler<OnBulletFiredEventArgs> OnBulletFired;
-    public class OnBulletFiredEventArgs : EventArgs
-    {
-        public int bulletCountArg;
-        public int totalBulletCount;
-        public string bulletNameArg;
-    }
+        [SerializeField] private BulletTypeContainer bulletContainer;
 
-    private void Awake()
-    {
-        source = GetComponentInParent<CinemachineImpulseSource>();
-        trajectoryRenderer = GetComponent<TrajectoryRenderer>();
-        ResetPlayerBullets();
-    }
+        [SerializeField] private BulletTypeContainer PlayersBullets;
+        private int bulletCount;
+        private BulletType currentBulletType;
 
-    private void Start()
-    {
-        currentBulletType = bulletContainer.Container[0];
-        bulletCount = currentBulletType.AmmoCount;
+        private CinemachineImpulseSource source;
+        private TrajectoryRenderer trajectoryRenderer;
 
-        OnBulletFired?.Invoke(this,
-        new OnBulletFiredEventArgs { bulletCountArg = bulletCount });
+        private int TotalBulletCount { get; set; }
 
-        //calculate the trajectory and render it
-        Vector3 forwardVector = transform.parent.rotation * -Vector3.forward;
-        float angle = Vector3.Angle(forwardVector, Vector3.left) * Mathf.Deg2Rad;
-        trajectoryRenderer.RenderTrajectory(forwardVector * bulletSpeed, angle);
-
-        //Reset Total Bullet count
-        foreach (BulletType bullet in bulletContainer.Container)
+        private void Awake()
         {
-            totalBulletCount += bullet.AmmoCount;
+            source = GetComponentInParent<CinemachineImpulseSource>();
+            trajectoryRenderer = GetComponent<TrajectoryRenderer>();
+            ResetPlayerBullets();
         }
 
-        GameManager.instance.resetEvent += ResetPlayerBullets;
-    }
+        private void Start()
+        {
+            currentBulletType = bulletContainer.Container[0];
+            bulletCount = currentBulletType.AmmoCount;
+
+            OnBulletFired?.Invoke(this,
+                new OnBulletFiredEventArgs {bulletCountArg = bulletCount});
+
+            //calculate the trajectory and render it
+            var forwardVector = transform.parent.rotation * -Vector3.forward;
+            var angle = Vector3.Angle(forwardVector, Vector3.left) * Mathf.Deg2Rad;
+            trajectoryRenderer.RenderTrajectory(forwardVector * bulletSpeed, angle);
+
+            //Reset Total Bullet count
+            foreach (var bullet in bulletContainer.Container) TotalBulletCount += bullet.AmmoCount;
+
+            GameManager.Instance.resetEvent += ResetPlayerBullets;
+        }
 
 #if UNITY_EDITOR
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space) && GameManager.instance.isStarted)
-            ShootBullet();
-    }
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Space) && GameManager.Instance.isStarted)
+                ShootBullet();
+        }
 #endif
 
-    public void ShootBullet()
-    {
-        if (bulletCount > 0 && GameManager.instance.canShoot)
-        {
-            Vector3 forwardVector = transform.parent.rotation * -Vector3.forward;
+        public static event EventHandler<OnBulletFiredEventArgs> OnBulletFired;
 
-            Bullet spawnedBullet = Instantiate(currentBulletType.bulletPrefab, transform.position, transform.rotation).GetComponent<Bullet>();
+        public void ShootBullet()
+        {
+            if (bulletCount <= 0 || !GameManager.Instance.canShoot) return;
+            var forwardVector = transform.parent.rotation * -Vector3.forward;
+
+            var spawnedBullet = Instantiate(currentBulletType.bulletPrefab, transform.position, transform.rotation)
+                .GetComponent<Bullet>();
             currentBulletType.bulletPrefab.transform.forward = forwardVector;
 
-            spawnedBullet.GetComponent<Rigidbody>().AddForce(currentBulletType.bulletPrefab.transform.forward * bulletSpeed, ForceMode.Impulse);
+            spawnedBullet.GetComponent<Rigidbody>()
+                .AddForce(currentBulletType.bulletPrefab.transform.forward * bulletSpeed, ForceMode.Impulse);
 
             spawnedBullet.GetComponent<Rigidbody>().AddForce(Vector3.up * CannonForce, ForceMode.Impulse);
 
@@ -85,38 +76,52 @@ public class BulletSpawner : MonoBehaviour
 
             bulletCount--;
             currentBulletType.AmmoCount--;
-            totalBulletCount--;
+            TotalBulletCount--;
 
             OnBulletFired?.Invoke(this,
-            new OnBulletFiredEventArgs { bulletCountArg = bulletCount, totalBulletCount = totalBulletCount, bulletNameArg = currentBulletType.bulletName });
+                new OnBulletFiredEventArgs
+                {
+                    bulletCountArg = bulletCount, totalBulletCount = TotalBulletCount,
+                    bulletNameArg = currentBulletType.bulletName
+                });
         }
-    }
 
-    public void ChangeBullet(BulletType bulletType)
-    {
-        currentBulletType = bulletContainer.Container[bulletType.BulletSelectionNumber];
-        bulletCount = currentBulletType.AmmoCount;
-
-        OnBulletFired?.Invoke(this, new OnBulletFiredEventArgs { bulletCountArg = bulletCount, totalBulletCount = totalBulletCount, bulletNameArg = currentBulletType.bulletName });
-    }
-
-    private void ResetPlayerBullets()
-    {
-        foreach (BulletType playerBulletType in PlayersBullets.Container)
+        public void ChangeBullet(BulletType bulletType)
         {
-            playerBulletType.AmmoCount = playerBulletType.DefaultAmmoCount;
-        }
-    }
+            currentBulletType = bulletContainer.Container[bulletType.BulletSelectionNumber];
+            bulletCount = currentBulletType.AmmoCount;
 
-    private void ResetPlayerBullets(object sender, EventArgs e)
-    {
-        foreach (BulletType playerBulletType in PlayersBullets.Container)
+            OnBulletFired?.Invoke(this,
+                new OnBulletFiredEventArgs
+                {
+                    bulletCountArg = bulletCount, totalBulletCount = TotalBulletCount,
+                    bulletNameArg = currentBulletType.bulletName
+                });
+        }
+
+        private void ResetPlayerBullets()
         {
-            playerBulletType.AmmoCount = playerBulletType.DefaultAmmoCount;
-            totalBulletCount += playerBulletType.AmmoCount;
+            foreach (var playerBulletType in PlayersBullets.Container)
+                playerBulletType.AmmoCount = playerBulletType.DefaultAmmoCount;
         }
 
-        OnBulletFired?.Invoke(this,
-        new OnBulletFiredEventArgs { bulletCountArg = bulletCount, totalBulletCount = totalBulletCount });
+        private void ResetPlayerBullets(object sender, EventArgs e)
+        {
+            foreach (var playerBulletType in PlayersBullets.Container)
+            {
+                playerBulletType.AmmoCount = playerBulletType.DefaultAmmoCount;
+                TotalBulletCount += playerBulletType.AmmoCount;
+            }
+
+            OnBulletFired?.Invoke(this,
+                new OnBulletFiredEventArgs {bulletCountArg = bulletCount, totalBulletCount = TotalBulletCount});
+        }
+
+        public class OnBulletFiredEventArgs : EventArgs
+        {
+            public int bulletCountArg;
+            public string bulletNameArg;
+            public int totalBulletCount;
+        }
     }
 }

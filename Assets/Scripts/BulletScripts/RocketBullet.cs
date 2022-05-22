@@ -1,7 +1,12 @@
-public class RocketBullet : Bullet
+using BlockScripts;
+
+namespace BulletScripts
 {
-    protected override void HandleDestruction(BlockBehavior blockToDestroy)
+    public class RocketBullet : Bullet
     {
-        blockToDestroy.FindNeighborBlocksToDestroyRowsAndColumns();
+        protected override void HandleDestruction(BlockBehavior blockToDestroy)
+        {
+            blockToDestroy.FindNeighborBlocksToDestroyRowsAndColumns();
+        }
     }
 }

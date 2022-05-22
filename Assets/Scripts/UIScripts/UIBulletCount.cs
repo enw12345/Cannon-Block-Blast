@@ -1,32 +1,33 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using BulletScripts;
 using TMPro;
-using System;
+using UnityEngine;
 using UnityEngine.UI;
 
-public class UIBulletCount : MonoBehaviour
+namespace UIScripts
 {
-    [SerializeField] private TMP_Text currentBulletCountText = null;
-    [SerializeField] private Image currentBulletImage = null;
-
-    private void Awake()
+    public class UIBulletCount : MonoBehaviour
     {
-        BulletSpawner.OnBulletFired += UpdateBulletCount;
-        BulletSelectUI.OnBulletSelected += UpdateBulletCount;
-    }
+        [SerializeField] private TMP_Text currentBulletCountText;
+        [SerializeField] private Image currentBulletImage;
 
-    private void UpdateBulletCount(object sender,
-    BulletSpawner.OnBulletFiredEventArgs e)
-    {
-        currentBulletCountText.text = e.bulletCountArg.ToString();
-    }
+        private void Awake()
+        {
+            BulletSpawner.OnBulletFired += UpdateBulletCount;
+            BulletSelectUI.OnBulletSelected += UpdateBulletCount;
+        }
 
-    private void UpdateBulletCount(object sender, BulletSelectUI.OnBulletSelectedEventArgs e)
-    {
-        currentBulletCountText.text = e.bulletCountArg.ToString();
-        
-        if(e.bulletImage != currentBulletImage.sprite)
-        currentBulletImage.sprite = e.bulletImage;
+        private void UpdateBulletCount(object sender,
+            BulletSpawner.OnBulletFiredEventArgs e)
+        {
+            currentBulletCountText.text = e.bulletCountArg.ToString();
+        }
+
+        private void UpdateBulletCount(object sender, BulletSelectUI.OnBulletSelectedEventArgs e)
+        {
+            currentBulletCountText.text = e.bulletCountArg.ToString();
+
+            if (e.bulletImage != currentBulletImage.sprite)
+                currentBulletImage.sprite = e.bulletImage;
+        }
     }
 }

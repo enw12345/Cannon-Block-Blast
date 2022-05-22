@@ -1,43 +1,48 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.PlayerLoop;
 
-[RequireComponent(typeof(Camera))]
-public class ScreenShake : MonoBehaviour
+namespace EffectsScripts
 {
-    private float timeElapsed = 0;
-
-    public void Shake(float shakeTime)
+    [RequireComponent(typeof(Camera))]
+    public class ScreenShake : MonoBehaviour
     {
-        timeElapsed = 0;
+        private float timeElapsed;
 
-        while (timeElapsed < shakeTime)
+        public void Shake(float shakeTime)
         {
-            transform.localPosition = new Vector3(
-                transform.localPosition.x + Random.value,
-                transform.localPosition.y + Random.value,
-                transform.localPosition.z + Random.value) * 0.3f;
+            timeElapsed = 0;
 
-            timeElapsed += Time.deltaTime;
-            Debug.Log(timeElapsed);
+            while (timeElapsed < shakeTime)
+            {
+                var localPosition = transform.localPosition;
+                localPosition = new Vector3(
+                    localPosition.x + Random.value,
+                    localPosition.y + Random.value,
+                    localPosition.z + Random.value) * 0.3f;
+                transform.localPosition = localPosition;
+
+                timeElapsed += Time.deltaTime;
+                Debug.Log(timeElapsed);
+            }
         }
-    }
 
-    public IEnumerator ShakeOverTime(float shakeTime)
-    {
-        timeElapsed = 0;
-
-        while (timeElapsed < shakeTime)
+        public IEnumerator ShakeOverTime(float shakeTime)
         {
-            transform.localPosition = new Vector3(
-                transform.localPosition.x + Random.value,
-                transform.localPosition.y + Random.value,
-                transform.localPosition.z + Random.value) * 0.3f;
+            timeElapsed = 0;
 
-            timeElapsed += Time.deltaTime;
-            yield return new WaitForSeconds(0.01f);
-            Debug.Log(timeElapsed);
+            while (timeElapsed < shakeTime)
+            {
+                var localPosition = transform.localPosition;
+                localPosition = new Vector3(
+                    localPosition.x + Random.value,
+                    localPosition.y + Random.value,
+                    localPosition.z + Random.value) * 0.3f;
+                transform.localPosition = localPosition;
+
+                timeElapsed += Time.deltaTime;
+                yield return new WaitForSeconds(0.01f);
+                Debug.Log(timeElapsed);
+            }
         }
     }
 }

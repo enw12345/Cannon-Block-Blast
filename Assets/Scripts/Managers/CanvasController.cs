@@ -1,27 +1,31 @@
 ﻿using UnityEngine;
 
-public class CanvasController : MonoBehaviour
+namespace Managers
 {
-    public CanvasType canvasType;
-
-    public delegate void CallOpeningTweens();
-    public delegate void CallClosingTweens();
-    public CallOpeningTweens callOpeningTweens;
-    public CallClosingTweens callClosingTweens;
-
-    public void TurnOnCanvas()
+    public class CanvasController : MonoBehaviour
     {
-        gameObject.SetActive(true);
-        callOpeningTweens?.Invoke();
-    }
+        public delegate void CallClosingTweens();
 
-    public void TurnOffCanvas()
-    {
-        callClosingTweens?.Invoke();
-    }
+        public delegate void CallOpeningTweens();
 
-    public void DeactivateGameObject()
-    {
-        gameObject.SetActive(false);
+        public CanvasType canvasType;
+        public CallClosingTweens callClosingTweens;
+        public CallOpeningTweens callOpeningTweens;
+
+        public void TurnOnCanvas()
+        {
+            gameObject.SetActive(true);
+            callOpeningTweens?.Invoke();
+        }
+
+        public void TurnOffCanvas()
+        {
+            callClosingTweens?.Invoke();
+        }
+
+        public void DeactivateGameObject()
+        {
+            gameObject.SetActive(false);
+        }
     }
 }

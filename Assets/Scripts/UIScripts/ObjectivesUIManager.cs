@@ -1,47 +1,42 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
+using ObjectivesScripts;
 using UnityEngine;
-using UnityEngine.UI;
 
-public class ObjectivesUIManager : MonoBehaviour
+namespace UIScripts
 {
-    public ObjectivesManager objectivesManager;
-    public GameObject ObjectiveUIPrefab;
-    private List<GameObject> ObjectiveUIPrefabs = new List<GameObject>();
-
-    private void Awake()
+    public class ObjectivesUIManager : MonoBehaviour
     {
-        objectivesManager.OnInit += InitalizeObjectiveUIManager;
-        objectivesManager.OnReset += ClearObjectiveUI;
-    }
+        public ObjectivesManager objectivesManager;
+        public GameObject ObjectiveUIPrefab;
+        private readonly List<GameObject> objectiveUIPrefabs = new List<GameObject>();
 
-    public void InitalizeObjectiveUIManager(object sender, EventArgs e)
-    {
-        if (ObjectiveUIPrefabs.Count > 0)
+        private void Awake()
         {
-            foreach (GameObject prefab in ObjectiveUIPrefabs)
+            objectivesManager.OnInit += InitializeObjectiveUIManager;
+            objectivesManager.OnReset += ClearObjectiveUI;
+        }
+
+        private void InitializeObjectiveUIManager(object sender, EventArgs e)
+        {
+            if (objectiveUIPrefabs.Count > 0)
+                foreach (var prefab in objectiveUIPrefabs)
+                    Destroy(prefab);
+
+            foreach (var objective in objectivesManager.CurrentObjectives)
             {
-                GameObject.Destroy(prefab);
+                var objectiveUI = Instantiate(ObjectiveUIPrefab, transform.position, Quaternion.identity, transform);
+
+                objectiveUI.GetComponent<ObjectiveUI>().Init(objective);
+
+                objectiveUIPrefabs.Add(objectiveUI);
             }
         }
 
-        foreach (Objective objective in objectivesManager.currentObjectives)
+        private void ClearObjectiveUI(object sender, EventArgs e)
         {
-            GameObject objectiveUI = Instantiate(ObjectiveUIPrefab, transform.position, Quaternion.identity, transform);
-
-            objectiveUI.GetComponent<ObjectiveUI>().Init(objective);
-
-            ObjectiveUIPrefabs.Add(objectiveUI);
+            for (var i = 0; i < objectiveUIPrefabs.Count; i++) Destroy(objectiveUIPrefabs[i]);
+            objectiveUIPrefabs.Clear();
         }
-    }
-
-    public void ClearObjectiveUI(object sender, EventArgs e)
-    {
-        for (int i = 0; i < ObjectiveUIPrefabs.Count; i++)
-        {
-            GameObject.Destroy(ObjectiveUIPrefabs[i]);
-        }
-        ObjectiveUIPrefabs.Clear();
     }
 }

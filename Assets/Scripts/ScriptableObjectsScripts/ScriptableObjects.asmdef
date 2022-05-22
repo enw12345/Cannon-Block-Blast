@@ -1,15 +1,15 @@
 {
-    "name": "ScriptableObjects",
-    "references": [
-        "GUID:dcbad8ef288042647ad7feeb31f2e0b2"
-    ],
-    "includePlatforms": [],
-    "excludePlatforms": [],
-    "allowUnsafeCode": false,
-    "overrideReferences": false,
-    "precompiledReferences": [],
-    "autoReferenced": true,
-    "defineConstraints": [],
-    "versionDefines": [],
-    "noEngineReferences": false
+  "name": "ScriptableObjects",
+  "references": [
+    "GUID:dcbad8ef288042647ad7feeb31f2e0b2"
+  ],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
 }

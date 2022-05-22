@@ -1,9 +1,10 @@
-using System.Collections.Generic;
 using UnityEngine;
-using System;
 
-[CreateAssetMenu(fileName = "Canon Block Blast", menuName = "Bulelt Container")]
-public class BulletTypeContainer : ScriptableObject
+namespace BulletScripts
 {
-    public BulletType[] Container;
+    [CreateAssetMenu(fileName = "Canon Block Blast", menuName = "Bulelt Container")]
+    public class BulletTypeContainer : ScriptableObject
+    {
+        public BulletType[] Container;
+    }
 }

@@ -5,10 +5,9 @@ using UnityEngine;
 [Serializable]
 public class Block : ScriptableObject
 {
-    [Header("Block Data")]
-    public BlockType blockType;
+    [Header("Block Data")] public BlockType blockType;
+
     public GameObject blockPrefab;
 
-    [Header("Block UI Data")]
-    public int BlockSelectionNumber;
+    [Header("Block UI Data")] public int BlockSelectionNumber;
 }

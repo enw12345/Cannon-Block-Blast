@@ -1,6 +1,9 @@
-﻿public interface ICanvasBehavior
+﻿namespace UIScripts
 {
-    void OpeningTween();
+    public interface ICanvasBehavior
+    {
+        void OpeningTween();
 
-    void ClosingTween();
+        void ClosingTween();
+    }
 }

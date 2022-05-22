@@ -8,17 +8,17 @@ public class ColorObjectiveType : ObjectiveType
 
     public override void Initialize()
     {
-        colorIndex = Random.Range(0, ColorDictionary.colorDictionary.Count);
-        colorTarget = ColorDictionary.colorDictionary[(ColorDictionary.BlockColors)colorIndex];
+        colorIndex = Random.Range(0, ColorDictionary.ColorDictionary.colorDictionary.Count);
+        colorTarget = ColorDictionary.ColorDictionary.colorDictionary[(ColorDictionary.ColorDictionary.BlockColors) colorIndex];
     }
 
     public override bool HandleObjective(BlockType blockType)
     {
         if (this.blockType == blockType)
         {
-            ColorBlockType colorBlockType = (ColorBlockType)blockType;
+            var colorBlockType = (ColorBlockType) blockType;
 
-            return (colorBlockType.colorIndex == colorIndex);
+            return colorBlockType.colorIndex == colorIndex;
         }
 
         return false;

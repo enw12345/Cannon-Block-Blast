@@ -1,17 +1,22 @@
-public class TestBlock : BlockBehavior
+using System;
+
+namespace BlockScripts
 {
-    protected override void Initialize()
+    public class TestBlock : BlockBehavior
     {
-        throw new System.NotImplementedException();
-    }
+        protected override void Initialize()
+        {
+            throw new NotImplementedException();
+        }
 
-    public override void DestroySelfAndNeighborBlocks()
-    {
-        throw new System.NotImplementedException();
-    }
+        public override void DestroySelfAndNeighborBlocks()
+        {
+            throw new NotImplementedException();
+        }
 
-    public override void FindNeighborBlocksToDestroy()
-    {
-        throw new System.NotImplementedException();
+        public override void FindNeighborBlocksToDestroy()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

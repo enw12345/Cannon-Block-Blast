@@ -5,7 +5,7 @@ public class BringDownObjectiveType : ObjectiveType
 {
     public override void Initialize()
     {
-        FallDownBlockType fallDownBlockType = (FallDownBlockType)blockType;
+        var fallDownBlockType = (FallDownBlockType) blockType;
         fallDownBlockType.IsTouchingGround = false;
     }
 
@@ -13,8 +13,8 @@ public class BringDownObjectiveType : ObjectiveType
     {
         if (this.blockType == blockType)
         {
-            FallDownBlockType fallDownBlockType = (FallDownBlockType)blockType;
-            return (fallDownBlockType.IsTouchingGround);
+            var fallDownBlockType = (FallDownBlockType) blockType;
+            return fallDownBlockType.IsTouchingGround;
         }
 
         return false;

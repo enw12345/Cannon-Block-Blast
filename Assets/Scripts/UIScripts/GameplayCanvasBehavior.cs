@@ -1,90 +1,93 @@
 ﻿using System;
+using BulletScripts;
+using Managers;
+using ObjectivesScripts;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GameplayCanvasBehavior : MonoBehaviour, ICanvasBehavior
+namespace UIScripts
 {
-    [Header("Rect Transforms")]
-    [SerializeField] private RectTransform Header = null;
-    [SerializeField] private RectTransform BulletSelection = null;
-
-    [Header("LeanTween Settings")]
-    [SerializeField] private float bouncePercent = .25f;
-    [SerializeField] private float time = 1.5f;
-    [SerializeField] private float buttonTweenTime = 0.5f;
-
-    [Header("Buttons")]
-    [SerializeField] private Button nextLevelButton = null;
-    [SerializeField] private Button restartButton = null;
-    [SerializeField] private Button shootButton = null;
-
-    [Space(10)]
-    [SerializeField] private CanvasController canvasController;
-
-    private void OnEnable()
+    public class GameplayCanvasBehavior : MonoBehaviour, ICanvasBehavior
     {
-        HideButtons();
-        ObjectivesManager.OnObjectivesComplete += HandleLevelComplete;
-        BulletSpawner.OnBulletFired += HandleLevelFail;
+        [Header("Rect Transforms")] [SerializeField]
+        private RectTransform Header;
 
-        canvasController = GetComponent<CanvasController>();
-        canvasController.callOpeningTweens += OpeningTween;
-        canvasController.callClosingTweens += ClosingTween;
-    }
+        [SerializeField] private RectTransform BulletSelection;
 
-    private void OnDisable()
-    {
-        ObjectivesManager.OnObjectivesComplete -= HandleLevelComplete;
+        [Header("LeanTween Settings")] [SerializeField]
+        private float bouncePercent = .25f;
 
-        canvasController = GetComponent<CanvasController>();
-        canvasController.callOpeningTweens -= OpeningTween;
-        canvasController.callClosingTweens -= ClosingTween;
-    }
+        [SerializeField] private float time = 1.5f;
+        [SerializeField] private float buttonTweenTime = 0.5f;
 
-    private void PlayOpeningTweens(object sender, EventArgs e)
-    {
-        OpeningTween();
-    }
+        [Header("Buttons")] [SerializeField] private Button nextLevelButton;
 
-    public void OpeningTween()
-    {
-        LeanTweenExtensions.MoveFromTop(Header, time, true);
-        LeanTweenExtensions.MoveFromBottom(BulletSelection, time, true);
-        LeanTweenExtensions.MoveFromRight(shootButton.GetComponent<RectTransform>(), time, true);
-    }
+        [SerializeField] private Button restartButton;
+        [SerializeField] private Button shootButton;
 
-    public void ClosingTween()
-    {
+        [Space(10)] [SerializeField] private CanvasController canvasController;
 
-    }
-
-    public void HandleLevelComplete(object sender, EventArgs e)
-    {
-        ShowContinueButton();
-    }
-
-    public void HandleLevelFail(object sender, BulletSpawner.OnBulletFiredEventArgs e)
-    {
-        if (e.totalBulletCount == 0)
+        private void OnEnable()
         {
-            ShowRestartButton();
+            HideButtons();
+            ObjectivesManager.OnObjectivesComplete += HandleLevelComplete;
+            BulletSpawner.OnBulletFired += HandleLevelFail;
+
+            canvasController = GetComponent<CanvasController>();
+            canvasController.callOpeningTweens += OpeningTween;
+            canvasController.callClosingTweens += ClosingTween;
         }
-    }
 
-    private void ShowContinueButton()
-    {
-        nextLevelButton.gameObject.SetActive(true);
-        LeanTweenExtensions.MoveFromRight(nextLevelButton.GetComponent<RectTransform>(), buttonTweenTime, true);
-    }
+        private void OnDisable()
+        {
+            ObjectivesManager.OnObjectivesComplete -= HandleLevelComplete;
 
-    private void ShowRestartButton()
-    {
-        restartButton.gameObject.SetActive(true);
-    }
+            canvasController = GetComponent<CanvasController>();
+            canvasController.callOpeningTweens -= OpeningTween;
+            canvasController.callClosingTweens -= ClosingTween;
+        }
 
-    public void HideButtons()
-    {
-        nextLevelButton.gameObject.SetActive(false);
-        restartButton.gameObject.SetActive(false);
+        public void OpeningTween()
+        {
+            LeanTweenExtensions.MoveFromTop(Header, time, true);
+            LeanTweenExtensions.MoveFromBottom(BulletSelection, time, true);
+            LeanTweenExtensions.MoveFromRight(shootButton.GetComponent<RectTransform>(), time, true);
+        }
+
+        public void ClosingTween()
+        {
+        }
+
+        private void PlayOpeningTweens(object sender, EventArgs e)
+        {
+            OpeningTween();
+        }
+
+        private void HandleLevelComplete(object sender, EventArgs e)
+        {
+            ShowContinueButton();
+        }
+
+        private void HandleLevelFail(object sender, BulletSpawner.OnBulletFiredEventArgs e)
+        {
+            if (e.totalBulletCount == 0) ShowRestartButton();
+        }
+
+        private void ShowContinueButton()
+        {
+            nextLevelButton.gameObject.SetActive(true);
+            LeanTweenExtensions.MoveFromRight(nextLevelButton.GetComponent<RectTransform>(), buttonTweenTime, true);
+        }
+
+        private void ShowRestartButton()
+        {
+            restartButton.gameObject.SetActive(true);
+        }
+
+        public void HideButtons()
+        {
+            nextLevelButton.gameObject.SetActive(false);
+            restartButton.gameObject.SetActive(false);
+        }
     }
 }

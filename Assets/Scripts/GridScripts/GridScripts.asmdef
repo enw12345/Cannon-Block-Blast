@@ -1,17 +1,17 @@
 {
-    "name": "Grid",
-    "references": [
-        "GUID:a65a4bcafcb3ada41bb403435d004b59",
-        "GUID:7dc9fc04aaaa43742950009a4c110c20",
-        "GUID:419522ae091f783438d0375fbbf8d467"
-    ],
-    "includePlatforms": [],
-    "excludePlatforms": [],
-    "allowUnsafeCode": false,
-    "overrideReferences": false,
-    "precompiledReferences": [],
-    "autoReferenced": true,
-    "defineConstraints": [],
-    "versionDefines": [],
-    "noEngineReferences": false
+  "name": "Grid",
+  "references": [
+    "GUID:a65a4bcafcb3ada41bb403435d004b59",
+    "GUID:7dc9fc04aaaa43742950009a4c110c20",
+    "GUID:419522ae091f783438d0375fbbf8d467"
+  ],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
 }

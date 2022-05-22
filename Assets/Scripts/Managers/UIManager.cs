@@ -3,56 +3,52 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-public enum CanvasType
+namespace Managers
 {
-    StartMenuCanvas,
-    GameplayCanvas,
-    RestartCanvas,
-    ContinueCanvas
-}
-
-public class UIManager : MonoBehaviour
-{
-    public static UIManager instance;
-    private List<CanvasController> CanvasControllers;
-    private CanvasController lastActiveCanvas;
-
-    [Header("Buttons")]
-    public Button nextLevelButton;
-    public Button restartButton;
-
-    private void Awake()
+    public enum CanvasType
     {
-        instance = this;
-        CanvasControllers = FindObjectsOfType<CanvasController>().ToList();
-        CanvasControllers.ForEach(x => x.gameObject.SetActive(false));
-
-        SwitchCanvas(CanvasType.StartMenuCanvas);
+        StartMenuCanvas,
+        GameplayCanvas,
+        RestartCanvas,
+        ContinueCanvas
     }
 
-    public void SwitchCanvas(CanvasType canvasType)
+    public class UIManager : MonoBehaviour
     {
-        if (lastActiveCanvas != null)
+        public static UIManager Instance;
+
+        [Header("Buttons")] public Button nextLevelButton;
+
+        public Button restartButton;
+        private List<CanvasController> canvasControllers;
+        private CanvasController lastActiveCanvas;
+
+        private void Awake()
         {
-            lastActiveCanvas.TurnOffCanvas();
+            Instance = this;
+            canvasControllers = FindObjectsOfType<CanvasController>().ToList();
+            canvasControllers.ForEach(x => x.gameObject.SetActive(false));
+
+            SwitchCanvas(CanvasType.StartMenuCanvas);
         }
 
-        CanvasController newActiveCanvas = CanvasControllers.Find(x => x.canvasType == canvasType);
-        if (VerifyCanvas(newActiveCanvas))
+        public void SwitchCanvas(CanvasType canvasType)
         {
+            if (lastActiveCanvas != null) lastActiveCanvas.TurnOffCanvas();
+
+            var newActiveCanvas = canvasControllers.Find(x => x.canvasType == canvasType);
+            if (!VerifyCanvas(newActiveCanvas)) return;
             newActiveCanvas.TurnOnCanvas();
             lastActiveCanvas = newActiveCanvas;
         }
-    }
 
-    private bool VerifyCanvas(CanvasController canvasController)
-    {
-        if (canvasController != null)
+        private static bool VerifyCanvas(Object canvasController)
         {
-            return true;
-        }
-        else
-        {
+            if (canvasController != null)
+            {
+                return true;
+            }
+
             Debug.LogWarning("Canvas not found.");
             return false;
         }

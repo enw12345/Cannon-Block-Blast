@@ -1,7 +1,12 @@
-public class TestBullet : Bullet
+using BlockScripts;
+
+namespace BulletScripts
 {
-    protected override void HandleDestruction(BlockBehavior blockToDestroy)
+    public class TestBullet : Bullet
     {
-        blockToDestroy.FindNeighborBlocksToDestroy();
+        protected override void HandleDestruction(BlockBehavior blockToDestroy)
+        {
+            blockToDestroy.FindNeighborBlocksToDestroy();
+        }
     }
 }

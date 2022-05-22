@@ -1,19 +1,21 @@
+using BlockScripts;
 using UnityEngine;
 
-public class BombBullet : Bullet
+namespace BulletScripts
 {
-    public float explosionRadius = 5f;
-
-    protected override void HandleDestruction(BlockBehavior blockToDestroy)
+    public class BombBullet : Bullet
     {
-        Collider[] colliders = Physics.OverlapSphere(blockToDestroy.gameObject.transform.position, explosionRadius);
+        public float explosionRadius = 5f;
 
-        foreach (Collider collider in colliders)
+        protected override void HandleDestruction(BlockBehavior blockToDestroy)
         {
-            if (collider.GetComponent<BlockBehavior>() is FallDownBlockBehavior)
-                continue;
-            else
-                BlockBehavior.BlocksToDestroy.Add(collider.GetComponent<BlockBehavior>());
+            var colliders = Physics.OverlapSphere(blockToDestroy.gameObject.transform.position, explosionRadius);
+
+            foreach (var collider in colliders)
+                if (collider.GetComponent<BlockBehavior>() is FallDownBlockBehavior)
+                    continue;
+                else
+                    BlockBehavior.BlocksToDestroy.Add(collider.GetComponent<BlockBehavior>());
         }
     }
 }

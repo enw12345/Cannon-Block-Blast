@@ -1194,6 +1194,7 @@ MonoBehaviour:
   BulletSelection: {fileID: 617519086}
   bouncePercent: 0.25
   time: 1.5
+  buttonTweenTime: 1.5
   nextLevelButton: {fileID: 199517712}
   restartButton: {fileID: 1000607510}
   shootButton: {fileID: 2108839763}
@@ -2489,7 +2490,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   m_LocalRotation: {x: -0.07336041, y: 0.703291, z: -0.07336041, w: -0.703291}
-  m_LocalPosition: {x: 28.1, y: 5, z: 0}
+  m_LocalPosition: {x: 28.1, y: 5.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -2554,7 +2555,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 980310106}
   m_LocalRotation: {x: -0.07336041, y: 0.703291, z: -0.07336041, w: -0.703291}
-  m_LocalPosition: {x: 28.1, y: 5, z: 0}
+  m_LocalPosition: {x: 28.1, y: 5.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 223595486}
@@ -4522,7 +4523,7 @@ MonoBehaviour:
   isStarted: 0
   canShoot: 0
   levelManager: {fileID: 881489605}
-  startLevel: 1
+  startLevel: 0
 --- !u!114 &2001196461 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 341747632908349158, guid: 55efaa87467ca5d4396897cd7eb76a10,
@@ -4894,7 +4895,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -344}
+  m_AnchoredPosition: {x: 0, y: -390}
   m_SizeDelta: {x: 145, y: 45}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &2108839763

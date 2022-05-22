@@ -1,54 +1,52 @@
-﻿using UnityEngine;
-using System;
+﻿using System;
+using UnityEngine;
 
-public class GameManager : MonoBehaviour
+namespace Managers
 {
-    public Canvas menuCanvas;
-
-    [SerializeField] public bool isStarted;
-    [SerializeField] public bool canShoot;
-
-    public static GameManager instance;
-
-    [Header("Level Manager Variables")]
-    public LevelManager levelManager;
-    public int startLevel = 0;
-
-    public EventHandler resetEvent;
-
-    private void Awake()
+    public class GameManager : MonoBehaviour
     {
-        if (instance != null && instance != this)
+        public static GameManager Instance;
+        public Canvas menuCanvas;
+
+        [SerializeField] public bool isStarted;
+        [SerializeField] public bool canShoot;
+
+        [Header("Level Manager Variables")] public LevelManager levelManager;
+
+        public int startLevel;
+
+        public EventHandler resetEvent;
+
+        private void Awake()
         {
-            Destroy(this.gameObject);
+            if (Instance != null && Instance != this)
+                Destroy(gameObject);
+            else
+                Instance = this;
+
+            isStarted = false;
+            canShoot = false;
         }
-        else
+
+        public void StartTheApp()
         {
-            instance = this;
+            isStarted = true;
+            canShoot = true;
+
+            UIManager.Instance.SwitchCanvas(CanvasType.GameplayCanvas);
+
+            levelManager.SelectLevel(startLevel);
         }
 
-        isStarted = false;
-        canShoot = false;
-    }
+        public void NextLevel()
+        {
+            levelManager.NextLevel();
+        }
 
-    public void StartTheApp()
-    {
-        isStarted = true;
-        canShoot = true;
-
-        UIManager.instance.SwitchCanvas(CanvasType.GameplayCanvas);
-
-        levelManager.SelectLevel(startLevel);
-    }
-
-    public void NextLevel()
-    {
-        levelManager.NextLevel();
-    }
-
-    public void Restart()
-    {
-        levelManager.ResetLevel();
-        resetEvent?.Invoke(this, EventArgs.Empty);
+        public void Restart()
+        {
+            levelManager.ResetLevel();
+            resetEvent?.Invoke(this, EventArgs.Empty);
+        }
     }
 }

@@ -1,26 +1,20 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-[RequireComponent(typeof(MeshDestroy))]
-public class DestructableObject : MonoBehaviour
+namespace DestructionScripts
 {
-    public void DestructOnContact(ContactPoint[] contactPoints, int DestroyAmount)
+    [RequireComponent(typeof(MeshDestroy))]
+    public class DestructableObject : MonoBehaviour
     {
-        MeshDestroy meshDestroy = gameObject.GetComponent<MeshDestroy>();
+        public void DestructOnContact(ContactPoint[] contactPoints, int destroyAmount)
+        {
+            var meshDestroy = gameObject.GetComponent<MeshDestroy>();
 
-        ContactPoint point = contactPoints[0];
-        Vector3 planeNormal = Vector3.Cross(point.normal, point.point).normalized;
+            var point = contactPoints[0];
+            var planeNormal = Vector3.Cross(point.normal, point.point).normalized;
 
-        Plane plane = new Plane(planeNormal, point.point);
+            var plane = new Plane(planeNormal, point.point);
 
-        meshDestroy.DestroyMeshOnContact(point.point, point.normal, DestroyAmount);
-    }
-
-    public void Destruct(int DestroyAmount)
-    {
-        MeshDestroy meshDestroy = gameObject.GetComponent<MeshDestroy>();
-
-        meshDestroy.DestroyMesh(DestroyAmount);
+            meshDestroy.DestroyMeshOnContact(point.point, point.normal, destroyAmount);
+        }
     }
 }
