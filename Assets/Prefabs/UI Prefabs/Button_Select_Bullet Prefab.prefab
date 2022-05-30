@@ -385,7 +385,7 @@ GameObject:
   - component: {fileID: 8258590277827661349}
   - component: {fileID: 8258590277827661348}
   - component: {fileID: 8258590277827661351}
-  - component: {fileID: 980310584}
+  - component: {fileID: 1668146992}
   m_Layer: 5
   m_Name: Button_Select_Bullet Prefab
   m_TagString: Untagged
@@ -495,7 +495,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &980310584
+--- !u!114 &1668146992
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -504,11 +504,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 8258590277827661345}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c0b7eb080b7ed448984ef6bba9c2c57, type: 3}
+  m_Script: {fileID: 11500000, guid: 602534fc071e82246b1652747ccf32d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentBulletCountText: {fileID: 341747632908349158}
-  currentBulletImage: {fileID: 8258590279167942203}
+  bulletType: {fileID: 11400000, guid: 5f98007b16814f545b97a89b578313cf, type: 2}
+  buttonImage: {fileID: 8258590279167942203}
+  bulletCountText: {fileID: 341747632908349158}
 --- !u!1 &8258590279167942197
 GameObject:
   m_ObjectHideFlags: 0

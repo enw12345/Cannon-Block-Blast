@@ -19,9 +19,11 @@ namespace UIScripts
             button = GetComponent<Button>();
             bulletSpawner = FindObjectOfType<BulletSpawner>();
 
-            BulletSpawner.OnBulletFired += UpdateBulletCount;
+            BulletSpawner.OnBulletFired += UpdateBulletCountCallback;
             buttonImage.sprite = bulletType.BulletUI;
             button.onClick.AddListener(() => SelectBullet());
+            
+            UpdateBulletCount();
         }
 
         private void OnDisable()
@@ -44,11 +46,11 @@ namespace UIScripts
             bulletSpawner.ChangeBullet(bulletType);
         }
 
-        private void UpdateBulletCount(object sender, BulletSpawner.OnBulletFiredEventArgs e)
+        private void UpdateBulletCountCallback(object sender, BulletSpawner.OnBulletFiredEventArgs e)
         {
             bulletCountText.text = bulletType.AmmoCount.ToString();
         }
-
+        
         private void UpdateBulletCount()
         {
             bulletCountText.text = bulletType.AmmoCount.ToString();

@@ -90,12 +90,6 @@ namespace GridScripts
 
             BlockBehavior.BlocksToDestroy.Clear();
 
-            // for (var i = blockPositions.Count - 1; i >= 0; i--)
-            // {
-            //     SpawnNewBlocks(blockPositions[i], _newBlockToSpawn);
-            //     yield return new WaitForSeconds(1.5f);
-            // }
-
             for (var i = 0; i < blockPositions.Count; i++)
             {
                 SpawnNewBlocks(blockPositions[i], _newBlockToSpawn);
